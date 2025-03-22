@@ -41,3 +41,17 @@
 
 ### 画面遷移図URL：https://www.figma.com/design/6UniA3RT5hVxYcEmARGgRt/Edumuch?node-id=0-1&p=f&t=zFVXGIKMkrWiqbk2-0
 ### ER図URL：https://gyazo.com/23f97bfc5fa38fec24b890527cab0b84
+
+### 技術スタック
+
+|開発環境|Docker|
+|インフラ|Vercel|
+|サーバーサイドフレームワーク|Ruby on Rails|
+|データベース|PostgleSQL|
+|KVS|Redis|
+
+以下MVP後の技術スタック
+
+|フロントエンド|React Next.js|
+|CSSフレームワーク|TailWindCSS|
+|WEB API|auth0|
