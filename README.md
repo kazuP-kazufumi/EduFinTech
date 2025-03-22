@@ -44,14 +44,18 @@
 
 ### 技術スタック
 
-・開発環境:Docker
-・インフラ:Vercel
-・サーバーサイドフレームワーク:Ruby on Rails
-・データベース:PostgleSQL
-・KVS:Redis
+| カテゴリ | 技術 |
+|----------|------|
+| 開発環境 | Docker |
+| インフラ | Vercel |
+| サーバーサイドフレームワーク | Ruby on Rails |
+| データベース | PostgleSQL |
+| KVS | Redis |
 
 以下MVP後の技術スタック
 
-・フロントエンド:React Next.js
-・CSSフレームワーク:TailWindCSS
-・WEB API:auth0
+| カテゴリ | 技術 |
+|----------|------|
+| フロントエンド | React Next.js |
+| CSSフレームワーク | TailwindCSS |
+| WEB API | auth0 |
