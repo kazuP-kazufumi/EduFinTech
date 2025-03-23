@@ -26,7 +26,7 @@ gem "pundit"
 # バックグラウンドジョブ
 gem "sidekiq"
 gem "redis"
-gem "redis-rails" # Redisセッションストア用
+gem "redis-session-store" # Redisセッションストア用
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"

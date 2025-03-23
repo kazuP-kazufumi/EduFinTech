@@ -13,11 +13,11 @@ redis_url = ENV.fetch('REDIS_URL', 'redis://redis:6379/1')
 Rails.application.config.redis = Redis.new(url: redis_url)
 
 # セッションストアとしてRedisを使用
-# :redis_store - Redisをセッションストアとして使用するための設定
+# :redis_session_store - Redisをセッションストアとして使用するための設定
 # servers: 接続先のRedisサーバー（複数指定可能）
 # expire_after: セッションの有効期限（1日）
 # key: セッションを識別するためのキープレフィックス
-Rails.application.config.session_store :redis_store,
+Rails.application.config.session_store :redis_session_store,
   servers: [redis_url],
   expire_after: 1.day,
   key: '_edufintech_session'

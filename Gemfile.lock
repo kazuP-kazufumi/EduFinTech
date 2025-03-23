@@ -264,7 +264,9 @@ GEM
       redis-client (>= 0.22.0)
     redis-client (0.24.0)
       connection_pool
-    redis-rails (0.0.0)
+    redis-session-store (0.11.6)
+      actionpack (>= 5.2.4.1, < 9)
+      redis (>= 3, < 6)
     regexp_parser (2.10.0)
     reline (0.6.0)
       io-console (~> 0.5)
@@ -399,7 +401,7 @@ DEPENDENCIES
   pundit
   rails (~> 8.0.2)
   redis
-  redis-rails
+  redis-session-store
   rubocop-rails-omakase
   selenium-webdriver
   sidekiq
