@@ -1,31 +1,53 @@
-version: '3'
+# Docker Composeのバージョンを指定
+# version: '3'
+# 各サービス（コンテナ）の定義を開始
 services:
+  # Railsアプリケーションを実行するWebサービス
   web:
+    # カレントディレクトリのDockerfileを使用してビルド
     build: .
+    # ホストとコンテナ間のファイル共有設定
     volumes:
+      # カレントディレクトリをコンテナの/appにマウント
       - .:/app
+      # Bundlerのキャッシュを永続化
       - bundle:/usr/local/bundle
+    # ホストのポート3000をコンテナのポート3000にマッピング
     ports:
       - "3000:3000"
+    # 起動順序の依存関係を定義
     depends_on:
       - db
       - redis
+    # 環境変数の設定
     environment:
+      # PostgreSQLへの接続情報
       - DATABASE_URL=postgresql://postgres:password@db:5432/edufintech_development
+      # Redisへの接続情報
       - REDIS_URL=redis://redis:6379/1
 
+  # PostgreSQLデータベースサービス
   db:
+    # PostgreSQL version 14のイメージを使用
     image: postgres:14
+    # データベースの永続化設定
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    # データベースのパスワード設定
     environment:
       - POSTGRES_PASSWORD=password
 
+  # Redisサービス（キャッシュ・セッション管理用）
   redis:
+    # Redis version 7のイメージを使用
     image: redis:7
+    # Redisのデフォルトポートをマッピング
     ports:
       - "6379:6379"
 
+# 永続化するボリュームの定義
 volumes:
+  # PostgreSQLのデータを保存するボリューム
   postgres_data:
+  # Bundlerのキャッシュを保存するボリューム
   bundle: 
