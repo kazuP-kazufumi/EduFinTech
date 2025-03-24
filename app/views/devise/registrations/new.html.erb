@@ -1,0 +1,48 @@
+<%# ユーザー登録フォームのメインコンテナ - 最大幅mdで中央寄せ %>
+<div class="max-w-md mx-auto">
+  <%# フォームカード - 白背景、影付き、角丸、パディング設定 %>
+  <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <%# ページタイトル - 大きめのフォント、太字、中央寄せ %>
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">新規登録</h2>
+
+    <%# Deviseの登録フォーム - フィールド間の間隔を設定 %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-4" }) do |f| %>
+      <%# エラーメッセージの表示部分 %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <%# メールアドレス入力フィールド %>
+      <div class="field">
+        <%# ラベル - グレーテキスト、小さめフォント、太字 %>
+        <%= f.label :email, "メールアドレス", class: "block text-gray-700 text-sm font-bold mb-2" %>
+        <%# 入力フィールド - 影付き、枠線、角丸、フォーカス時のスタイル %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+
+      <%# パスワード入力フィールド %>
+      <div class="field">
+        <%= f.label :password, "パスワード", class: "block text-gray-700 text-sm font-bold mb-2" %>
+        <%# パスワードの最小文字数要件を表示 %>
+        <% if @minimum_password_length %>
+          <p class="text-sm text-gray-500 mb-1">（<%= @minimum_password_length %>文字以上）</p>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+
+      <%# パスワード確認フィールド %>
+      <div class="field">
+        <%= f.label :password_confirmation, "パスワード（確認）", class: "block text-gray-700 text-sm font-bold mb-2" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+      </div>
+
+      <%# 送信ボタン - 幅いっぱい、青背景、ホバー効果 %>
+      <div class="actions">
+        <%= f.submit "登録する", class: "w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+      </div>
+    <% end %>
+
+    <%# 追加リンク（ログインページへのリンクなど）- 上部にマージン %>
+    <div class="mt-6 text-center">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
