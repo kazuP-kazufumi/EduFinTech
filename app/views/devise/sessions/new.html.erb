@@ -1,26 +1,72 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+<%# ログインフォーム全体のコンテナ - 画面の高さいっぱいに表示し、中央寄せ %>
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <%# フォームの最大幅を制限し、要素間の間隔を設定 %>
+  <div class="max-w-md w-full space-y-8">
+    <%# ヘッダーセクション %>
+    <div>
+      <%# ページタイトル - 大きめのフォント、太字で目立つように %>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        ログイン
+      </h2>
+      <%# 新規登録へのナビゲーション - 青色のリンクでアクセシビリティを考慮 %>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        または
+        <%= link_to "新規登録", new_registration_path(resource_name), class: "font-medium text-blue-600 hover:text-blue-500" %>
+      </p>
     </div>
-  <% end %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
+    <%# ログインフォーム - Deviseのform_forヘルパーを使用 %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "mt-8 space-y-6" }) do |f| %>
+      <%# エラーメッセージの表示 - 共通パーシャルを使用 %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <%# 入力フィールドグループ - 角丸と影付きのデザイン %>
+      <div class="rounded-md shadow-sm -space-y-px">
+        <%# メールアドレス入力フィールド - 上部が角丸のデザイン %>
+        <div>
+          <%# スクリーンリーダー用のラベル %>
+          <%= f.label :email, "メールアドレス", class: "sr-only" %>
+          <%# フォーカス時に青色の枠線が表示される入力フィールド %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm", placeholder: "メールアドレス" %>
+        </div>
+
+        <%# パスワード入力フィールド - 下部が角丸のデザイン %>
+        <div>
+          <%# スクリーンリーダー用のラベル %>
+          <%= f.label :password, "パスワード", class: "sr-only" %>
+          <%# セキュリティを考慮したパスワードフィールド %>
+          <%= f.password_field :password, autocomplete: "current-password", class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm", placeholder: "パスワード" %>
+          <%# パスワードの最小文字数要件を表示 %>
+          <% if @minimum_password_length %>
+            <p class="mt-2 text-sm text-gray-500">
+              パスワードは<%= @minimum_password_length %>文字以上で入力してください
+            </p>
+          <% end %>
+        </div>
+      </div>
+
+      <%# ログイン状態の保持とパスワードリセットのオプション %>
+      <% if devise_mapping.rememberable? %>
+        <div class="flex items-center justify-between">
+          <%# ログイン状態保持のチェックボックス %>
+          <div class="flex items-center">
+            <%= f.check_box :remember_me, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+            <%= f.label :remember_me, "ログイン状態を保持する", class: "ml-2 block text-sm text-gray-900" %>
+          </div>
+
+          <%# パスワードリセットへのリンク %>
+          <% if devise_mapping.recoverable? %>
+            <div class="text-sm">
+              <%= link_to "パスワードをお忘れですか？", new_password_path(resource_name), class: "font-medium text-blue-600 hover:text-blue-500" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%# ログインボタン - 青色の目立つデザインで、ホバー時の効果付き %>
+      <div>
+        <%= f.submit "ログイン", class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+    <% end %>
   </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
