@@ -1,6 +1,3 @@
-# このファイルはRubyスクリプトとして実行されることを指定
-# /usr/bin/env rubyコマンドを使用して、システムのRubyインタプリタを探して実行
-# シバン（shebang）と呼ばれる特殊なコメント行で、スクリプトの実行方法を指定
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
