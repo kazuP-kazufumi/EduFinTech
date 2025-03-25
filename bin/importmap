@@ -16,8 +16,8 @@ FileUtils.cd(File.expand_path("..", __dir__)) do
   require "rails/command"
   
   # importmapコマンドの実装を読み込み
-  require "importmap/command"
+  require "importmap/commands"
   
   # importmapコマンドを実行
-  Importmap::Command.perform
+  Importmap::Commands.perform
 end 
