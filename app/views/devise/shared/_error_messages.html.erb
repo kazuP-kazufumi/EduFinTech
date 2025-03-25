@@ -1,0 +1,39 @@
+<%# リソース（ユーザーなど）にエラーがある場合のみ表示 %>
+<% if resource.errors.any? %>
+  <%# エラーメッセージのコンテナ - 赤系の背景色、枠線、テキスト色で警告表示 %>
+  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+    <%# フレックスボックスでアイコンとメッセージを横並びに %>
+    <div class="flex">
+      <%# エラーアイコンを表示する領域 %>
+      <div class="py-1">
+        <%# SVGで「×」マークを円で囲んだアイコンを表示 %>
+        <svg class="fill-current h-4 w-4 text-red-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/>
+        </svg>
+      </div>
+      <%# エラーメッセージの本文領域 %>
+      <div>
+        <%# エラーの概要を太字で表示 %>
+        <h3 class="font-bold">
+          <%# I18n.tでエラーメッセージを多言語化対応
+              - count: エラーの数
+              - resource: エラーが発生したリソースの名前（小文字） %>
+          <%= I18n.t("errors.messages.not_saved",
+                    count: resource.errors.count,
+                    resource: resource.class.model_name.human.downcase)
+          %>
+        </h3>
+        <%# 個別のエラーメッセージリスト %>
+        <div class="mt-2">
+          <%# 箇条書きリスト - ディスクスタイルのマーカーを内側に配置 %>
+          <ul class="list-disc list-inside">
+            <%# リソースの全エラーメッセージをループで表示 %>
+            <% resource.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

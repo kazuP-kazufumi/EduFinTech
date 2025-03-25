@@ -1,53 +1,59 @@
 # Docker Composeのバージョンを指定
 # version: '3'
+
 # 各サービス（コンテナ）の定義を開始
 services:
   # Railsアプリケーションを実行するWebサービス
+  # アプリケーションのメインコンテナとして機能
   web:
-    # カレントディレクトリのDockerfileを使用してビルド
-    build: .
-    # ホストとコンテナ間のファイル共有設定
+    # 開発環境用のDockerfileを使用してイメージをビルド
+    build:
+      context: . # ビルドコンテキストをカレントディレクトリに設定
+      dockerfile: Dockerfile.dev # 開発環境用のDockerfileを指定
+    
+    # ホストマシンとコンテナ間のファイル共有設定
     volumes:
-      # カレントディレクトリをコンテナの/appにマウント
-      - .:/app
-      # Bundlerのキャッシュを永続化
-      - bundle:/usr/local/bundle
-    # ホストのポート3000をコンテナのポート3000にマッピング
+      - .:/app # ソースコードの変更をリアルタイムに反映するためのマウント
+      - bundle:/usr/local/bundle # gemのインストール結果を永続化し、ビルド時間を短縮
+    
+    # ポートマッピング設定
     ports:
-      - "3000:3000"
-    # 起動順序の依存関係を定義
+      - "3000:3000" # ホストの3000番ポートをコンテナの3000番ポートに接続
+    
+    # 起動順序の制御
     depends_on:
-      - db
-      - redis
+      - db    # データベースコンテナが先に起動することを保証
+      - redis # Redisコンテナが先に起動することを保証
+    
     # 環境変数の設定
     environment:
-      # PostgreSQLへの接続情報
+      # PostgreSQLデータベースへの接続情報
       - DATABASE_URL=postgresql://postgres:password@db:5432/edufintech_development
-      # Redisへの接続情報
+      # Redisサーバーへの接続情報（セッション管理・キャッシュ用）
       - REDIS_URL=redis://redis:6379/1
+    
+    # コンテナの対話モード設定
+    tty: true        # 疑似TTYを割り当て（デバッグ出力用）
+    stdin_open: true # 標準入力を開いたままにする（デバッグ用）
 
   # PostgreSQLデータベースサービス
+  # アプリケーションのメインデータベースとして機能
   db:
-    # PostgreSQL version 14のイメージを使用
-    image: postgres:14
-    # データベースの永続化設定
+    image: postgres:14 # PostgreSQL version 14の公式イメージを使用
     volumes:
+      # データベースファイルを永続化（コンテナ再起動時にもデータを保持）
       - postgres_data:/var/lib/postgresql/data
-    # データベースのパスワード設定
     environment:
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=password # データベースのrootパスワードを設定
 
-  # Redisサービス（キャッシュ・セッション管理用）
+  # Redisサービス
+  # セッション管理、キャッシュ、ActionCableのPubSub機能に使用
   redis:
-    # Redis version 7のイメージを使用
-    image: redis:7
-    # Redisのデフォルトポートをマッピング
+    image: redis:7 # Redis version 7の公式イメージを使用
     ports:
-      - "6379:6379"
+      - "6379:6379" # Redisのデフォルトポートをホストにマッピング
 
 # 永続化するボリュームの定義
 volumes:
-  # PostgreSQLのデータを保存するボリューム
-  postgres_data:
-  # Bundlerのキャッシュを保存するボリューム
-  bundle: 
+  postgres_data: # PostgreSQLのデータファイルを保存するボリューム
+  bundle:        # Bundlerでインストールしたgemを保存するボリューム

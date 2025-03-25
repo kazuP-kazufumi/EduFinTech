@@ -1,0 +1,54 @@
+<%# ダッシュボードページのメインコンテナ - 最小の高さを画面いっぱいに設定し、背景色をグレーに %>
+<div class="min-h-screen bg-gray-100">
+  <%# コンテンツの最大幅を制限し、中央寄せと余白を設定 %>
+  <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <%# ヘッダーセクション - ユーザー情報とタイトルを表示 %>
+    <div class="px-4 py-5 sm:px-0">
+      <%# メインタイトル - 大きめのフォントで目立つように設定 %>
+      <h1 class="text-3xl font-bold text-gray-900">
+        ダッシュボード
+      </h1>
+      <%# ユーザーへの歓迎メッセージ - メールアドレスを動的に表示 %>
+      <p class="mt-2 text-sm text-gray-700">
+        ようこそ、<%= @user.email %>さん
+      </p>
+    </div>
+
+    <%# メインコンテンツエリア - ヘッダーから適度な間隔を確保 %>
+    <div class="mt-8">
+      <%# アカウント情報カード - 白背景で影をつけ、角を丸く %>
+      <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <%# カードヘッダー - タイトルと上部の余白を設定 %>
+        <div class="px-4 py-5 sm:px-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            アカウント情報
+          </h3>
+        </div>
+        <%# カードボディ - 境界線で区切られた情報リスト %>
+        <div class="border-t border-gray-200">
+          <dl>
+            <%# メールアドレス表示行 - グリッドレイアウトで左右に配置 %>
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">
+                メールアドレス
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <%= @user.email %>
+              </dd>
+            </div>
+            <%# 最終ログイン時刻表示行 - 日時フォーマットを整形して表示 %>
+            <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <dt class="text-sm font-medium text-gray-500">
+                最終ログイン
+              </dt>
+              <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <%# 最終ログイン日時を整形して表示、ない場合は「未ログイン」と表示 %>
+                <%= @user.last_sign_in_at&.strftime("%Y年%m月%d日 %H:%M") || "未ログイン" %>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
