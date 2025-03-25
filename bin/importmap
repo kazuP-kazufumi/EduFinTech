@@ -1,0 +1,14 @@
+# このファイルはRubyスクリプトとして実行されることを指定
+# /usr/bin/env rubyコマンドを使用して、システムのRubyインタプリタを探して実行
+# シバン（shebang）と呼ばれる特殊なコメント行で、スクリプトの実行方法を指定
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "fileutils"
+
+# Ensure the command runs from the application root
+FileUtils.cd(File.expand_path("..", __dir__)) do
+  require "rails/command"
+  require "rails/commands/importmap/importmap_command"
+  Rails::Command::ImportmapCommand.perform
+end 
