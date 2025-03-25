@@ -191,7 +191,7 @@ Devise.setup do |config|
 
   # ==> マウント可能エンジンの設定
   # ルーター名の設定
-  config.router_name = :edufintech
+  # config.router_name = :edufintech
 
   # OmniAuthパスプレフィックスの設定
   # config.omniauth_path_prefix = '/my_engine/users/auth'

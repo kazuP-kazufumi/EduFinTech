@@ -10,8 +10,14 @@ FROM ruby:3.2.2
 # - libpq-dev: PostgreSQLクライアントライブラリ
 # - nodejs: JavaScriptランタイム（Asset Pipelineに必要）
 # - npm: Node.jsのパッケージマネージャー
+# - git: ソースコードのダウンロードに必要
+# - curl: ChromeとChromeDriverのダウンロードに必要
+# - wget: ChromeとChromeDriverのダウンロードに必要
+# - unzip: ChromeDriverのインストールに必要
+# - chromium: Chromiumをインストール
+# - chromium-driver: Chromiumのドライバーをインストール
 RUN apt-get update -qq && \
-    apt-get install -y build-essential libpq-dev nodejs npm && \
+    apt-get install -y build-essential libpq-dev nodejs npm git curl wget unzip chromium chromium-driver && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* # キャッシュを削除してイメージサイズを削減
 
@@ -34,6 +40,10 @@ RUN bundle install
 # アプリケーションのソースコードをコピー
 # 最後にコピーすることで、コード変更時の再ビルドを最小限に
 COPY . .
+
+# ChromiumをChromeの代わりに使用するための環境変数を設定
+ENV CHROME_BIN=/usr/bin/chromium \
+    CHROME_PATH=/usr/lib/chromium/
 
 # Railsサーバーを起動
 # -b 0.0.0.0: コンテナ外からのアクセスを許可
