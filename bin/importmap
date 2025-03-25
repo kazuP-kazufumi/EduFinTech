@@ -1,11 +1,23 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+# FileUtilsライブラリを読み込み - ファイル/ディレクトリ操作のユーティリティを提供
 require "fileutils"
 
-# Ensure the command runs from the application root
+# アプリケーションのルートディレクトリに移動
+# __dir__ は現在のファイルのディレクトリを示す
+# File.expand_path("..", __dir__) で1つ上の階層（アプリケーションルート）のパスを取得
 FileUtils.cd(File.expand_path("..", __dir__)) do
+  # Bundlerを使用して依存関係を読み込む
+  require "bundler/setup"
   require "rails/command"
+  
+  # importmapコマンドの実装を読み込み
+  # JavaScriptモジュールのインポートマップを管理するためのコマンド
   require "rails/commands/importmap/importmap_command"
+  
+  # importmapコマンドを実行
+  # このコマンドはJavaScriptの依存関係を管理し、
+  # ブラウザネイティブのES Modulesを使用可能にする
   Rails::Command::ImportmapCommand.perform
 end 
