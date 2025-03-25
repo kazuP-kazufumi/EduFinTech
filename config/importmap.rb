@@ -19,4 +19,4 @@ pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
 
 # app/javascript/controllersディレクトリ内の全Stimulusコントローラーを
 # 'controllers'名前空間の下にピン留め
-pin_all_from "app/javascript/controllers", under: "controllers" 
+pin_all_from "app/javascript/controllers", under: "controllers"
