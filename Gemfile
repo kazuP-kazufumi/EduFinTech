@@ -67,9 +67,9 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # テスト関連:
-  gem 'rspec-rails'          # RSpecテストフレームワーク
-  gem 'factory_bot_rails'    # テストデータ作成
-  gem 'faker'                # ダミーデータ生成
+  gem "rspec-rails"          # RSpecテストフレームワーク
+  gem "factory_bot_rails"    # テストデータ作成
+  gem "faker"                # ダミーデータ生成
 end
 
 # 開発環境でのみ使用するgem
@@ -83,5 +83,5 @@ group :test do
   # システムテスト用:
   gem "capybara"            # ブラウザシミュレーション
   gem "selenium-webdriver"  # ブラウザ制御
-  gem 'shoulda-matchers'    # テストマッチャー拡張
+  gem "shoulda-matchers"    # テストマッチャー拡張
 end

@@ -21,10 +21,10 @@ module App
     # デフォルトのロケールを日本語(:ja)に設定
     config.i18n.default_locale = :ja
     # アプリケーションで使用可能な言語を日本語と英語に制限
-    config.i18n.available_locales = [:ja, :en]
+    config.i18n.available_locales = [ :ja, :en ]
     # 翻訳ファイルの配置場所を指定
     # config/locales以下の全サブディレクトリから.rbと.ymlファイルを読み込む
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
+    config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**", "*.{rb,yml}").to_s]
 
     # libディレクトリの自動読み込み設定
     # assets、tasksディレクトリは自動読み込みから除外

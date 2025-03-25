@@ -14,4 +14,4 @@ class DashboardController < ApplicationController
     # current_userはDeviseが提供するヘルパーメソッド
     @user = current_user
   end
-end 
+end
