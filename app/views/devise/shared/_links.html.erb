@@ -1,0 +1,35 @@
+<%# Deviseの認証関連リンクを表示するパーシャル %>
+<div class="text-sm">
+  <%# 現在のコントローラーがsessions以外の場合にログインリンクを表示 %>
+  <% if controller_name != 'sessions' %>
+    <%= link_to "ログイン", new_session_path(resource_name), class: "text-blue-500 hover:text-blue-700" %><br />
+  <% end %>
+
+  <%# ユーザー登録が有効で、かつ現在のコントローラーがregistrations以外の場合に新規登録リンクを表示 %>
+  <% if devise_mapping.registerable? && controller_name != 'registrations' %>
+    <%= link_to "新規登録", new_registration_path(resource_name), class: "text-blue-500 hover:text-blue-700" %><br />
+  <% end %>
+
+  <%# パスワードリセットが有効で、現在のコントローラーがpasswordsとregistrations以外の場合にパスワード忘れリンクを表示 %>
+  <% if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+    <%= link_to "パスワードをお忘れですか？", new_password_path(resource_name), class: "text-blue-500 hover:text-blue-700" %><br />
+  <% end %>
+
+  <%# メール確認機能が有効で、現在のコントローラーがconfirmations以外の場合に確認メール再送信リンクを表示 %>
+  <% if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+    <%= link_to "確認メールの再送信", new_confirmation_path(resource_name), class: "text-blue-500 hover:text-blue-700" %><br />
+  <% end %>
+
+  <%# アカウントロック機能が有効（email戦略）で、現在のコントローラーがunlocks以外の場合にロック解除メール再送信リンクを表示 %>
+  <% if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+    <%= link_to "アカウントロック解除メールの再送信", new_unlock_path(resource_name), class: "text-blue-500 hover:text-blue-700" %><br />
+  <% end %>
+
+  <%# OAuth認証が設定されている場合、各プロバイダーのログインボタンを表示 %>
+  <% if devise_mapping.omniauthable? %>
+    <% resource_class.omniauth_providers.each do |provider| %>
+      <%# Turboを無効化してOAuth認証を正常に機能させる %>
+      <%= button_to "#{OmniAuth::Utils.camelize(provider)}でログイン", omniauth_authorize_path(resource_name, provider), data: { turbo: false }, class: "text-blue-500 hover:text-blue-700" %><br />
+    <% end %>
+  <% end %>
+</div>

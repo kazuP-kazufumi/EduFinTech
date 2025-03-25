@@ -16,10 +16,10 @@ class ExampleJob < ApplicationJob
     # sleepメソッドで処理を一時停止
     # この例では5秒間待機していますが、実際のアプリケーションでは
     # メール送信、ファイル処理、外部APIとの通信などの重い処理を行います
-    sleep 5 
+    sleep 5
 
     # ジョブの完了をログに記録
     # 実運用では、処理の結果や所要時間なども記録すると便利です
     Rails.logger.info "ExampleJob completed"
   end
-end 
+end

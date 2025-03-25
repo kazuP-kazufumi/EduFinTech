@@ -1,0 +1,51 @@
+# 開発環境用のDockerfile
+# このファイルは開発環境でのみ使用され、本番環境用のDockerfileとは異なります
+
+# ベースイメージとしてRubyの公式イメージを使用
+# .ruby-versionファイルと同じバージョンを指定
+FROM ruby:3.2.2
+
+# 必要なパッケージのインストール
+# - build-essential: コンパイラなどの基本的なビルドツール
+# - libpq-dev: PostgreSQLクライアントライブラリ
+# - nodejs: JavaScriptランタイム（Asset Pipelineに必要）
+# - npm: Node.jsのパッケージマネージャー
+# - git: ソースコードのダウンロードに必要
+# - curl: ChromeとChromeDriverのダウンロードに必要
+# - wget: ChromeとChromeDriverのダウンロードに必要
+# - unzip: ChromeDriverのインストールに必要
+# - chromium: Chromiumをインストール
+# - chromium-driver: Chromiumのドライバーをインストール
+RUN apt-get update -qq && \
+    apt-get install -y build-essential libpq-dev nodejs npm git curl wget unzip chromium chromium-driver && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* # キャッシュを削除してイメージサイズを削減
+
+# Node.jsのパッケージマネージャーYarnをグローバルにインストール
+# JavaScriptの依存関係管理に使用
+RUN npm install -g yarn
+
+# アプリケーションのワークディレクトリを/appに設定
+# 以降のコマンドはこのディレクトリで実行される
+WORKDIR /app
+
+# GemfileとGemfile.lockをコピー
+# 依存関係のインストールを先に行うことでキャッシュを活用
+COPY Gemfile Gemfile.lock ./
+
+# Bundlerを使用してGemをインストール
+# 開発環境では全ての依存関係をインストール
+RUN bundle install
+
+# アプリケーションのソースコードをコピー
+# 最後にコピーすることで、コード変更時の再ビルドを最小限に
+COPY . .
+
+# ChromiumをChromeの代わりに使用するための環境変数を設定
+ENV CHROME_BIN=/usr/bin/chromium \
+    CHROME_PATH=/usr/lib/chromium/
+
+# Railsサーバーを起動
+# -b 0.0.0.0: コンテナ外からのアクセスを許可
+# デフォルトポートは3000
+CMD ["rails", "server", "-b", "0.0.0.0"] 

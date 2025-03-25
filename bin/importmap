@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "fileutils"
+
+# アプリケーションのルートディレクトリに移動
+FileUtils.cd(File.expand_path("..", __dir__)) do
+  # Bundlerを使用して依存関係を読み込む
+  require "bundler/setup"
+  
+  # Railsの環境を読み込む
+  require "rails"
+  require "rails/command"
+  
+  # importmapコマンドの実装を読み込み
+  require "importmap/commands"
+  
+  # importmapコマンドを実行
+  Importmap::Commands.perform
+end

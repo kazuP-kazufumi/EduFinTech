@@ -17,12 +17,12 @@ Devise.setup do |config|
 
   # ==> コントローラーの設定
   # Deviseコントローラーの親クラスを設定
-  config.parent_controller = 'ApplicationController'
+  config.parent_controller = "ApplicationController"
 
   # ==> メーラーの設定
   # Devise::Mailerで使用される送信元メールアドレスを設定
   # 独自のメーラークラスで上書きすることも可能です
-  config.mailer_sender = 'noreply@edufintech.com'
+  config.mailer_sender = "noreply@edufintech.com"
 
   # メール送信を担当するクラスの設定
   # config.mailer = 'Devise::Mailer'
@@ -33,7 +33,7 @@ Devise.setup do |config|
   # ==> ORMの設定
   # ORMの読み込みと設定。デフォルトではactive_recordをサポート
   # mongoidも利用可能（bson_ext推奨）
-  require 'devise/orm/active_record'
+  require "devise/orm/active_record"
 
   # ==> 認証メカニズムの設定
   # ユーザー認証に使用するキーの設定
@@ -46,11 +46,11 @@ Devise.setup do |config|
 
   # 大文字小文字を区別しないキーの設定
   # ユーザー作成・更新時に小文字化されます
-  config.case_insensitive_keys = [:email]
+  config.case_insensitive_keys = [ :email ]
 
   # 空白を除去するキーの設定
   # ユーザー作成・更新時に前後の空白が除去されます
-  config.strip_whitespace_keys = [:email]
+  config.strip_whitespace_keys = [ :email ]
 
   # パラメータによる認証の有効化設定
   # config.params_authenticatable = true
@@ -70,7 +70,7 @@ Devise.setup do |config|
   # config.paranoid = true
 
   # セッションストレージのスキップ設定
-  config.skip_session_storage = [:http_auth]
+  config.skip_session_storage = [ :http_auth ]
 
   # 認証時のCSRFトークンクリーンアップ設定
   # config.clean_up_csrf_token_on_authentication = true
@@ -191,7 +191,7 @@ Devise.setup do |config|
 
   # ==> マウント可能エンジンの設定
   # ルーター名の設定
-  config.router_name = :edufintech
+  # config.router_name = :edufintech
 
   # OmniAuthパスプレフィックスの設定
   # config.omniauth_path_prefix = '/my_engine/users/auth'

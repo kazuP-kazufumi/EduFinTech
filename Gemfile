@@ -1,74 +1,87 @@
+# アプリケーションの依存gemを管理するGemfile
+# RubyGemsからgemをダウンロードする設定
 source "https://rubygems.org"
 
-# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
+# Railsフレームワーク本体
+# ~> 8.0.2は8.0.2以上8.1.0未満のバージョンを許容
 gem "rails", "~> 8.0.2"
-# The modern asset pipeline for Rails [https://github.com/rails/propshaft]
+
+# アセットパイプライン - JavaScriptやCSSの管理・配信を担当
 gem "propshaft"
-# Use postgresql as the database for Active Record
+
+# PostgreSQLデータベースアダプター
 gem "pg", "~> 1.1"
-# Use the Puma web server [https://github.com/puma/puma]
+
+# Rubyベースの軽量・高速なWebサーバー
 gem "puma", ">= 5.0"
-# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
+
+# JavaScriptモジュールをインポートマップで管理
 gem "importmap-rails"
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
+
+# Hotwireフレームワークの構成要素:
+# Turbo - ページ遷移を高速化するSPA風フレームワーク
 gem "turbo-rails"
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+# Stimulus - 軽量なJavaScriptフレームワーク
 gem "stimulus-rails"
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
+
+# JSON APIを簡単に構築するためのビルダー
 gem "jbuilder"
 
-# 認証
+# 認証機能
 gem "devise"
 
-# 認可
+# 認可(権限)管理
 gem "pundit"
 
-# バックグラウンドジョブ
-gem "sidekiq"
-gem "redis"
-gem "redis-session-store" # Redisセッションストア用
+# 非同期処理関連:
+gem "sidekiq"     # バックグラウンドジョブ処理
+gem "redis"       # KVSデータストア
+gem "redis-session-store" # セッション管理にRedisを使用
 
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+# Windows環境用のタイムゾーンデータ
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
-# Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
-gem "solid_cache"
-gem "solid_queue"
-gem "solid_cable"
+# Rails機能のキャッシュ管理:
+gem "solid_cache"   # キャッシュストア
+gem "solid_queue"   # ジョブキュー
+gem "solid_cable"   # Action Cable
 
-# Reduces boot times through caching; required in config/boot.rb
+# 起動時間を短縮するブートローダー
 gem "bootsnap", require: false
 
-# Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
+# Dockerデプロイメント管理ツール
 gem "kamal", require: false
 
-# Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
+# Pumaサーバーのパフォーマンス最適化
 gem "thruster", require: false
 
-# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
-
+# 開発環境とテスト環境でのみ使用するgem
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  # デバッグツール
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
-  # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
+  # セキュリティ脆弱性スキャナー
   gem "brakeman", require: false
 
-  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
+  # Rubyコードスタイルチェッカー
   gem "rubocop-rails-omakase", require: false
+
+  # テスト関連:
+  gem "rspec-rails"          # RSpecテストフレームワーク
+  gem "factory_bot_rails"    # テストデータ作成
+  gem "faker"                # ダミーデータ生成
 end
 
+# 開発環境でのみ使用するgem
 group :development do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
+  # エラーページでのデバッグコンソール
   gem "web-console"
 end
 
+# テスト環境でのみ使用するgem
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "selenium-webdriver"
+  # システムテスト用:
+  gem "capybara"            # ブラウザシミュレーション
+  gem "selenium-webdriver"  # ブラウザ制御
+  gem "shoulda-matchers"    # テストマッチャー拡張
 end

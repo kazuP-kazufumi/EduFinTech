@@ -5,7 +5,7 @@
 # - redis : ホスト名（docker-compose.ymlで定義されたRedisコンテナ名）
 # - 6379 : デフォルトのRedisポート番号
 # - /1 : データベース番号（0-15の範囲で選択可能）
-redis_url = ENV.fetch('REDIS_URL', 'redis://redis:6379/1')
+redis_url = ENV.fetch("REDIS_URL", "redis://redis:6379/1")
 
 # Redis接続の設定
 # アプリケーション全体で使用するRedisインスタンスを設定
@@ -18,9 +18,9 @@ Rails.application.config.redis = Redis.new(url: redis_url)
 # expire_after: セッションの有効期限（1日）
 # key: セッションを識別するためのキープレフィックス
 Rails.application.config.session_store :redis_session_store,
-  servers: [redis_url],
+  servers: [ redis_url ],
   expire_after: 1.day,
-  key: '_edufintech_session'
+  key: "_edufintech_session"
 
 # キャッシュストアとしてRedisを使用
 # :redis_cache_store - Rails.cacheのバックエンドとしてRedisを使用
@@ -29,6 +29,6 @@ Rails.application.config.session_store :redis_session_store,
 # expires_in: キャッシュの有効期限（1日）
 Rails.application.config.cache_store = :redis_cache_store, {
   url: redis_url,
-  namespace: 'edufintech:cache',
+  namespace: "edufintech:cache",
   expires_in: 1.day
-} 
+}
