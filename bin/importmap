@@ -16,11 +16,8 @@ FileUtils.cd(File.expand_path("..", __dir__)) do
   require "rails/command"
   
   # importmapコマンドの実装を読み込み
-  # JavaScriptモジュールのインポートマップを管理するためのコマンド
-  require "rails/commands/importmap/importmap_command"
+  require "importmap/command"
   
   # importmapコマンドを実行
-  # このコマンドはJavaScriptの依存関係を管理し、
-  # ブラウザネイティブのES Modulesを使用可能にする
-  Rails::Command::ImportmapCommand.perform
+  Importmap::Command.perform
 end 
