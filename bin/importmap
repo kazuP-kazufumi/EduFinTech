@@ -17,4 +17,4 @@ FileUtils.cd(File.expand_path("..", __dir__)) do
   
   # importmapコマンドを実行
   Importmap::Commands.perform
-end 
+end
