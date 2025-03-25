@@ -10,6 +10,9 @@ require "fileutils"
 FileUtils.cd(File.expand_path("..", __dir__)) do
   # Bundlerを使用して依存関係を読み込む
   require "bundler/setup"
+  
+  # Railsの環境を読み込む
+  require "rails"
   require "rails/command"
   
   # importmapコマンドの実装を読み込み
