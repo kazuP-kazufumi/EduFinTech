@@ -1,71 +1,61 @@
-<%# パスワードリセット手順送信後の画面 - ユーザーが新しいパスワードを設定するフォーム %>
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-  <%# フォームのコンテナ - 最大幅を制限し、要素間の間隔を設定 %>
-  <div class="max-w-md w-full space-y-8">
-    <%# ヘッダー部分 - タイトルと説明文を表示 %>
-    <div>
-      <%# メインタイトル - 大きめのフォントで目立つように %>
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        新しいパスワードの設定
-      </h2>
-      <%# サブタイトル - ユーザーへの指示を表示 %>
-      <p class="mt-2 text-center text-sm text-gray-600">
-        新しいパスワードを入力してください
-      </p>
-    </div>
+<%# パスワードリセット手順送信後のページ - ユーザーが新しいパスワードを設定するためのフォーム %>
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <%# ヘッダー部分 - タイトルとログインリンクを含む %>
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <%# メインタイトル %>
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      パスワードを変更
+    </h2>
+    <%# ログインページへの誘導リンク %>
+    <p class="mt-2 text-center text-sm text-gray-600">
+      または
+      <%= link_to "ログイン", new_session_path(resource_name), class: "font-medium text-indigo-600 hover:text-indigo-500" %>
+    </p>
+  </div>
 
-    <%# パスワード変更フォーム - Deviseのform_forヘルパーを使用 %>
-    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "mt-8 space-y-6" }) do |f| %>
-      <%# パスワードリセットトークン - セキュリティのために必要な隠しフィールド %>
-      <%= f.hidden_field :reset_password_token %>
+  <%# メインコンテンツ - パスワード変更フォーム %>
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <%# フォームを含むカードスタイルのコンテナ %>
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <%# Deviseのパスワード変更フォーム - PUTメソッドでリクエストを送信 %>
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
+        <%# バリデーションエラーがある場合のメッセージ表示 %>
+        <%= render "devise/shared/error_messages", resource: resource %>
 
-      <%# エラーメッセージ - バリデーションエラーがある場合に表示 %>
-      <%= render "devise/shared/error_messages", resource: resource %>
+        <%# パスワードリセットトークン - セキュリティのために必要な隠しフィールド %>
+        <%= f.hidden_field :reset_password_token %>
 
-      <%# パスワード要件の表示 - 最小文字数の要件がある場合に表示 %>
-      <% if @minimum_password_length %>
-        <%# 青色の情報ボックス - パスワード要件を視覚的に目立たせる %>
-        <div class="rounded-md bg-blue-50 p-4">
-          <div class="flex">
-            <%# 情報アイコン - SVGで「i」マークを表示 %>
-            <div class="flex-shrink-0">
-              <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <%# パスワード要件のテキスト %>
-            <div class="ml-3">
-              <p class="text-sm text-blue-700">
-                パスワードは<%= @minimum_password_length %>文字以上で入力してください
-              </p>
-            </div>
+        <%# 新しいパスワード入力フィールド %>
+        <div>
+          <%= f.label :password, "新しいパスワード", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%# autofocus: true でページ読み込み時に自動フォーカス %>
+            <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+            <%# パスワードの最小文字数要件を表示 %>
+            <% if @minimum_password_length %>
+              <p class="mt-2 text-sm text-gray-500"><%= @minimum_password_length %>文字以上</p>
+            <% end %>
           </div>
+        </div>
+
+        <%# パスワード確認フィールド - 入力ミスを防ぐため %>
+        <div>
+          <%= f.label :password_confirmation, "パスワード（確認）", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+        </div>
+
+        <%# パスワード変更実行ボタン %>
+        <div>
+          <%= f.submit "パスワードを変更", class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
         </div>
       <% end %>
 
-      <%# 新しいパスワード入力フィールド - フォーカス時に青色の枠線表示 %>
-      <div>
-        <%# アクセシビリティのためのラベル（視覚的には非表示） %>
-        <%= f.label :password, "新しいパスワード", class: "sr-only" %>
-        <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm", placeholder: "新しいパスワード" %>
+      <%# 追加のナビゲーションリンク - ログインや新規登録へのリンクを含む共有パーシャル %>
+      <div class="mt-6">
+        <%= render "devise/shared/links" %>
       </div>
-
-      <%# パスワード確認入力フィールド - 入力ミス防止のための確認用 %>
-      <div>
-        <%# アクセシビリティのためのラベル（視覚的には非表示） %>
-        <%= f.label :password_confirmation, "パスワード（確認）", class: "sr-only" %>
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm", placeholder: "パスワード（確認）" %>
-      </div>
-
-      <%# 送信ボタン - ホバー時に色が濃くなり、フォーカス時にリングが表示 %>
-      <div>
-        <%= f.submit "パスワードを変更", class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-      </div>
-
-      <%# ログインページへのリンク - ユーザーが戻れるように %>
-      <div class="text-sm text-center">
-        <%= link_to "ログインページに戻る", new_session_path(resource_name), class: "font-medium text-blue-600 hover:text-blue-500" %>
-      </div>
-    <% end %>
+    </div>
   </div>
 </div>

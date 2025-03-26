@@ -1,0 +1,39 @@
+<%# 次のページへのリンクを表示するパーシャル
+
+  利用可能なローカル変数:
+    url:           次のページへのURL
+    current_page:  現在表示中のページオブジェクト
+    total_pages:   総ページ数
+    per_page:      1ページあたりの表示件数
+    remote:        Ajaxページネーション用のdata-remote属性
+-%>
+
+<%# 次のページへのリンクを生成
+    - rel="next": 次のページであることを示す関係性を定義
+    - remote: Ajaxページネーション用の属性
+    
+    スタイリング:
+    - relative: 子要素の配置の基準点
+    - inline-flex: インラインフレックスボックスとして表示
+    - items-center: 子要素を垂直方向に中央揃え
+    - px-4 py-2: 左右に4単位、上下に2単位のパディング
+    - border border-gray-300: グレーのボーダー
+    - bg-white: 白背景
+    - text-sm: 小さめのフォントサイズ
+    - font-medium: 中程度の太さのフォント
+    - text-gray-700: グレーのテキスト
+    - hover:bg-gray-50: ホバー時に背景色を変更
+-%>
+<%= link_to url, rel: 'next', remote: remote, class: "relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" do %>
+  <%# 右向き矢印のSVGアイコン
+      - h-5 w-5: 高さと幅を5単位に設定
+      - currentColor: 親要素の文字色を継承
+  %>
+  <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+    <%# 矢印の形状を定義するパス
+        - fill-rule="evenodd": 塗りつぶしルールを設定
+        - clip-rule="evenodd": クリッピングルールを設定
+    %>
+    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+  </svg>
+<% end %>
