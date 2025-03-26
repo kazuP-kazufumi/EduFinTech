@@ -1,0 +1,108 @@
+<%# 投稿一覧ページのメインコンテナ %>
+<%# min-h-screen: 最小高さを画面いっぱいに設定 %>
+<%# bg-gray-50: 薄いグレーの背景色 %>
+<%# py-12: 上下のパディングを3rem、px-4: 左右のパディングを1rem %>
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <%# コンテンツを中央寄せにし、最大幅を制限するコンテナ %>
+  <%# max-w-7xl: 最大幅を80rem(1280px)に制限、mx-auto: 水平方向に中央寄せ %>
+  <div class="max-w-7xl mx-auto">
+    <%# ページヘッダーセクション - タイトルとサブテキストを中央寄せで表示 %>
+    <div class="text-center">
+      <%# メインタイトル - 大きく太字のテキスト %>
+      <h1 class="text-3xl font-extrabold text-gray-900">
+        資金調達の投稿一覧
+      </h1>
+      <%# サブテキスト - 小さめのグレーテキスト %>
+      <p class="mt-2 text-sm text-gray-600">
+        みんなの資金調達に関する投稿を見てみましょう
+      </p>
+    </div>
+
+    <%# 新規投稿ボタン - ログインユーザーのみ表示 %>
+    <% if user_signed_in? %>
+      <%# mt-8: 上マージンを2rem、flex justify-end: 右寄せに配置 %>
+      <div class="mt-8 flex justify-end">
+        <%# 新規投稿ページへのリンクボタン - 青色のアクセントカラーを使用 %>
+        <%= link_to new_post_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
+          <%# プラスアイコンのSVG %>
+          <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+          </svg>
+          新規投稿
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# 投稿一覧セクション - 各投稿をカード形式で表示 %>
+    <%# mt-8: 上マージンを2rem、space-y-6: 子要素間の垂直方向の間隔を1.5rem %>
+    <div class="mt-8 space-y-6">
+      <%# 投稿を新しい順にループで表示 %>
+      <% @posts.each do |post| %>
+        <%# 個別の投稿カード - 白背景に影をつけて浮き上がり感を演出 %>
+        <div class="bg-white shadow sm:rounded-lg overflow-hidden">
+          <%# 投稿のヘッダー部分 - タイトルと投稿情報を表示 %>
+          <div class="px-4 py-5 sm:px-6">
+            <%# タイトルと投稿時間を横並びに配置 %>
+            <div class="flex items-center justify-between">
+              <%# タイトルをリンクとして表示 - ホバー時に青色に変化 %>
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <%= link_to post.title, post_path(post), class: "hover:text-blue-600" %>
+              </h3>
+              <%# 投稿からの経過時間を表示 %>
+              <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                <%= time_ago_in_words(post.created_at) %>前
+              </p>
+            </div>
+            <%# 投稿者のメールアドレスを表示 %>
+            <p class="mt-1 text-sm text-gray-500">
+              投稿者: <%= post.user.email %>
+            </p>
+          </div>
+
+          <%# 投稿の本文部分 - 3行までで省略表示 %>
+          <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+            <p class="text-sm text-gray-500 line-clamp-3">
+              <%= post.content %>
+            </p>
+          </div>
+
+          <%# 投稿者用の編集・削除ボタン - 投稿者本人のみに表示 %>
+          <% if user_signed_in? && current_user == post.user %>
+            <div class="border-t border-gray-200 px-4 py-4 sm:px-6 bg-gray-50">
+              <div class="flex justify-end space-x-3">
+                <%# 編集ボタン - グレーの控えめなデザイン %>
+                <%= link_to '編集', edit_post_path(post), class: "inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+                <%# 削除ボタン - 赤色で警告的なデザイン、確認ダイアログ付き %>
+                <%= button_to '削除', post_path(post), method: :delete, data: { confirm: '本当に削除しますか？', turbo_confirm: '本当に削除しますか？' }, class: "inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%# 投稿が存在しない場合の表示 - 空の状態を視覚的に表現 %>
+      <% if @posts.empty? %>
+        <div class="text-center py-12">
+          <%# ドキュメントアイコンのSVG %>
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <%# 空の状態を説明するメッセージ %>
+          <h3 class="mt-2 text-sm font-medium text-gray-900">投稿がありません</h3>
+          <p class="mt-1 text-sm text-gray-500">新しい投稿を作成してみましょう。</p>
+          <%# ログインユーザーのみに新規投稿ボタンを表示 %>
+          <% if user_signed_in? %>
+            <div class="mt-6">
+              <%= link_to new_post_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
+                <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                </svg>
+                新規投稿を作成
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
