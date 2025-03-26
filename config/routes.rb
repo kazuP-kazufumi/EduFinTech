@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     resources :notifications, only: [:create]
   end
 
+  resources :notifications, only: [:index]
+
   # Deviseを使用したユーザー認証のルーティング設定
   # - path: ''でURLからdeviseを除去 (例: /users/sign_in → /login)
   # - path_namesで各アクションのパス名をカスタマイズ
