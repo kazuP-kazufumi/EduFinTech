@@ -1,0 +1,68 @@
+<%# 通知一覧ページのメインコンテナ - 最小の高さを画面いっぱいに設定し、背景色をグレーに %>
+<div class="min-h-screen bg-gray-100">
+  <%# コンテンツの最大幅を制限し、中央寄せと余白を設定 - レスポンシブデザインのためのブレークポイントも設定 %>
+  <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <%# ヘッダーセクション - ページタイトルを表示するエリア %>
+    <div class="px-4 py-5 sm:px-0">
+      <%# メインタイトル - 大きめのフォントで目立つように設定 %>
+      <h1 class="text-3xl font-bold text-gray-900">
+        通知一覧
+      </h1>
+    </div>
+
+    <%# 通知一覧セクション - ヘッダーから適度な間隔を確保 %>
+    <div class="mt-8">
+      <%# 通知の有無による条件分岐 %>
+      <% if @notifications.any? %>
+        <%# 通知がある場合 - 白背景のカードスタイルで表示 %>
+        <div class="bg-white shadow overflow-hidden sm:rounded-md">
+          <%# 通知リスト - 各通知をボーダーで区切って表示 %>
+          <ul class="divide-y divide-gray-200">
+            <%# 各通知をループで表示 %>
+            <% @notifications.each do |notification| %>
+              <li>
+                <%# 通知アイテム - 適切な余白とレイアウトを設定 %>
+                <div class="px-4 py-4 sm:px-6">
+                  <%# 通知メッセージと操作ボタンを横並びに配置 %>
+                  <div class="flex items-center justify-between">
+                    <%# 通知メッセージ - notification_helperを使用してメッセージを生成 %>
+                    <p class="text-sm font-medium text-gray-900">
+                      <%= notification_message(notification) %>
+                    </p>
+                    <%# アクションボタンエリア - 支援リクエストの場合のみボタンを表示 %>
+                    <div class="ml-2 flex-shrink-0 flex">
+                      <% if notification.notification_type == 'support_request' %>
+                        <%# 交渉開始ボタン - インディゴカラーのアクセントボタン %>
+                        <button type="button" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          交渉を開始する
+                        </button>
+                      <% end %>
+                    </div>
+                  </div>
+                  <%# 通知のメタ情報エリア - 作成日時などの付加情報を表示 %>
+                  <div class="mt-2 sm:flex sm:justify-between">
+                    <div class="sm:flex">
+                      <%# 通知の作成日時 - 日本語フォーマットで表示 %>
+                      <p class="flex items-center text-sm text-gray-500">
+                        <%= notification.created_at.strftime("%Y年%m月%d日 %H:%M") %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% else %>
+        <%# 通知がない場合 - シンプルなメッセージを表示 %>
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+          <div class="px-4 py-5 sm:p-6">
+            <p class="text-sm text-gray-500">
+              通知はありません
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div> 

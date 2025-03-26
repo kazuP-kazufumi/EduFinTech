@@ -28,6 +28,16 @@ class NotificationsController < ApplicationController
     redirect_to @post, notice: flash[:notice]
   end
 
+  # 通知一覧を表示するアクション
+  # @return [void]
+  def index
+    # ログインユーザーの通知を取得
+    # current_user.notifications - ログインユーザーに紐づく通知を取得
+    # .recent - 最近の通知から順に取得(scopeで定義された並び順を適用)
+    # @notifications - ビューで表示するための通知コレクションをインスタンス変数に格納
+    @notifications = current_user.notifications.recent
+  end
+
   private
 
   # パラメータから投稿を取得するメソッド
