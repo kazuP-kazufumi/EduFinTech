@@ -85,3 +85,5 @@ group :test do
   gem "selenium-webdriver"  # ブラウザ制御
   gem "shoulda-matchers"    # テストマッチャー拡張
 end
+
+gem "kaminari", "~> 1.2"

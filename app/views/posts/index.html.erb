@@ -127,6 +127,23 @@
           <% end %>
         </div>
       <% end %>
+
+      <%# ページネーション部分 %>
+      <%# mt-8: 上部に8単位の余白を設定 %>
+      <%# flex justify-center: Flexboxを使用して中央寄せに配置 %>
+      <div class="mt-8 flex justify-center">
+        <%# kaminariのpaginateヘルパーを使用してページネーションを表示 %>
+        <%# @posts: コントローラーから渡された投稿一覧のコレクション %>
+        <%# class: "pagination": ページネーションのスタイリング用のクラスを指定 %>
+        <%# 
+          paginateヘルパーは以下の要素を自動生成:
+          - 前のページへのリンク
+          - ページ番号のリンク
+          - 次のページへのリンク
+          - 現在のページの表示
+        %>
+        <%= paginate @posts, class: "pagination" %>
+      </div>
     </div>
   </div>
 </div>
