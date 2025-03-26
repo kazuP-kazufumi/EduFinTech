@@ -1,0 +1,46 @@
+<%# 新規投稿ページのコンテナ。最小高さを画面いっぱいに設定し、背景色とパディングを指定 %>
+<%# min-h-screen: 最小高さを画面の高さに合わせる %>
+<%# bg-gray-50: 薄いグレーの背景色 %>
+<%# py-12: 上下のパディングを3rem %>
+<%# px-4: 左右のパディングを1rem、レスポンシブに拡大 %>
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <%# コンテンツを中央寄せにし、最大幅を制限するコンテナ %>
+  <%# max-w-3xl: 最大幅を48rem(768px)に制限 %>
+  <%# mx-auto: 水平方向に中央寄せ %>
+  <div class="max-w-3xl mx-auto">
+    <%# ページタイトルとサブテキストを含むヘッダーセクション %>
+    <div class="text-center">
+      <%# メインタイトル。太字で大きなサイズのテキスト %>
+      <%# text-3xl: フォントサイズを1.875rem %>
+      <%# font-extrabold: フォントの太さを800に %>
+      <h1 class="text-3xl font-extrabold text-gray-900">
+        新規投稿
+      </h1>
+      <%# サブテキスト。小さめのグレーテキスト %>
+      <%# mt-2: 上マージンを0.5rem %>
+      <%# text-sm: 小さめのフォントサイズ %>
+      <p class="mt-2 text-sm text-gray-600">
+        資金調達の投稿を作成します
+      </p>
+    </div>
+
+    <%# 投稿フォームを含むカードスタイルのコンテナ %>
+    <%# mt-8: 上マージンを2rem %>
+    <%# bg-white: 白背景 %>
+    <%# shadow: ドロップシャドウを追加 %>
+    <%# sm:rounded-lg: 小型デバイス以上で角丸を適用 %>
+    <div class="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <%# _form パーシャルをレンダリング。@postオブジェクトを渡す %>
+      <%# このパーシャルには実際のフォーム要素が含まれている %>
+      <%= render 'form', post: @post %>
+    </div>
+
+    <%# 投稿一覧ページへの戻るリンク %>
+    <%# mt-6: 上マージンを1.5rem %>
+    <div class="mt-6 text-center">
+      <%# link_toヘルパーで投稿一覧へのリンクを生成 %>
+      <%# hover時に色が変化するスタイリング %>
+      <%= link_to '戻る', posts_path, class: "text-sm font-medium text-blue-600 hover:text-blue-500" %>
+    </div>
+  </div>
+</div>
