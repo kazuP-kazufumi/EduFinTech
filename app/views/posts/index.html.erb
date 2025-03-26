@@ -10,7 +10,7 @@
       </h1>
       <%# サブテキスト - 小さめのフォント、薄いグレー色で補足説明 %>
       <p class="mt-2 text-sm text-gray-600">
-        資金調達に関する投稿を閲覧できます
+        資金調達に関する投稿を閲覧できます。新しい投稿を作成して、あなたのプロジェクトを共有しましょう。
       </p>
     </div>
 
@@ -48,11 +48,17 @@
 
     <%# 新規投稿ボタン - ログインユーザーのみに表示 %>
     <% if user_signed_in? %>
-      <div class="mt-8 flex justify-end">
-        <%= link_to new_post_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
-          <%# プラスアイコン %>
-          <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+      <div class="sm:hidden fixed bottom-6 right-6 z-10">
+        <%= link_to new_post_path, class: "inline-flex items-center px-4 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+        <% end %>
+      </div>
+      <div class="hidden sm:block mb-6">
+        <%= link_to new_post_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+          <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
           </svg>
           新規投稿
         <% end %>
@@ -113,13 +119,13 @@
           </svg>
           <%# 空の状態のメッセージとCTA %>
           <h3 class="mt-2 text-sm font-medium text-gray-900">投稿がありません</h3>
-          <p class="mt-1 text-sm text-gray-500">新しい投稿を作成して、資金調達を始めましょう。</p>
+          <p class="mt-1 text-sm text-gray-500">最初の投稿を作成してみましょう。</p>
           <%# ログインユーザーのみに新規投稿ボタンを表示 %>
           <% if user_signed_in? %>
             <div class="mt-6">
-              <%= link_to new_post_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
-                <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+              <%= link_to new_post_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+                <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
                 新規投稿
               <% end %>
