@@ -1,0 +1,50 @@
+<%# 投稿編集ページのメインコンテナ %>
+<%# min-h-screen: 画面の高さいっぱいに表示 %>
+<%# bg-gray-50: 薄いグレーの背景色を設定 %>
+<%# py-12: 上下のパディングを3rem、px-4: 左右のパディングを1rem設定 %>
+<%# sm:px-6: 小型デバイス以上で左右パディングを1.5rem %>
+<%# lg:px-8: 大型デバイス以上で左右パディングを2rem に設定 %>
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <%# コンテンツを中央寄せにし、最大幅を制限するコンテナ %>
+  <%# max-w-3xl: 最大幅を48rem(768px)に制限 %>
+  <%# mx-auto: 水平方向に中央寄せ %>
+  <div class="max-w-3xl mx-auto">
+    <%# ページのヘッダーセクション - タイトルとサブテキストを中央寄せで表示 %>
+    <div class="text-center">
+      <%# メインタイトル - 大きく太字のテキスト %>
+      <%# text-3xl: フォントサイズを1.875rem %>
+      <%# font-extrabold: フォントの太さを800に設定 %>
+      <h1 class="text-3xl font-extrabold text-gray-900">
+        投稿の編集
+      </h1>
+      <%# サブテキスト - 小さめのグレーテキスト %>
+      <%# mt-2: 上マージンを0.5rem %>
+      <%# text-sm: 小さめのフォントサイズ %>
+      <p class="mt-2 text-sm text-gray-600">
+        投稿内容を編集します
+      </p>
+    </div>
+
+    <%# 投稿フォームを含むカードスタイルのコンテナ %>
+    <%# mt-8: 上マージンを2rem %>
+    <%# bg-white: 白背景、shadow: ドロップシャドウを追加 %>
+    <%# py-8: 上下パディング2rem、px-4: 左右パディング1rem %>
+    <%# sm:rounded-lg: 小型デバイス以上で角丸を適用 %>
+    <%# sm:px-10: 小型デバイス以上で左右パディングを2.5remに設定 %>
+    <div class="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <%# _form パーシャルをレンダリング。@postオブジェクトを渡して編集フォームを表示 %>
+      <%= render 'form', post: @post %>
+    </div>
+
+    <%# 投稿詳細ページへの戻るリンク %>
+    <%# mt-6: 上マージンを1.5rem %>
+    <%# text-center: テキストを中央寄せ %>
+    <div class="mt-6 text-center">
+      <%# link_toヘルパーで投稿詳細へのリンクを生成 %>
+      <%# text-sm: 小さめのフォントサイズ %>
+      <%# font-medium: フォントの太さを500に設定 %>
+      <%# text-blue-600: 青色のテキスト、hover時に少し薄い青色に変化 %>
+      <%= link_to '戻る', post_path(@post), class: "text-sm font-medium text-blue-600 hover:text-blue-500" %>
+    </div>
+  </div>
+</div>

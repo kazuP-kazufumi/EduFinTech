@@ -1,0 +1,60 @@
+<%# 投稿詳細ページのメインコンテナ %>
+<%# min-h-screen: 最小高さを画面いっぱいに設定 %>
+<%# bg-gray-50: 薄いグレーの背景色 %>
+<%# py-12: 上下のパディング3rem、px-4: 左右のパディング1rem %>
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <%# コンテンツを中央寄せにし、最大幅を制限するコンテナ %>
+  <%# max-w-3xl: 最大幅48rem(768px)、mx-auto: 水平方向の中央寄せ %>
+  <div class="max-w-3xl mx-auto">
+    <%# 投稿内容を表示するカード - 白背景に影をつけて浮き上がり感を演出 %>
+    <div class="bg-white shadow sm:rounded-lg overflow-hidden">
+      <%# 投稿のヘッダー部分 - タイトルと投稿情報を表示 %>
+      <div class="px-4 py-5 sm:px-6">
+        <%# タイトルと投稿日時を横並びに配置 %>
+        <div class="flex items-center justify-between">
+          <%# タイトルを大きめのフォントで表示 %>
+          <h1 class="text-2xl font-bold text-gray-900">
+            <%= @post.title %>
+          </h1>
+          <%# 投稿日時を整形して表示 - l helper で長い形式のフォーマットを使用 %>
+          <p class="text-sm text-gray-500">
+            <%= l @post.created_at, format: :long %>
+          </p>
+        </div>
+        <%# 投稿者のメールアドレスを表示 %>
+        <p class="mt-1 text-sm text-gray-500">
+          投稿者: <%= @post.user.email %>
+        </p>
+      </div>
+
+      <%# 投稿の本文部分 - 上部にボーダーラインを追加 %>
+      <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+        <%# prose: タイポグラフィのスタイリング、max-w-none: 最大幅の制限を解除 %>
+        <div class="prose prose-sm max-w-none text-gray-500">
+          <%# simple_format: 改行を<br>タグに変換、h: XSS対策のエスケープ処理 %>
+          <%= simple_format h(@post.content) %>
+        </div>
+      </div>
+
+      <%# 投稿者用の編集・削除ボタン - ログイン中のユーザーが投稿者の場合のみ表示 %>
+      <% if user_signed_in? && current_user == @post.user %>
+        <%# ボタンを含むフッター部分 - 薄いグレー背景 %>
+        <div class="border-t border-gray-200 px-4 py-4 sm:px-6 bg-gray-50">
+          <%# ボタンを右寄せで配置、間隔を設定 %>
+          <div class="flex justify-end space-x-3">
+            <%# 編集ボタン - グレーの枠線付きボタン %>
+            <%= link_to '編集', edit_post_path(@post), class: "inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            <%# 削除ボタン - 赤色の背景色で警告的なデザイン %>
+            <%# data-confirm: 削除前の確認ダイアログを表示 %>
+            <%= button_to '削除', post_path(@post), method: :delete, data: { confirm: '本当に削除しますか？', turbo_confirm: '本当に削除しますか？' }, class: "inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%# 投稿一覧ページへの戻るリンク - 中央寄せで配置 %>
+    <div class="mt-6 text-center">
+      <%= link_to '戻る', posts_path, class: "text-sm font-medium text-blue-600 hover:text-blue-500" %>
+    </div>
+  </div>
+</div>
