@@ -1,0 +1,63 @@
+<%# 投稿フォームのパーシャル。新規作成と編集で共通利用される %>
+<%# form_withヘルパーを使用してフォームを生成。modelオプションでpostオブジェクトを指定し、space-y-6クラスで要素間の垂直方向の間隔を設定 %>
+<%= form_with(model: post, class: "space-y-6") do |f| %>
+  <%# バリデーションエラーがある場合のエラーメッセージ表示セクション %>
+  <%# post.errors.any?でエラーの有無をチェック %>
+  <% if post.errors.any? %>
+    <%# エラーメッセージを赤色の背景のアラートボックスで表示。bg-red-50で薄い赤色の背景を設定 %>
+    <div class="bg-red-50 p-4 rounded-lg">
+      <%# エラー件数を表示。pluralizeヘルパーで件数に応じて単数形/複数形を切り替え %>
+      <h2 class="text-red-700 text-sm font-medium mb-2">
+        <%= pluralize(post.errors.count, "件のエラー") %>が発生しました：
+      </h2>
+      <%# エラーメッセージをリスト形式で表示。list-discで黒点付きリストに %>
+      <ul class="list-disc list-inside text-red-600 text-sm">
+        <% post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%# タイトル入力フィールドのセクション %>
+  <div>
+    <%# タイトルのラベル。block要素としてtext-smで小さめのフォントサイズ、font-mediumで太さを指定 %>
+    <%= f.label :title, "タイトル", class: "block text-sm font-medium text-gray-700" %>
+    <div class="mt-1">
+      <%# タイトル入力用のテキストフィールド。w-fullで親要素いっぱいの幅、rounded-mdで角丸、border-gray-300でグレーの枠線 %>
+      <%# focus時にblue-500色の枠線とリングエフェクトを表示 %>
+      <%= f.text_field :title, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+  </div>
+
+  <%# カテゴリー選択フィールドのセクション %>
+  <div>
+    <%# カテゴリーのラベル。タイトルと同様のスタイリング %>
+    <%= f.label :category, "カテゴリー", class: "block text-sm font-medium text-gray-700" %>
+    <div class="mt-1">
+      <%# カテゴリー選択用のセレクトボックス。Post::CATEGORIESから選択肢を生成 %>
+      <%# 空のハッシュ{}はオプションパラメータ用。デフォルト値などを設定可能 %>
+      <%= f.select :category, Post::CATEGORIES, {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+  </div>
+
+  <%# 投稿内容入力フィールドのセクション %>
+  <div>
+    <%# 内容のラベル。他のラベルと同様のスタイリング %>
+    <%= f.label :content, "内容", class: "block text-sm font-medium text-gray-700" %>
+    <div class="mt-1">
+      <%# 複数行入力可能なテキストエリア。rows: 10で10行分の高さを指定 %>
+      <%# タイトル入力フィールドと同様のスタイリングを適用 %>
+      <%= f.text_area :content, rows: 10, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+    </div>
+  </div>
+
+  <%# フォーム送信ボタンのセクション %>
+  <%# flex justify-endで子要素を右寄せに配置 %>
+  <div class="flex justify-end">
+    <%# submitボタン。inline-flexで横並び、justify-centerで中央寄せ %>
+    <%# bg-blue-600で青色の背景、hover:bg-blue-700でホバー時に濃い青色に %>
+    <%# focus時にリングエフェクトを表示し、アクセシビリティを向上 %>
+    <%= f.submit "投稿する", class: "inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
+  </div>
+<% end %> 

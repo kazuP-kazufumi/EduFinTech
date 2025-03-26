@@ -37,4 +37,11 @@ class User < ApplicationRecord
 
   # プロフィール画像の関連付け
   has_one_attached :avatar
+
+  # 投稿との関連付け
+  # has_many :posts - ユーザーは複数の投稿を持つことができる1対多の関係を定義
+  # dependent: :destroy - ユーザーが削除された場合、関連する投稿も自動的に削除される
+  #   - これによりデータの整合性を保ち、孤立したデータの発生を防ぐ
+  #   - 例: ユーザーAが削除された場合、ユーザーAの全ての投稿も削除される
+  has_many :posts, dependent: :destroy
 end
