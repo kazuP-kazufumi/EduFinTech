@@ -1,157 +1,101 @@
-<%# プロフィール編集ページ全体のコンテナ %>
-<%# min-h-screenで最小の高さを画面いっぱいに設定し、背景色とパディングを設定 %>
-<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-  <%# コンテンツの最大幅を制限し、中央寄せに設定 %>
-  <%# max-w-mdで最大幅を設定し、mx-autoで左右の余白を自動調整して中央寄せ %>
-  <div class="max-w-md mx-auto">
-    <%# ヘッダーセクション %>
-    <%# text-centerでテキストを中央寄せに設定 %>
-    <div class="text-center">
-      <%# メインタイトル - text-3xlで大きめのフォント、font-extraboldで太字 %>
-      <h2 class="text-3xl font-extrabold text-gray-900">
-        プロフィール編集
-      </h2>
-      <%# サブタイトル - mt-2で上部マージン、text-smで小さめのフォント、text-gray-600でグレー色 %>
-      <p class="mt-2 text-sm text-gray-600">
-        アカウント情報を更新できます
-      </p>
-    </div>
+<%# プロフィール編集ページ - Deviseのユーザー情報編集フォームのビュー %>
+<div class="min-h-screen bg-gray-50 py-12 sm:px-6 lg:px-8">
+  <%# ヘッダー部分 %>
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <%# ページタイトル %>
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      プロフィール編集
+    </h2>
+  </div>
 
-    <%# 編集フォーム %>
-    <%# Deviseのform_forヘルパーを使用し、PUTメソッドで更新 %>
-    <%# mt-8で上部マージン、space-y-6で子要素間の垂直方向の間隔を設定 %>
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "mt-8 space-y-6" }) do |f| %>
-      <%# エラーメッセージ表示用のパーシャル呼び出し %>
-      <%= render "devise/shared/error_messages", resource: resource %>
+  <%# メインコンテンツ - 編集フォーム %>
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <%# フォームを含むカードスタイルのコンテナ %>
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <%# Deviseの編集フォーム - PUTメソッドでリクエストを送信 %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
+        <%# バリデーションエラーがある場合のメッセージ表示 %>
+        <%= render "devise/shared/error_messages", resource: resource %>
 
-      <%# プロフィール画像セクション %>
-      <%# space-y-4で子要素間の垂直方向の間隔を設定 %>
-      <div class="space-y-4">
-        <%# セクションタイトル - text-lgで大きめのフォント %>
-        <h3 class="text-lg font-medium text-gray-900">プロフィール画像</h3>
-        <%# 画像表示エリア - flex items-centerで子要素を中央揃えに %>
-        <div class="flex items-center space-x-4">
-          <%# 現在のプロフィール画像が存在する場合は表示 %>
-          <% if resource.avatar.attached? %>
-            <%# 画像サイズを100x100にリサイズして表示 %>
-            <%= image_tag resource.avatar.variant(resize_to_limit: [100, 100]), class: "h-20 w-20 rounded-full object-cover" %>
-          <% else %>
-            <%# プロフィール画像が未設定の場合はデフォルトのアイコンを表示 %>
-            <div class="h-20 w-20 rounded-full bg-gray-200 flex items-center justify-center">
-              <%# ユーザーアイコンのSVG %>
-              <svg class="h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
+        <%# プロフィール画像アップロード部分 %>
+        <div>
+          <h3 class="text-lg font-medium text-gray-900 mb-4">プロフィール画像</h3>
+          <div class="flex items-center space-x-4">
+            <%# 現在のプロフィール画像表示エリア %>
+            <div class="flex-shrink-0">
+              <% if resource.avatar.attached? %>
+                <%# 既存の画像がある場合は表示（100x100にリサイズ） %>
+                <%= image_tag resource.avatar.variant(resize_to_limit: [100, 100]), class: "h-24 w-24 rounded-full object-cover" %>
+              <% else %>
+                <%# 画像がない場合はデフォルトのアイコンを表示 %>
+                <div class="h-24 w-24 rounded-full bg-gray-200 flex items-center justify-center">
+                  <svg class="h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+              <% end %>
             </div>
-          <% end %>
-          <%# 画像アップロードフィールド - flex-1で残りの幅を全て使用 %>
-          <div class="flex-1">
-            <%= f.label :avatar, "画像を選択", class: "block text-sm font-medium text-gray-700" %>
-            <%# ファイル選択ボタンのスタイリング %>
-            <%= f.file_field :avatar, class: "mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
-            <%# 画像のガイドライン表示 %>
-            <p class="mt-1 text-sm text-gray-500">
-              推奨サイズ: 400x400px<br>
-              対応形式: JPG, PNG, GIF
-            </p>
+            <%# 画像アップロードフィールド %>
+            <div class="flex-1">
+              <%= f.file_field :avatar, class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
+              <%# 画像アップロードのガイドライン %>
+              <p class="mt-2 text-sm text-gray-500">推奨サイズ: 400x400px, 対応フォーマット: JPG, PNG, GIF</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <%# メールアドレス入力フィールド %>
-      <div>
-        <%= f.label :email, "メールアドレス", class: "block text-sm font-medium text-gray-700" %>
-        <%# メールアドレス入力フィールド - フォーカス時に青色の枠線表示 %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
-      </div>
-
-      <%# メール確認待ちの警告表示 %>
-      <%# 新しいメールアドレスの確認待ちの場合に表示 %>
-      <% if resource.pending_reconfirmation? %>
-        <%# 警告メッセージボックス - 黄色系の配色 %>
-        <div class="rounded-md bg-yellow-50 p-4">
-          <div class="flex">
-            <%# 警告アイコン %>
-            <div class="flex-shrink-0">
-              <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <%# 警告メッセージ %>
-            <div class="ml-3">
-              <p class="text-sm text-yellow-700">
-                現在、<%= resource.unconfirmed_email %>への確認メールを送信しています。
-              </p>
-            </div>
+        <%# メールアドレス入力フィールド %>
+        <div>
+          <%= f.label :email, "メールアドレス", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.email_field :email, autocomplete: "email", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
           </div>
+        </div>
+
+        <%# 現在のパスワード入力フィールド - 変更を確認するために必要 %>
+        <div>
+          <%= f.label :current_password, "現在のパスワード", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.password_field :current_password, autocomplete: "current-password", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+            <%# パスワード入力の説明文 %>
+            <p class="mt-2 text-sm text-gray-500">変更を保存するには現在のパスワードを入力してください</p>
+          </div>
+        </div>
+
+        <%# 新しいパスワード入力フィールド - オプション %>
+        <div>
+          <%= f.label :password, "新しいパスワード", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.password_field :password, autocomplete: "new-password", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+            <%# パスワードの最小文字数要件を表示 %>
+            <% if @minimum_password_length %>
+              <p class="mt-2 text-sm text-gray-500"><%= @minimum_password_length %>文字以上</p>
+            <% end %>
+          </div>
+        </div>
+
+        <%# パスワード確認フィールド - 新しいパスワードの確認用 %>
+        <div>
+          <%= f.label :password_confirmation, "パスワード（確認）", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+        </div>
+
+        <%# 更新ボタン - フォームの送信 %>
+        <div>
+          <%= f.submit "更新する", class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
         </div>
       <% end %>
 
-      <%# パスワード変更セクション %>
-      <div class="space-y-4">
-        <%# セクションタイトル %>
-        <h3 class="text-lg font-medium text-gray-900">パスワードの変更</h3>
-        <%# 説明文 %>
-        <p class="text-sm text-gray-500">
-          パスワードを変更する場合は、新しいパスワードを入力してください
-        </p>
-
-        <%# 新しいパスワード入力フィールド %>
-        <div>
-          <%= f.label :password, "新しいパスワード", class: "block text-sm font-medium text-gray-700" %>
-          <%= f.password_field :password, autocomplete: "new-password", class: "mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
-          <%# パスワードの最小文字数要件を表示 %>
-          <% if @minimum_password_length %>
-            <p class="mt-2 text-sm text-gray-500">
-              パスワードは<%= @minimum_password_length %>文字以上で入力してください
-            </p>
-          <% end %>
-        </div>
-
-        <%# パスワード確認用入力フィールド %>
-        <div>
-          <%= f.label :password_confirmation, "パスワード（確認）", class: "block text-sm font-medium text-gray-700" %>
-          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
-        </div>
-
-        <%# 現在のパスワード入力フィールド %>
-        <%# 変更を確認するために必要な認証用フィールド %>
-        <div>
-          <%= f.label :current_password, "現在のパスワード", class: "block text-sm font-medium text-gray-700" %>
-          <%= f.password_field :current_password, autocomplete: "current-password", class: "mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
-          <p class="mt-2 text-sm text-gray-500">
-            変更を確認するために、現在のパスワードを入力してください
-          </p>
-        </div>
+      <%# アカウント削除セクション %>
+      <div class="mt-8 border-t border-gray-200 pt-8">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">アカウント削除</h3>
+        <%# 削除に関する警告文 %>
+        <p class="text-sm text-gray-500 mb-4">アカウントを削除すると、すべてのデータが完全に削除されます。この操作は取り消すことができません。</p>
+        <%# アカウント削除ボタン - 確認ダイアログ付き %>
+        <%= button_to "アカウントを削除", registration_path(resource_name), data: { confirm: "本当にアカウントを削除しますか？" }, method: :delete, class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" %>
       </div>
-
-      <%# 更新ボタン %>
-      <%# w-fullで幅いっぱい、bg-blue-600で青色の背景、hover:bg-blue-700でホバー時に濃い青色 %>
-      <div>
-        <%= f.submit "更新する", class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-      </div>
-    <% end %>
-
-    <%# アカウント削除セクション %>
-    <%# mt-8で上部マージン、border-tで上部にボーダーライン %>
-    <div class="mt-8 border-t border-gray-200 pt-8">
-      <%# セクションタイトル %>
-      <h3 class="text-lg font-medium text-gray-900">アカウントの削除</h3>
-      <%# 警告文 %>
-      <p class="mt-2 text-sm text-gray-500">
-        アカウントを削除すると、すべてのデータが失われます。この操作は取り消すことができません。
-      </p>
-      <%# 削除ボタン %>
-      <%# bg-red-600で赤色の背景、data-confirmで確認ダイアログを表示 %>
-      <div class="mt-4">
-        <%= button_to "アカウントを削除", registration_path(resource_name), data: { confirm: "本当にアカウントを削除しますか？", turbo_confirm: "本当にアカウントを削除しますか？" }, method: :delete, class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" %>
-      </div>
-    </div>
-
-    <%# 戻るリンク %>
-    <%# text-blue-600で青色のテキスト、hover:text-blue-500でホバー時に明るい青色 %>
-    <div class="mt-6 text-center">
-      <%= link_to "戻る", :back, class: "text-sm font-medium text-blue-600 hover:text-blue-500" %>
     </div>
   </div>
 </div>

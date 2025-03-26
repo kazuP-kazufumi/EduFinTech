@@ -1,36 +1,46 @@
-<%# パスワードリセットフォーム %>
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-md w-full space-y-8">
-    <%# ヘッダー部分 %>
-    <div>
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        パスワードリセット
-      </h2>
-      <p class="mt-2 text-center text-sm text-gray-600">
-        登録済みのメールアドレスを入力してください
-      </p>
+<%# パスワードリセットページ - ユーザーがパスワードを忘れた場合のリセット手順を開始するためのフォーム %>
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <%# ヘッダー部分 - タイトルとログインリンクを含む %>
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <%# メインタイトル %>
+    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      パスワードをお忘れですか？
+    </h2>
+    <%# ログインページへの誘導リンク %>
+    <p class="mt-2 text-center text-sm text-gray-600">
+      または
+      <%= link_to "ログイン", new_session_path(resource_name), class: "font-medium text-indigo-600 hover:text-indigo-500" %>
+    </p>
+  </div>
+
+  <%# メインコンテンツ - パスワードリセットフォーム %>
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <%# フォームを含むカードスタイルのコンテナ %>
+    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <%# Deviseのパスワードリセットフォーム - POSTメソッドでリクエストを送信 %>
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "space-y-6" }) do |f| %>
+        <%# バリデーションエラーがある場合のメッセージ表示 %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <%# メールアドレス入力フィールド - リセット手順を送信するためのアドレス %>
+        <div>
+          <%= f.label :email, "メールアドレス", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%# autofocus: true でページ読み込み時に自動フォーカス %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          </div>
+        </div>
+
+        <%# 送信ボタン - クリックするとパスワードリセット用のメールが送信される %>
+        <div>
+          <%= f.submit "パスワードリセット手順を送信", class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+      <% end %>
+
+      <%# 追加のナビゲーションリンク - ログインや新規登録へのリンクを含む共有パーシャル %>
+      <div class="mt-6">
+        <%= render "devise/shared/links" %>
+      </div>
     </div>
-
-    <%# フォーム部分 %>
-    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "mt-8 space-y-6" }) do |f| %>
-      <%# エラーメッセージ %>
-      <%= render "devise/shared/error_messages", resource: resource %>
-
-      <%# メールアドレス入力フィールド %>
-      <div>
-        <%= f.label :email, "メールアドレス", class: "sr-only" %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm", placeholder: "メールアドレス" %>
-      </div>
-
-      <%# 送信ボタン %>
-      <div>
-        <%= f.submit "パスワードリセット手順を送信", class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-      </div>
-
-      <%# ログインページへのリンク %>
-      <div class="text-sm text-center">
-        <%= link_to "ログインページに戻る", new_session_path(resource_name), class: "font-medium text-blue-600 hover:text-blue-500" %>
-      </div>
-    <% end %>
   </div>
 </div>
