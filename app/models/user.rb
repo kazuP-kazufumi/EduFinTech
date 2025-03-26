@@ -47,4 +47,9 @@ class User < ApplicationRecord
 
   has_many :notifications, dependent: :destroy
   has_many :sent_notifications, class_name: 'Notification', foreign_key: 'sender_id', dependent: :destroy
+
+  # 未読通知の有無を確認
+  def has_unread_notifications?
+    notifications.unread.exists?
+  end
 end
