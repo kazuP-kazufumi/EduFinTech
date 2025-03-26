@@ -1,0 +1,47 @@
+<%# ページネーションのメインテンプレート
+  このファイルはKaminariのページネーション全体の構造を定義します
+
+  利用可能なローカル変数:
+    current_page: 現在表示中のページオブジェクト
+    total_pages:  総ページ数
+    per_page:     1ページあたりの表示件数
+    remote:       Ajaxページネーション用のdata-remote属性
+    paginator:    ページネーションタグをレンダリングするページネーターオブジェクト
+-%>
+<%= paginator.render do -%>
+  <%# ページネーションのナビゲーションコンテナ
+      - relative: 子要素の配置の基準点となる
+      - z-0: z-indexを0に設定
+      - inline-flex: インラインフレックスボックスとして表示
+      - rounded-md: 中程度の角丸を適用
+      - shadow-sm: 薄いシャドウを適用
+      - -space-x-px: 要素間の横方向の間隔を-1pxに設定（ボーダーの重なりを調整）
+  %>
+  <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+    <%# 最初のページへのリンク - 現在が1ページ目でない場合のみ表示 %>
+    <%= first_page_tag unless current_page.first? %>
+    
+    <%# 前のページへのリンク - 現在が1ページ目でない場合のみ表示 %>
+    <%= prev_page_tag unless current_page.first? %>
+    
+    <%# ページ番号のリンクを生成 %>
+    <% each_page do |page| -%>
+      <% if page.display_tag? -%>
+        <%# 通常のページ番号を表示 %>
+        <%= page_tag page %>
+      <% elsif !page.was_truncated? -%>
+        <%# ページ番号が省略される場合に省略記号(...)を表示 %>
+        <%= gap_tag %>
+      <% end -%>
+    <% end -%>
+    
+    <%# 範囲外のページでない場合 %>
+    <% unless current_page.out_of_range? %>
+      <%# 次のページへのリンク - 最終ページでない場合のみ表示 %>
+      <%= next_page_tag unless current_page.last? %>
+      
+      <%# 最後のページへのリンク - 最終ページでない場合のみ表示 %>
+      <%= last_page_tag unless current_page.last? %>
+    <% end %>
+  </nav>
+<% end -%>

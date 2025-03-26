@@ -1,0 +1,33 @@
+<%# ページネーションの各ページ番号を表示するパーシャル
+  
+  利用可能なローカル変数:
+    page:          現在のページオブジェクト（このページ番号に対応）
+    url:           このページへのURL
+    current_page:  現在表示中のページオブジェクト
+    total_pages:   総ページ数
+    per_page:      1ページあたりの表示件数
+    remote:        Ajaxページネーション用のdata-remote属性
+-%>
+
+<%# 現在のページかどうかで表示を分岐 %>
+<% if page.current? %>
+  <%# 現在のページの場合は選択状態を表すスタイルを適用したspan要素を表示
+      - relative: 子要素の配置の基準点
+      - inline-flex: インラインフレックスボックスとして表示
+      - items-center: 子要素を垂直方向に中央揃え
+      - px-4 py-2: 左右に4単位、上下に2単位のパディング
+      - border-blue-500: 青色のボーダー
+      - bg-blue-50: 薄い青色の背景
+      - text-blue-600: 青色のテキスト
+  %>
+  <span class="relative inline-flex items-center px-4 py-2 border border-blue-500 bg-blue-50 text-sm font-medium text-blue-600">
+    <%= page %>
+  </span>
+<% else %>
+  <%# 現在のページでない場合はリンクとして表示
+      - hover:bg-gray-50: ホバー時に背景色を変更
+      - text-gray-700: グレーのテキスト
+      - border-gray-300: グレーのボーダー
+  %>
+  <%= link_to page, url, class: "relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+<% end %>
