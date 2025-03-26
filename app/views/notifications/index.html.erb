@@ -20,7 +20,7 @@
           <ul class="divide-y divide-gray-200">
             <%# 各通知をループで表示 %>
             <% @notifications.each do |notification| %>
-              <li>
+              <li class="notification-item <%= 'bg-gray-50' unless notification.read %>" data-notification-id="<%= notification.id %>">
                 <%# 通知アイテム - 適切な余白とレイアウトを設定 %>
                 <div class="px-4 py-4 sm:px-6">
                   <%# 通知メッセージと操作ボタンを横並びに配置 %>
@@ -65,4 +65,47 @@
       <% end %>
     </div>
   </div>
-</div> 
+</div>
+
+<%# 通知の既読処理のためのJavaScript - 通知をクリックすると既読状態に更新する %>
+<%= javascript_tag do %>
+  <%# DOMの読み込み完了後に処理を実行 %>
+  document.addEventListener('DOMContentLoaded', function() {
+    <%# 通知アイテムの要素を全て取得 %>
+    <%# notification-itemクラスを持つ要素が対象 %>
+    const notificationItems = document.querySelectorAll('.notification-item');
+    
+    <%# 各通知アイテムにクリックイベントリスナーを設定 %>
+    notificationItems.forEach(item => {
+      item.addEventListener('click', function() {
+        <%# クリックされた要素からdata-notification-id属性の値を取得 %>
+        <%# この値は通知のIDを表す %>
+        const notificationId = this.dataset.notificationId;
+        
+        <%# Fetch APIを使用して非同期でサーバーに既読状態の更新をリクエスト %>
+        <%# /notifications/:id/mark_as_readエンドポイントにPATCHリクエストを送信 %>
+        fetch(`/notifications/${notificationId}/mark_as_read`, {
+          method: 'PATCH',
+          headers: {
+            <%# CSRF対策のトークンをヘッダーに含める %>
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+            <%# JSONレスポンスを要求 %>
+            'Accept': 'application/json'
+          }
+        })
+        <%# レスポンスをJSONとしてパース %>
+        .then(response => response.json())
+        <%# 更新成功時の処理 %>
+        .then(data => {
+          if (data.success) {
+            <%# 既読状態を視覚的に表現するための背景色クラスを削除 %>
+            <%# bg-gray-50クラスが削除され、白背景になる %>
+            this.classList.remove('bg-gray-50');
+          }
+        })
+        <%# エラー発生時はコンソールにエラーを出力 %>
+        .catch(error => console.error('Error:', error));
+      });
+    });
+  });
+<% end %> 

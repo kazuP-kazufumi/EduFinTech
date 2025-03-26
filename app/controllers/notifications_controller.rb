@@ -5,6 +5,7 @@ class NotificationsController < ApplicationController
   before_action :authenticate_user!
   # createアクションの前に投稿を取得
   before_action :set_post, only: [:create]
+  before_action :set_notification, only: [:mark_as_read]
 
   # 通知を作成するアクション
   # @param notification_type [String] 通知の種類('support_request'または'support_accepted')
@@ -38,11 +39,30 @@ class NotificationsController < ApplicationController
     @notifications = current_user.notifications.recent
   end
 
+  # 通知を既読状態にするアクション
+  # @notification (set_notificationで設定) に対して既読フラグを設定します
+  # @return [void]
+  def mark_as_read
+    # 通知のread属性をtrueに更新して既読状態にする
+    @notification.update(read: true)
+
+    # リクエストのフォーマットに応じてレスポンスを返す
+    respond_to do |format|
+      # JSONリクエストの場合、成功を示すJSONレスポンスを返す
+      # 主にAjaxリクエストでの非同期更新に使用される
+      format.json { render json: { success: true } }
+    end
+  end
+
   private
 
   # パラメータから投稿を取得するメソッド
   # @raise [ActiveRecord::RecordNotFound] 指定されたIDの投稿が存在しない場合
   def set_post
     @post = Post.find(params[:post_id])
+  end
+
+  def set_notification
+    @notification = current_user.notifications.find(params[:id])
   end
 end
