@@ -16,6 +16,38 @@
 
     <%# メインコンテンツエリア - ヘッダーから適度な間隔を確保 %>
     <div class="mt-8">
+      <%# 通知情報カード - 未読通知の有無を表示 %>
+      <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
+        <div class="px-4 py-5 sm:px-6">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">
+            通知
+          </h3>
+        </div>
+        <%# 通知情報の表示エリア - 上部に境界線を追加 %>
+        <div class="border-t border-gray-200">
+          <%# 通知内容を表示するコンテナ - 適切な余白を設定 %>
+          <div class="px-4 py-5 sm:px-6">
+            <%# ユーザーの未読通知の有無を確認 %>
+            <% if @user.has_unread_notifications? %>
+              <%# 未読通知がある場合の表示 - Flexboxで要素を横並びに %>
+              <div class="flex items-center">
+                <%# 未読通知バッジ - 赤色の丸いバッジでアラート表示 %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                  未読の通知があります
+                </span>
+                <%# 通知一覧へのリンク - インディゴ色で左マージンを設定 %>
+                <%= link_to "通知一覧へ", notifications_path, class: "ml-4 text-sm font-medium text-indigo-600 hover:text-indigo-500" %>
+              </div>
+            <% else %>
+              <%# 未読通知がない場合のメッセージ - グレーの小さめテキスト %>
+              <p class="text-sm text-gray-500">
+                未読の通知はありません
+              </p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
       <%# アカウント情報カード - 白背景で影をつけ、角を丸く %>
       <div class="bg-white shadow overflow-hidden sm:rounded-lg">
         <%# カードヘッダー - タイトルと上部の余白を設定 %>

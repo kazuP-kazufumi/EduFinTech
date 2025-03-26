@@ -5,6 +5,8 @@ class Post < ApplicationRecord
   # belongs_toで1対多の関係を表現し、各投稿は1人のユーザーに属します
   belongs_to :user
 
+  has_many :notifications, dependent: :destroy
+
   # バリデーション設定
   # 投稿のデータ整合性を確保するためのルールを定義します
   
@@ -19,7 +21,7 @@ class Post < ApplicationRecord
   validates :content, presence: true, length: { maximum: 1000 }
 
   # カテゴリーの選択肢を定義
-  CATEGORIES = ['進学', '夢', '野望',　'その他'].freeze
+  CATEGORIES = ['進学', '夢', '野望', 'その他'].freeze
 
   # カテゴリーのバリデーション
   validates :category, presence: true, inclusion: { in: CATEGORIES }

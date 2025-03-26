@@ -15,7 +15,7 @@ class User < ApplicationRecord
   #   - パスワードを忘れた場合のリセット機能を提供
   #
   # :rememberable - ログイン状態の記憶機能
-  #   - 「ログインを記憶する」機能を提供
+  #   - "ログインを記憶する"機能を提供
   #
   # :validatable - バリデーション機能
   #   - メールアドレスとパスワードの基本的な検証を提供
@@ -44,4 +44,12 @@ class User < ApplicationRecord
   #   - これによりデータの整合性を保ち、孤立したデータの発生を防ぐ
   #   - 例: ユーザーAが削除された場合、ユーザーAの全ての投稿も削除される
   has_many :posts, dependent: :destroy
+
+  has_many :notifications, dependent: :destroy
+  has_many :sent_notifications, class_name: 'Notification', foreign_key: 'sender_id', dependent: :destroy
+
+  # 未読通知の有無を確認
+  def has_unread_notifications?
+    notifications.unread.exists?
+  end
 end

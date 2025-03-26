@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "notifications/create"
   # 投稿のリソースルーティング
   # resources :postsは以下の7つのRESTfulなルートを自動生成します:
   #
@@ -19,7 +20,23 @@ Rails.application.routes.draw do
   #
   # このルーティングはapp/controllers/posts_controller.rbと連携して動作し、
   # Post モデル（app/models/post.rb）のCRUD操作を実現します。
-  resources :posts
+  resources :posts do
+    resources :notifications, only: [:create]
+  end
+
+  # 通知機能に関するルーティング設定
+  # - indexアクションのみを有効化し、通知一覧の表示機能を提供
+  # - /notifications へのGETリクエストで通知一覧を表示
+  resources :notifications, only: [:index] do
+    # memberブロックで個別の通知に対するカスタムルートを定義
+    member do
+      # 通知を既読状態にするためのルート
+      # - /notifications/:id/mark_as_read へのPATCHリクエストで
+      # - 指定されたIDの通知を既読状態に更新
+      # - NotificationsController#mark_as_readアクションにルーティング
+      patch :mark_as_read
+    end
+  end
 
   # Deviseを使用したユーザー認証のルーティング設定
   # - path: ''でURLからdeviseを除去 (例: /users/sign_in → /login)
