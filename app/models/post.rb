@@ -17,4 +17,10 @@ class Post < ApplicationRecord
   # presence: true - 本文は必須項目
   # length: { maximum: 1000 } - 本文は最大1000文字まで
   validates :content, presence: true, length: { maximum: 1000 }
+
+  # カテゴリーの選択肢を定義
+  CATEGORIES = ['進学', '夢', '野望',　'その他'].freeze
+
+  # カテゴリーのバリデーション
+  validates :category, presence: true, inclusion: { in: CATEGORIES }
 end

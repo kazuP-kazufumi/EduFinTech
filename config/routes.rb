@@ -1,4 +1,26 @@
 Rails.application.routes.draw do
+  # 投稿のリソースルーティング
+  # resources :postsは以下の7つのRESTfulなルートを自動生成します:
+  #
+  # HTTPメソッド | パス           | コントローラ#アクション | 用途
+  # GET         | /posts        | posts#index           | 投稿一覧の表示
+  # GET         | /posts/new    | posts#new             | 新規投稿フォームの表示
+  # POST        | /posts        | posts#create          | 新規投稿の作成
+  # GET         | /posts/:id    | posts#show            | 個別投稿の表示
+  # GET         | /posts/:id/edit| posts#edit           | 投稿編集フォームの表示
+  # PATCH/PUT   | /posts/:id    | posts#update          | 投稿の更新
+  # DELETE      | /posts/:id    | posts#destroy         | 投稿の削除
+  #
+  # また、以下のような便利なヘルパーメソッドも自動生成されます:
+  # - posts_path          -> /posts へのパス
+  # - new_post_path       -> /posts/new へのパス
+  # - edit_post_path(id)  -> /posts/:id/edit へのパス
+  # - post_path(id)       -> /posts/:id へのパス
+  #
+  # このルーティングはapp/controllers/posts_controller.rbと連携して動作し、
+  # Post モデル（app/models/post.rb）のCRUD操作を実現します。
+  resources :posts
+
   # Deviseを使用したユーザー認証のルーティング設定
   # - path: ''でURLからdeviseを除去 (例: /users/sign_in → /login)
   # - path_namesで各アクションのパス名をカスタマイズ
