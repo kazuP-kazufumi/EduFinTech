@@ -1,0 +1,38 @@
+<%# 最後のページへのリンクを表示するパーシャル
+
+  利用可能なローカル変数:
+    url:           最後のページへのURL
+    current_page:  現在表示中のページオブジェクト
+    total_pages:   総ページ数
+    per_page:      1ページあたりの表示件数
+    remote:        Ajaxページネーション用のdata-remote属性
+-%>
+
+<%# 最後のページへのリンクを生成
+    - remote: Ajaxページネーション用の属性
+    
+    スタイリング:
+    - relative: 子要素の配置の基準点
+    - inline-flex: インラインフレックスボックスとして表示
+    - items-center: 子要素を垂直方向に中央揃え
+    - px-4 py-2: 左右に4単位、上下に2単位のパディング
+    - border border-gray-300: グレーのボーダー
+    - bg-white: 白背景
+    - text-sm: 小さめのフォントサイズ
+    - font-medium: 中程度の太さのフォント
+    - text-gray-700: グレーのテキスト
+    - hover:bg-gray-50: ホバー時に背景色を変更
+-%>
+<%= link_to url, remote: remote, class: "relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" do %>
+  <%# 下向き矢印のSVGアイコン
+      - h-5 w-5: 高さと幅を5単位に設定
+      - currentColor: 親要素の文字色を継承
+  %>
+  <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+    <%# 矢印の形状を定義するパス
+        - fill-rule="evenodd": 塗りつぶしルールを設定
+        - clip-rule="evenodd": クリッピングルールを設定
+    %>
+    <path fill-rule="evenodd" d="M4.293 15.707a1 1 0 001.414 0L10 11.414l4.293 4.293a1 1 0 001.414-1.414l-5-5a1 1 0 00-1.414 0l-5 5a1 1 0 000 1.414z" clip-rule="evenodd" />
+  </svg>
+<% end %>
