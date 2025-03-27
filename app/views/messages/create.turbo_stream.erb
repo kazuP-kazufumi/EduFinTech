@@ -1,0 +1,17 @@
+<%# メッセージ作成後のTurbo Stream応答テンプレート %>
+<%# このファイルはメッセージが作成された後の非同期更新を処理します %>
+
+<%# 新しいメッセージをチャット画面に追加 %>
+<%# turbo_stream.append: 指定したIDの要素に対して末尾に要素を追加 %>
+<%= turbo_stream.append "messages" do %>
+  <%# 作成されたメッセージを部分テンプレートを使用してレンダリング %>
+  <%= render partial: "messages/message", locals: { message: @message } %>
+<% end %>
+
+<%# メッセージ入力フォームを更新 %>
+<%# turbo_stream.update: 指定したIDの要素を新しい内容で置き換え %>
+<%= turbo_stream.update "message_form" do %>
+  <%# 新しい空のメッセージフォームを部分テンプレートを使用してレンダリング %>
+  <%# 送信後にフォームをクリアするため、新しいMessageインスタンスを使用 %>
+  <%= render partial: "messages/form", locals: { chat_room: @chat_room, message: Message.new } %>
+<% end %> 

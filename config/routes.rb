@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "messages/create"
   get "chat_rooms/create"
   get "notifications/create"
   # 投稿のリソースルーティング
