@@ -95,4 +95,27 @@ class User < ApplicationRecord
   def unread_messages_count_in_chat_room(chat_room)
     chat_room.messages.unread.where.not(user: self).count
   end
+
+  #-----------------
+  # マッチング関連のインスタンスメソッド
+  #-----------------
+  # マッチング済みのユーザーを取得するメソッド
+  # @return [ActiveRecord::Relation] マッチング済みのユーザーのコレクション
+  # @note
+  #   - マッチング済みのユーザーは、お互いにマッチングしている状態
+  #   - このメソッドは、マッチング済みのユーザーのみを返す
+  def matched_users
+    # マッチング済みのユーザーを取得するロジックを実装
+    # 例: お互いにマッチングしているユーザーを取得
+    User.joins(:matches)
+        .where(matches: { status: :accepted })
+        .where.not(id: id)
+  end
+
+  # 指定されたユーザーとマッチング済みかどうかを確認するメソッド
+  # @param user [User] 確認対象のユーザー
+  # @return [Boolean] マッチング済みの場合はtrue、そうでない場合はfalse
+  def matched_with?(user)
+    matched_users.include?(user)
+  end
 end
