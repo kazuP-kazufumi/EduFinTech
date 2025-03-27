@@ -48,6 +48,19 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :sent_notifications, class_name: 'Notification', foreign_key: 'sender_id', dependent: :destroy
 
+  # チャットルームとの関連付け
+  # チャットルームとの関連付け
+  # chat_room_users: 中間テーブルとの関連
+  #   - ユーザーは複数のチャットルームに参加できる
+  #   - dependent: :destroy により、ユーザーが削除された場合に関連するレコードも削除
+  has_many :chat_room_users, dependent: :destroy
+
+  # chat_rooms: チャットルームとの多対多の関連
+  #   - chat_room_usersを介して関連付け
+  #   - throughオプションで中間テーブルを指定
+  #   - ユーザーは複数のチャットルームに所属でき、チャットルームも複数のユーザーを持つ
+  has_many :chat_rooms, through: :chat_room_users
+
   # 未読通知の有無を確認
   def has_unread_notifications?
     notifications.unread.exists?
