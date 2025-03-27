@@ -45,4 +45,26 @@ class ChatRoom < ApplicationRecord
   scope :active, -> { where(status: :active) }
   # inactive: 非アクティブなチャットルームのみを取得
   scope :inactive, -> { where(status: :inactive) }
+
+  #-----------------
+  # メッセージ関連のインスタンスメソッド
+  #-----------------
+
+  # チャットルーム内の最新のメッセージを取得するメソッド
+  # @return [Message, nil] 最新のメッセージ。メッセージが存在しない場合はnil
+  # @note messages.recentスコープを使用して最新順に並び替え、最初の1件を取得
+  def latest_message
+    messages.recent.first
+  end
+
+  # 特定のユーザーに対する未読メッセージの数を取得するメソッド
+  # @param user [User] 未読メッセージをカウントする対象のユーザー
+  # @return [Integer] 未読メッセージの数
+  # @note 
+  #   - messages.unreadスコープで未読メッセージをフィルタリング
+  #   - where.not(user: user)で指定ユーザー以外が送信したメッセージに限定
+  #   - countメソッドで該当するメッセージの数を取得
+  def unread_messages_count(user)
+    messages.unread.where.not(user: user).count
+  end
 end 
