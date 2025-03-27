@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_26_144354) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_27_132630) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,39 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_144354) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "chat_room_users", force: :cascade do |t|
+    t.bigint "chat_room_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_room_id", "user_id"], name: "index_chat_room_users_on_chat_room_id_and_user_id", unique: true
+    t.index ["chat_room_id"], name: "index_chat_room_users_on_chat_room_id"
+    t.index ["user_id"], name: "index_chat_room_users_on_user_id"
+  end
+
+  create_table "chat_rooms", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["status"], name: "index_chat_rooms_on_status"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "chat_room_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "is_read", default: false, null: false
+    t.boolean "is_deleted", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_room_id", "created_at"], name: "index_messages_on_chat_room_id_and_created_at"
+    t.index ["chat_room_id"], name: "index_messages_on_chat_room_id"
+    t.index ["user_id", "created_at"], name: "index_messages_on_user_id_and_created_at"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -93,6 +126,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_144354) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "chat_room_users", "chat_rooms"
+  add_foreign_key "chat_room_users", "users"
+  add_foreign_key "messages", "chat_rooms"
+  add_foreign_key "messages", "users"
   add_foreign_key "notifications", "posts"
   add_foreign_key "notifications", "users"
   add_foreign_key "notifications", "users", column: "sender_id"
