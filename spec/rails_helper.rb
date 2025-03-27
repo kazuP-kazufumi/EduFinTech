@@ -23,11 +23,9 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 # RailsアプリケーションをテストするためのRSpec拡張機能を有効化
 require 'rspec/rails'
 
-# 以下にRailsが読み込まれた後の追加設定を記述可能
-
 # spec/supportディレクトリ内のヘルパーファイルを自動読み込み
 # カスタムマッチャーや共通の設定を別ファイルに分割する場合に使用
-# Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 
 # テスト実行前にデータベースマイグレーションの状態をチェック
 begin
@@ -99,15 +97,35 @@ RSpec.configure do |config|
     options.add_argument('--no-sandbox')
     # 共有メモリの使用を無効化（CI環境でのメモリ問題対策）
     options.add_argument('--disable-dev-shm-usage')
-    # ChromiumバイナリのパスをDockerコンテナ内の場所に設定
-    options.binary = '/usr/bin/chromium'
-    # 設定を適用してドライバーを初期化
-    Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+    # ウィンドウサイズの設定
+    options.add_argument('--window-size=1400,1400')
+    # ドライバーの作成
+    Selenium::WebDriver.for :chrome, options: options
   end
 
-  # システムテスト実行時のドライバー設定
-  # すべてのシステムテストでヘッドレスChromeを使用
-  config.before(:each, type: :system) do
-    driven_by :selenium_chrome_headless
+  # システムテストのデフォルトドライバーを設定
+  # ヘッドレスChromeをデフォルトとして使用
+  Capybara.javascript_driver = :selenium_chrome_headless
+
+  # テストデータベースのクリーンアップ設定
+  # テスト実行前にデータベースをクリーンアップ
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  # 各テストの前にデータベースをクリーンアップ
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  # JavaScriptを使用するテストの場合は、トランザクションの代わりにtruncationを使用
+  config.before(:each, js: true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  # テスト用の環境変数設定
+  config.before(:suite) do
+    ENV['RAILS_ENV'] = 'test'
+    ENV['TEST_DATABASE_URL'] = 'postgresql://postgres:password@db:5432/edufintech_test'
   end
 end
