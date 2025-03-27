@@ -1,0 +1,23 @@
+<%# メッセージ入力フォームの部分テンプレート %>
+<%# @param chat_room [ChatRoom] メッセージを投稿するチャットルーム %>
+<%# @param message [Message] 新規作成するメッセージオブジェクト %>
+
+<%# ネストされたリソースのフォーム。chat_roomとmessageを関連付けて送信 %>
+<%# form_withヘルパーを使用してTurboに対応したフォームを生成 %>
+<%= form_with model: [chat_room, message], class: "message-form", id: "message_form" do |f| %>
+  <%# メッセージ入力エリアを包むコンテナ %>
+  <div class="message-form__content">
+    <%# メッセージ入力用のテキストエリア %>
+    <%# Stimulusコントローラを使用して入力に応じて高さを自動調整 %>
+    <%= f.text_area :content, 
+                    placeholder: "メッセージを入力...",
+                    class: "message-form__input",
+                    rows: 1,
+                    data: { 
+                      controller: "textarea-autogrow",  # 自動伸縮を制御するStimulusコントローラ
+                      action: "keydown->textarea-autogrow#resize" # キー入力時にresizeアクションを実行
+                    } %>
+    <%# 送信ボタン %>
+    <%= f.submit "送信", class: "message-form__submit" %>
+  </div>
+<% end %> 

@@ -1,0 +1,36 @@
+<%# チャットルーム表示用のメインビュー %>
+<%# @param @chat_room [ChatRoom] 表示するチャットルームオブジェクト %>
+
+<%# チャットルーム全体のコンテナ要素 %>
+<div class="chat-room">
+  <%# ヘッダー部分 - チャットルーム名と参加者一覧を表示 %>
+  <div class="chat-room__header">
+    <%# チャットルーム名を見出しとして表示 %>
+    <h1 class="chat-room__title"><%= @chat_room.name %></h1>
+    
+    <%# 参加者一覧を表示するセクション %>
+    <div class="chat-room__participants">
+      <%# チャットルームに参加している全ユーザーをループで表示 %>
+      <% @chat_room.users.each do |user| %>
+        <div class="chat-room__participant">
+          <%= user.name %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# メッセージ一覧を表示するセクション %>
+  <%# Turbo Streamsで非同期更新するため、固有のIDを設定 %>
+  <div class="chat-room__messages" id="messages">
+    <%# チャットルームの最新メッセージを時系列順に表示 %>
+    <%# recentスコープで最新順にソートされたメッセージを表示 %>
+    <%= render @chat_room.messages.recent %>
+  </div>
+
+  <%# メッセージ入力フォームを表示するセクション %>
+  <div class="chat-room__form">
+    <%# メッセージ入力フォームの部分テンプレートを表示 %>
+    <%# 新規メッセージ用のオブジェクトを作成して渡す %>
+    <%= render "messages/form", chat_room: @chat_room, message: Message.new %>
+  </div>
+</div> 
