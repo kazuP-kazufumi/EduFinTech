@@ -78,7 +78,8 @@ Rails.application.routes.draw do
 
   # チャットルームのルーティング
   # チャットルーム関連のルーティング設定
-  resources :chat_rooms, only: [:create, :show] do
+  resources :chat_rooms, only: [:index, :create, :show] do
+    # - indexアクション: チャットルーム一覧の表示 (GET /chat_rooms)
     # - createアクション: 新規チャットルームの作成 (POST /chat_rooms)
     # - showアクション: 個別のチャットルームの表示 (GET /chat_rooms/:id)
     
