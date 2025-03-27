@@ -61,8 +61,38 @@ class User < ApplicationRecord
   #   - ユーザーは複数のチャットルームに所属でき、チャットルームも複数のユーザーを持つ
   has_many :chat_rooms, through: :chat_room_users
 
-  # 未読通知の有無を確認
+  #-----------------
+  # メッセージ関連の関連付け
+  #-----------------
+  # messages: ユーザーが送信したメッセージとの関連付け
+  # - ユーザーは複数のメッセージを送信できる (1対多の関係)
+  # - dependent: :destroy により、ユーザーが削除された場合に関連するメッセージも削除
+  has_many :messages, dependent: :destroy
+
+  #-----------------
+  # 通知関連のインスタンスメソッド
+  #-----------------
+  # 未読通知の有無を確認するメソッド
+  # @return [Boolean] 未読通知が存在する場合はtrue、存在しない場合はfalse
+  # @note 
+  #   - notifications.unreadスコープで未読通知をフィルタリング
+  #   - exists?メソッドで未読通知の存在確認を効率的に行う
   def has_unread_notifications?
     notifications.unread.exists?
+  end
+
+  #-----------------
+  # メッセージ関連のインスタンスメソッド
+  #-----------------
+  # 特定のチャットルームでの未読メッセージ数を取得するメソッド
+  # @param chat_room [ChatRoom] 未読メッセージをカウントする対象のチャットルーム
+  # @return [Integer] 未読メッセージの数
+  # @note
+  #   - chat_room.messagesで対象チャットルームのメッセージを取得
+  #   - unreadスコープで未読メッセージをフィルタリング
+  #   - where.not(user: self)で自分以外のユーザーが送信したメッセージに限定
+  #   - countメソッドで該当するメッセージの数を取得
+  def unread_messages_count_in_chat_room(chat_room)
+    chat_room.messages.unread.where.not(user: self).count
   end
 end
