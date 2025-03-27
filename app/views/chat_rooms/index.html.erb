@@ -1,0 +1,36 @@
+<%# チャットルーム一覧ページ %>
+<div class="chat-rooms-container">
+  <h1 class="chat-rooms-title">チャットルーム一覧</h1>
+
+  <%# チャットルーム一覧 %>
+  <div class="chat-rooms-list">
+    <% @chat_rooms.each do |room_data| %>
+      <% chat_room = room_data[:chat_room] %>
+      <% latest_message = room_data[:latest_message] %>
+      <% unread_count = room_data[:unread_count] %>
+
+      <%= link_to chat_room_path(chat_room), class: "chat-room-item" do %>
+        <div class="chat-room-info">
+          <h2 class="chat-room-name"><%= chat_room.name %></h2>
+          <% if latest_message %>
+            <p class="latest-message">
+              <%= latest_message.content %>
+              <span class="message-time">
+                <%= time_ago_in_words(latest_message.created_at) %>前
+              </span>
+            </p>
+          <% else %>
+            <p class="no-message">メッセージはまだありません</p>
+          <% end %>
+        </div>
+
+        <%# 未読メッセージ数 %>
+        <% if unread_count > 0 %>
+          <div class="unread-badge">
+            <%= unread_count %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div> 
