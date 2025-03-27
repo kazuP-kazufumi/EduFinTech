@@ -20,6 +20,19 @@ class MessagesController < ApplicationController
       # メッセージ送信後に既存のメッセージを既読にする
       mark_previous_messages_as_read
       
+      # Action Cableを使用してメッセージをブロードキャスト
+      # Action Cableを使用してチャットルームにメッセージをブロードキャスト
+      # @param @chat_room [ChatRoom] ブロードキャスト先のチャットルーム
+      # @param type [String] メッセージの種類を示す識別子('new_message')
+      # @param message [String] レンダリングされたメッセージのHTML
+      ChatRoomChannel.broadcast_to(
+        @chat_room,  # ブロードキャスト先のチャットルーム
+        {
+          type: 'new_message',  # クライアント側でメッセージ追加処理を識別するためのタイプ
+          message: render_message(@message)  # メッセージをHTMLとしてレンダリング
+        }
+      )
+      
       # レスポンスフォーマットに応じて処理を分岐
       respond_to do |format|
         # HTML形式のリクエストの場合、チャットルームページにリダイレクト
@@ -61,5 +74,12 @@ class MessagesController < ApplicationController
              .unread                        # 未読メッセージのみを対象
              .where.not(user: current_user) # 自分以外のユーザーのメッセージ
              .update_all(is_read: true)     # 一括で既読に更新
+  end
+
+  def render_message(message)
+    ApplicationController.renderer.render(
+      partial: 'messages/message',
+      locals: { message: message, chat_room: @chat_room }
+    )
   end
 end

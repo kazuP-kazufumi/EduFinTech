@@ -4,7 +4,9 @@
 <%# メッセージのコンテナ要素 %>
 <%# message--own クラスは自分のメッセージの場合に付与され、スタイルを変更するために使用 %>
 <%# dom_idヘルパーでメッセージごとにユニークなIDを生成 %>
-<div class="message <%= 'message--own' if message.user == current_user %>" id="<%= dom_id(message) %>">
+<div class="message <%= 'message--own' if message.user == current_user %> <%= 'message--read' if message.is_read %>" 
+     id="<%= dom_id(message) %>"
+     data-message-id="<%= message.id %>">
   <%# メッセージのヘッダー部分 - ユーザー名と投稿時刻を表示 %>
   <div class="message__header">
     <%# メッセージ送信者の名前を表示 %>

@@ -2,7 +2,12 @@
 <%# @param @chat_room [ChatRoom] 表示するチャットルームオブジェクト %>
 
 <%# チャットルーム全体のコンテナ要素 %>
-<div class="chat-room">
+<%# チャットルームのメインコンテナ要素 %>
+<%# - chat-roomクラスを適用してスタイリングを制御 %>
+<%# - data-chat-room-id属性にチャットルームのIDを設定 %>
+<%#   - このIDはAction Cable(WebSocket)で特定のチャットルームを識別するために使用 %>
+<%#   - JavaScriptでこの属性を読み取り、対応するチャットルームのチャンネルに接続 %>
+<div class="chat-room" data-chat-room-id="<%= @chat_room.id %>">
   <%# ヘッダー部分 - チャットルーム名と参加者一覧を表示 %>
   <div class="chat-room__header">
     <%# チャットルーム名を見出しとして表示 %>
