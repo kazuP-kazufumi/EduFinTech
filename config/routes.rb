@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "chat_rooms/create"
   get "notifications/create"
   # 投稿のリソースルーティング
   # resources :postsは以下の7つのRESTfulなルートを自動生成します:
@@ -73,6 +74,23 @@ Rails.application.routes.draw do
   # - バックグラウンドジョブの状態確認、再実行、削除などが可能
   # - 本番環境では適切なアクセス制限が必要
   mount Sidekiq::Web => "/sidekiq"
+
+  # チャットルームのルーティング
+  # チャットルーム関連のルーティング設定
+  resources :chat_rooms, only: [:create, :show] do
+    # - createアクション: 新規チャットルームの作成 (POST /chat_rooms)
+    # - showアクション: 個別のチャットルームの表示 (GET /chat_rooms/:id)
+    
+    # チャットルーム内のメッセージ関連のルーティング
+    # - ネストされたリソースとして定義
+    # - /chat_rooms/:chat_room_id/messages の形式のURLを生成
+    resources :messages, only: [:create] do
+      # - createアクションのみを有効化
+      # - チャットルーム内でのメッセージ作成機能を提供
+      # - POST /chat_rooms/:chat_room_id/messages へのリクエストで
+      #   MessagesController#createアクションを実行
+    end
+  end
 
   # ルートパス(/)の設定
   # - アプリケーションのトップページとしてHomeController#indexを使用
