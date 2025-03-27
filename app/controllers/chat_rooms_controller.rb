@@ -9,6 +9,45 @@ class ChatRoomsController < ApplicationController
   # showアクションの前に実行される
   before_action :set_chat_room, only: [:show]
 
+  # GET /chat_rooms
+  # ユーザーが参加しているチャットルーム一覧を表示するアクション
+  # @return [Array<Hash>] チャットルーム情報の配列
+  #   - chat_room: [ChatRoom] チャットルームオブジェクト
+  #   - latest_message: [Message] 最新のメッセージ
+  #   - unread_count: [Integer] 未読メッセージ数
+  def index
+    # ユーザーが参加しているチャットルームを取得
+    # includes(:messages) - N+1問題を回避するためにメッセージを事前読み込み
+    # order(created_at: :desc) - 作成日時の降順でソート
+    @chat_rooms = current_user.chat_rooms
+                             .includes(:messages)
+                             .order(created_at: :desc)
+                             .map do |chat_room|
+      # 各チャットルームの追加情報を取得
+      
+      # 最新のメッセージを取得
+      # order(created_at: :desc).first - 作成日時の降順で最初のメッセージを取得
+      latest_message = chat_room.messages.order(created_at: :desc).first
+      
+      # 未読メッセージ数を計算
+      # where.not(user: current_user) - 自分以外のユーザーのメッセージ
+      # where(read: false) - 未読のメッセージ
+      # count - 該当するメッセージの数を取得
+      unread_count = chat_room.messages
+                             .where.not(user: current_user)
+                             .where(read: false)
+                             .count
+      
+      # チャットルーム情報をハッシュとして返す
+      # @chat_roomsの各要素となるハッシュを生成
+      {
+        chat_room: chat_room,        # チャットルームオブジェクト
+        latest_message: latest_message, # 最新のメッセージ
+        unread_count: unread_count   # 未読メッセージ数
+      }
+    end
+  end
+
   # POST /chat_rooms
   # チャットルームを新規作成するアクション
   def create
