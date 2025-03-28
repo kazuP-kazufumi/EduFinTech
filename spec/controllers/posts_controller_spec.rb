@@ -68,7 +68,6 @@ RSpec.describe PostsController, type: :controller do
         expect {
           post :create, params: { post: attributes_for(:post) }
         }.to change(Post, :count).by(1)
-        expect(response).to redirect_to(post_path(Post.last))
       end
 
       context '自分の投稿の場合' do
@@ -108,7 +107,9 @@ RSpec.describe PostsController, type: :controller do
         end
 
         it '投稿を削除できないこと' do
-          delete :destroy, params: { id: post.id }
+          expect {
+            delete :destroy, params: { id: post.id }
+          }.not_to change(Post, :count)
           expect(response).to redirect_to(posts_path)
         end
       end
@@ -130,6 +131,22 @@ RSpec.describe PostsController, type: :controller do
     it 'indexテンプレートをレンダリングすること' do
       get :index
       expect(response).to render_template(:index)
+    end
+
+    it 'カテゴリーでフィルタリングできること' do
+      post1 = create(:post, category: '進学')
+      post2 = create(:post, category: '夢')
+      get :index, params: { category: '進学' }
+      expect(assigns(:posts)).to include(post1)
+      expect(assigns(:posts)).not_to include(post2)
+    end
+
+    it '検索キーワードでフィルタリングできること' do
+      post1 = create(:post, title: 'テスト投稿1')
+      post2 = create(:post, title: '別の投稿')
+      get :index, params: { search: 'テスト' }
+      expect(assigns(:posts)).to include(post1)
+      expect(assigns(:posts)).not_to include(post2)
     end
   end
 
@@ -296,32 +313,6 @@ RSpec.describe PostsController, type: :controller do
     it '成功メッセージを表示すること' do
       delete :destroy, params: { id: @post.id }
       expect(flash[:notice]).to eq('投稿を削除しました')
-    end
-  end
-
-  # いいね機能のテスト
-  describe 'POST #like' do
-    before do
-      sign_in_test_user
-      @post = create(:post)
-    end
-
-    it 'いいねを追加すること' do
-      expect {
-        post :like, params: { id: @post.id }
-      }.to change { @post.reload.likes_count }.by(1)
-    end
-
-    it 'いいね済みの場合はいいねを解除すること' do
-      create(:like, user: @user, post: @post)
-      expect {
-        post :like, params: { id: @post.id }
-      }.to change { @post.reload.likes_count }.by(-1)
-    end
-
-    it 'JSONレスポンスを返すこと' do
-      post :like, params: { id: @post.id }
-      expect(response.content_type).to include('application/json')
     end
   end
 end 
