@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_27_132630) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_29_124912) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -61,6 +61,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_27_132630) do
     t.index ["status"], name: "index_chat_rooms_on_status"
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.bigint "user_id", null: false
+    t.bigint "post_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_comments_on_post_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "content", null: false
     t.bigint "chat_room_id", null: false
@@ -83,6 +93,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_27_132630) do
     t.boolean "read", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "notifiable_type"
+    t.integer "notifiable_id"
     t.index ["post_id"], name: "index_notifications_on_post_id"
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
     t.index ["user_id"], name: "index_notifications_on_user_id"
@@ -128,6 +140,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_27_132630) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chat_room_users", "chat_rooms"
   add_foreign_key "chat_room_users", "users"
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users"
   add_foreign_key "messages", "chat_rooms"
   add_foreign_key "messages", "users"
   add_foreign_key "notifications", "posts"

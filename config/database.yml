@@ -26,7 +26,7 @@ default: &default
 # 開発環境の設定
 development:
   <<: *default           # デフォルト設定を継承
-  database: app_development  # 開発用データベース名
+  database: edufintech_development  # 開発用データベース名
 
   # PostgreSQLに接続するためのロール設定
   # 追加のロールを作成する場合は `$ createuser --help` を参照
@@ -59,7 +59,7 @@ development:
 # 開発環境や本番環境と同じデータベースを指定しないこと
 test:
   <<: *default           # デフォルト設定を継承
-  database: app_test     # テスト用データベース名
+  database: edufintech_test     # テスト用データベース名
 
 # config/credentials.ymlと同様に、データベースパスワードなどの
 # 機密情報をソースコードに保存してはいけない

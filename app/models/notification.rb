@@ -4,6 +4,7 @@ class Notification < ApplicationRecord
   belongs_to :user  # 通知の受信者
   belongs_to :sender, class_name: 'User'  # 通知の送信者（Userモデルとの関連付け）
   belongs_to :post  # 関連する投稿
+  belongs_to :notifiable, polymorphic: true, optional: true  # ポリモーフィック関連付け
 
   # 通知タイプの列挙型定義
   enum :notification_type, {

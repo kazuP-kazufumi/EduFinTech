@@ -26,4 +26,9 @@ end
 # システムスペック用のヘルパー
 RSpec.configure do |config|
   config.include AuthHelpers, type: :system
+end
+
+# コントローラースペック用のヘルパー
+RSpec.configure do |config|
+  config.include AuthHelpers, type: :controller
 end 

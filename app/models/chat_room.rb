@@ -5,7 +5,7 @@ class ChatRoom < ApplicationRecord
   # チャットルームの状態を管理するenum
   # active: 0 - アクティブな（利用可能な）チャットルーム
   # inactive: 1 - 非アクティブな（利用停止中の）チャットルーム
-  enum status: {
+  enum :status, {
     active: 0,
     inactive: 1
   }

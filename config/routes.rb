@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   # Post モデル（app/models/post.rb）のCRUD操作を実現します。
   resources :posts do
     resources :notifications, only: [:create]
+    resources :comments, only: [:create, :update, :destroy]
   end
 
   # 通知機能に関するルーティング設定

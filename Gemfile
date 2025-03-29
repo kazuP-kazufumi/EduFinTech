@@ -84,6 +84,7 @@ group :test do
   gem "capybara"            # ブラウザシミュレーション
   gem "selenium-webdriver"  # ブラウザ制御
   gem "shoulda-matchers"    # テストマッチャー拡張
+  gem "database_cleaner-active_record"  # テストデータベースのクリーニング
 end
 
 gem "kaminari", "~> 1.2"

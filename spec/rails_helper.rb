@@ -62,6 +62,13 @@ RSpec.configure do |config|
   # ビューテンプレートの単体テストで認証機能をテスト可能に
   config.include Devise::Test::ControllerHelpers, type: :view
 
+  # FactoryBotのメソッドを直接使用可能にする
+  config.include FactoryBot::Syntax::Methods
+
+  # コントローラーのルーティングとパラメータの設定を有効にする
+  config.infer_spec_type_from_file_location!
+  config.use_transactional_fixtures = true
+
   # Capybaraの設定
   # ブラウザ操作をシミュレートするためのDSLとマッチャーを追加
   config.include Capybara::DSL
@@ -110,6 +117,7 @@ RSpec.configure do |config|
   # テストデータベースのクリーンアップ設定
   # テスト実行前にデータベースをクリーンアップ
   config.before(:suite) do
+    DatabaseCleaner.allow_remote_database_url = true
     DatabaseCleaner.clean_with(:truncation)
   end
 

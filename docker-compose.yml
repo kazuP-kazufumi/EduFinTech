@@ -28,9 +28,11 @@ services:
     # 環境変数の設定
     environment:
       # PostgreSQLデータベースへの接続情報
-      - DATABASE_URL=postgresql://postgres:password@db:5432/edufintech_development
+      - DATABASE_URL=postgresql://postgres:password@db:5432/${DATABASE_NAME:-edufintech_development}
       # Redisサーバーへの接続情報（セッション管理・キャッシュ用）
       - REDIS_URL=redis://redis:6379/1
+      # Rails環境の設定
+      - RAILS_ENV=development
     
     # コンテナの対話モード設定
     tty: true        # 疑似TTYを割り当て（デバッグ出力用）

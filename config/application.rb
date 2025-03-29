@@ -60,6 +60,10 @@ module App
     # Rails 8.1での非推奨警告に対応
     config.active_support.to_time_preserves_timezone = :zone
 
+    # コントローラーの自動読み込みを設定
+    config.autoload_paths += %W(#{config.root}/app/controllers)
+    config.eager_load_paths += %W(#{config.root}/app/controllers)
+
     # Active Storageの設定
     # ファイルアップロード機能のカスタマイズ
     
