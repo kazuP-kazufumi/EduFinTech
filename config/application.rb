@@ -56,6 +56,10 @@ module App
     # 日時の表示や保存を日本時間で行う
     config.time_zone = 'Tokyo'
 
+    # タイムゾーンの保持方法を設定
+    # Rails 8.1での非推奨警告に対応
+    config.active_support.to_time_preserves_timezone = :zone
+
     # Active Storageの設定
     # ファイルアップロード機能のカスタマイズ
     

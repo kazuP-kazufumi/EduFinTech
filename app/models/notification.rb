@@ -6,7 +6,7 @@ class Notification < ApplicationRecord
   belongs_to :post  # 関連する投稿
 
   # 通知タイプの列挙型定義
-  enum notification_type: {
+  enum :notification_type, {
     support_request: 0,  # サポート依頼通知
     support_accepted: 1  # サポート承認通知
   }

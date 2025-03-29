@@ -1,0 +1,46 @@
+<%# トップページ %>
+<div class="home-container">
+  <% if user_signed_in? %>
+    <%# ログイン済みユーザー向けの表示 %>
+    <div class="welcome-section">
+      <h1>ようこそ、<%= current_user.email %>さん</h1>
+      <div class="action-buttons">
+        <%= link_to '新規投稿', new_post_path, class: 'btn btn-primary' %>
+        <%= link_to 'チャットルーム一覧', chat_rooms_path, class: 'btn btn-secondary' %>
+        <%= link_to '通知一覧', notifications_path, class: 'btn btn-info' %>
+      </div>
+    </div>
+
+    <%# 投稿一覧 %>
+    <div class="posts-section">
+      <h2>最新の投稿</h2>
+      <% if @posts.any? %>
+        <div class="posts-list">
+          <% @posts.each do |post| %>
+            <div class="post-card">
+              <h3><%= link_to post.title, post_path(post) %></h3>
+              <p class="post-meta">
+                投稿者: <%= post.user.email %> | 
+                カテゴリー: <%= post.category %> |
+                投稿日時: <%= l post.created_at, format: :long %>
+              </p>
+              <p class="post-excerpt"><%= truncate(post.content, length: 150) %></p>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="no-posts">まだ投稿がありません</p>
+      <% end %>
+    </div>
+  <% else %>
+    <%# 未ログインユーザー向けの表示 %>
+    <div class="welcome-section">
+      <h1>EduFinTechへようこそ</h1>
+      <p class="lead">教育資金調達のためのプラットフォーム</p>
+      <div class="action-buttons">
+        <%= link_to '新規登録', new_user_registration_path, class: 'btn btn-primary' %>
+        <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-secondary' %>
+      </div>
+    </div>
+  <% end %>
+</div> 
