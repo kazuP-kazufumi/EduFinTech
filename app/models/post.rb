@@ -6,6 +6,7 @@ class Post < ApplicationRecord
   belongs_to :user
 
   has_many :notifications, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   # バリデーション設定
   # 投稿のデータ整合性を確保するためのルールを定義します

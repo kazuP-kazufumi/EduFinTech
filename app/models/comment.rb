@@ -12,8 +12,10 @@ class Comment < ApplicationRecord
     return if user == post.user
     Notification.create(
       user: post.user,
-      notifiable: self,
-      action: 'commented'
+      sender: user,
+      post: post,
+      notification_type: :support_request,
+      read: false
     )
   end
 end 
