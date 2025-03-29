@@ -1,12 +1,16 @@
 # CommentsControllerのテスト
+require 'rails_helper'
+
 RSpec.describe CommentsController, type: :controller do
   # 認証・認可のテスト
   describe '認証・認可' do
     context '未ログインユーザーの場合' do
-      let(:post) { create(:post) }
+      let(:post_obj) { create(:post) }
 
       it 'コメントを作成できないこと' do
-        post :create, params: { post_id: post.id, comment: attributes_for(:comment) }
+        expect {
+          post :create, params: { post_id: post_obj.id, comment: attributes_for(:comment) }
+        }.not_to change(Comment, :count)
         expect(response).to redirect_to(new_user_session_path)
       end
 
@@ -18,52 +22,56 @@ RSpec.describe CommentsController, type: :controller do
 
       it 'コメントを削除できないこと' do
         comment = create(:comment)
-        delete :destroy, params: { post_id: comment.post_id, id: comment.id }
+        expect {
+          delete :destroy, params: { post_id: comment.post_id, id: comment.id }
+        }.not_to change(Comment, :count)
         expect(response).to redirect_to(new_user_session_path)
       end
     end
 
     context 'ログインユーザーの場合' do
+      let(:user) { create(:user) }
+      let(:post_obj) { create(:post) }
+      
       before do
-        sign_in_test_user
-        @post = create(:post)
+        sign_in user
       end
 
       it 'コメントを作成できること' do
         expect {
-          post :create, params: { post_id: @post.id, comment: attributes_for(:comment) }
+          post :create, params: { post_id: post_obj.id, comment: attributes_for(:comment) }
         }.to change(Comment, :count).by(1)
       end
 
       context '自分のコメントの場合' do
-        let(:comment) { create(:comment, user: @user, post: @post) }
+        let!(:comment) { create(:comment, user: user, post: post_obj) }
 
         it 'コメントを編集できること' do
-          patch :update, params: { post_id: @post.id, id: comment.id, comment: attributes_for(:comment, content: '更新後のコメント') }
+          patch :update, params: { post_id: post_obj.id, id: comment.id, comment: attributes_for(:comment, content: '更新後のコメント') }
           expect(comment.reload.content).to eq('更新後のコメント')
         end
 
         it 'コメントを削除できること' do
           expect {
-            delete :destroy, params: { post_id: @post.id, id: comment.id }
+            delete :destroy, params: { post_id: post_obj.id, id: comment.id }
           }.to change(Comment, :count).by(-1)
         end
       end
 
       context '他のユーザーのコメントの場合' do
         let(:other_user) { create(:user) }
-        let(:comment) { create(:comment, user: other_user, post: @post) }
+        let!(:comment) { create(:comment, user: other_user, post: post_obj) }
 
         it 'コメントを編集できないこと' do
-          patch :update, params: { post_id: @post.id, id: comment.id, comment: attributes_for(:comment) }
-          expect(response).to redirect_to(post_path(@post))
+          patch :update, params: { post_id: post_obj.id, id: comment.id, comment: attributes_for(:comment) }
+          expect(response).to redirect_to(post_path(post_obj))
         end
 
         it 'コメントを削除できないこと' do
           expect {
-            delete :destroy, params: { post_id: @post.id, id: comment.id }
+            delete :destroy, params: { post_id: post_obj.id, id: comment.id }
           }.not_to change(Comment, :count)
-          expect(response).to redirect_to(post_path(@post))
+          expect(response).to redirect_to(post_path(post_obj))
         end
       end
     end
@@ -71,8 +79,9 @@ RSpec.describe CommentsController, type: :controller do
 
   # アクションのテスト
   describe 'POST #create' do
+    let(:user) { create(:user) }
     before do
-      sign_in_test_user
+      sign_in user
       @post = create(:post)
     end
 
@@ -88,7 +97,7 @@ RSpec.describe CommentsController, type: :controller do
       it '作成したコメントが正しい属性を持つこと' do
         post :create, params: { post_id: @post.id, comment: valid_attributes }
         expect(Comment.last.content).to eq('テストコメント')
-        expect(Comment.last.user).to eq(@user)
+        expect(Comment.last.user).to eq(user)
         expect(Comment.last.post).to eq(@post)
       end
 
@@ -125,10 +134,11 @@ RSpec.describe CommentsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    let(:user) { create(:user) }
     before do
-      sign_in_test_user
+      sign_in user
       @post = create(:post)
-      @comment = create(:comment, user: @user, post: @post)
+      @comment = create(:comment, user: user, post: @post)
     end
 
     context '有効なパラメータの場合' do
@@ -173,10 +183,11 @@ RSpec.describe CommentsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    let(:user) { create(:user) }
     before do
-      sign_in_test_user
+      sign_in user
       @post = create(:post)
-      @comment = create(:comment, user: @user, post: @post)
+      @comment = create(:comment, user: user, post: @post)
     end
 
     it 'コメントを削除すること' do
