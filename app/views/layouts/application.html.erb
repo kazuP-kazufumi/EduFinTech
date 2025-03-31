@@ -40,56 +40,46 @@
 
   <%# 最小高さをビューポート高に設定し、背景色をグレーに %>
   <body class="h-screen flex flex-col bg-gray-50">
-    <%# ヘッダー - 固定高さで画面上部に配置 %>
-    <header class="h-12 bg-white shadow">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-        <div class="flex justify-between items-center h-full">
-          <%# ロゴとアプリ名 %>
-          <div class="flex items-center">
-            <%= link_to root_path, class: "flex items-center" do %>
-              <span class="text-lg font-bold text-gray-900">EduFinTech</span>
-            <% end %>
-          </div>
+    <%# ヘッダー - 背景色を追加 %>
+    <header class="h-12 bg-white border-b border-gray-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+        <%# ロゴ - シンプルなテキストベースのデザイン %>
+        <%= link_to "EduFinTech", root_path, class: "text-xl font-bold text-gray-900" %>
 
-          <%# ナビゲーションメニュー %>
-          <nav class="flex items-center space-x-4">
-            <% if user_signed_in? %>
-              <%= link_to "投稿一覧", posts_path, class: "text-gray-600 hover:text-gray-900" %>
-              <%= link_to "新規投稿", new_post_path, class: "text-gray-600 hover:text-gray-900" %>
-              <%= link_to "マイページ", user_path(current_user), class: "text-gray-600 hover:text-gray-900" %>
-              <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "text-gray-600 hover:text-gray-900" %>
-            <% else %>
-              <%= link_to "ログイン", new_user_session_path, class: "text-gray-600 hover:text-gray-900" %>
-              <%= link_to "新規登録", new_user_registration_path, class: "text-gray-600 hover:text-gray-900" %>
-            <% end %>
-          </nav>
-        </div>
+        <%# ナビゲーションメニュー - シンプルなテキストベースのデザイン %>
+        <nav class="flex items-center space-x-4">
+          <%# ログイン状態に応じてメニューを切り替え %>
+          <% if user_signed_in? %>
+            <%# ログイン済みの場合 %>
+            <%= link_to "投稿一覧", posts_path, class: "text-gray-600 hover:text-gray-900" %>
+            <%= link_to "新規投稿", new_post_path, class: "text-gray-600 hover:text-gray-900" %>
+            <%= link_to "マイページ", user_path(current_user), class: "text-gray-600 hover:text-gray-900" %>
+            <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "text-gray-600 hover:text-gray-900" %>
+          <% else %>
+            <%# 未ログインの場合 %>
+            <%= link_to "ログイン", new_user_session_path, class: "text-gray-600 hover:text-gray-900" %>
+            <%= link_to "新規登録", new_user_registration_path, class: "text-gray-600 hover:text-gray-900" %>
+          <% end %>
+        </nav>
       </div>
     </header>
 
-    <%# メインコンテンツ - 残りの高さを埋める %>
+    <%# メインコンテンツ - スクロール可能な領域として設定 %>
     <main class="flex-1 overflow-auto">
-      <%# フラッシュメッセージ %>
+      <%# フラッシュメッセージ - シンプルなテキストベースのデザイン %>
       <% if notice %>
         <div class="bg-green-50 border-l-4 border-green-400 p-4">
           <div class="flex">
             <div class="flex-shrink-0">
-              <span class="text-green-400">成功</span>
-            </div>
-            <div class="ml-3">
               <p class="text-sm text-green-700"><%= notice %></p>
             </div>
           </div>
         </div>
       <% end %>
-
       <% if alert %>
         <div class="bg-red-50 border-l-4 border-red-400 p-4">
           <div class="flex">
             <div class="flex-shrink-0">
-              <span class="text-red-400">エラー</span>
-            </div>
-            <div class="ml-3">
               <p class="text-sm text-red-700"><%= alert %></p>
             </div>
           </div>
@@ -102,12 +92,10 @@
       </div>
     </main>
 
-    <%# フッター - 固定高さで画面下部に配置 %>
-    <footer class="h-8 bg-white border-t">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-        <div class="flex justify-center items-center h-full">
-          <p class="text-sm text-gray-500">&copy; <%= Time.current.year %> EduFinTech. All rights reserved.</p>
-        </div>
+    <%# フッター - 背景色を追加 %>
+    <footer class="h-8 bg-white border-t border-gray-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-center">
+        <p class="text-sm text-gray-500">&copy; <%= Time.current.year %> EduFinTech. All rights reserved.</p>
       </div>
     </footer>
   </body>
