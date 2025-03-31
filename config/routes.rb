@@ -99,4 +99,6 @@ Rails.application.routes.draw do
   # - アプリケーションのトップページとしてHomeController#indexを使用
   # - root_pathというヘルパーメソッドが生成される
   root "home#index"
+
+  get 'search', to: 'search#index', as: :search
 end

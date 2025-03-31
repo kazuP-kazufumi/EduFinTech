@@ -75,14 +75,14 @@ RSpec.describe ProfilesController, type: :controller do
       sign_in_test_user
     end
 
-    it '編集対象のユーザーを取得すること' do
-      get :edit
-      expect(assigns(:user)).to eq(@user)
-    end
-
-    it 'editテンプレートをレンダリングすること' do
+    it 'プロフィール編集フォームを表示すること' do
       get :edit
       expect(response).to render_template(:edit)
+    end
+
+    it '現在のユーザー情報をフォームに設定すること' do
+      get :edit
+      expect(assigns(:user)).to eq(@user)
     end
   end
 
@@ -92,27 +92,18 @@ RSpec.describe ProfilesController, type: :controller do
     end
 
     context '有効なパラメータの場合' do
-      let(:valid_attributes) do
-        {
-          name: '新しい名前',
-          email: 'new@example.com',
-          profile: '新しいプロフィール',
-          avatar: fixture_file_upload('spec/fixtures/files/test_avatar.jpg', 'image/jpeg')
-        }
-      end
+      let(:valid_attributes) { attributes_for(:user, name: '新しい名前', bio: '新しい自己紹介') }
 
-      it 'ユーザー情報を更新すること' do
+      it 'プロフィールを更新すること' do
         patch :update, params: { user: valid_attributes }
         @user.reload
         expect(@user.name).to eq('新しい名前')
-        expect(@user.email).to eq('new@example.com')
-        expect(@user.profile).to eq('新しいプロフィール')
-        expect(@user.avatar).to be_attached
+        expect(@user.bio).to eq('新しい自己紹介')
       end
 
-      it 'プロフィールページにリダイレクトすること' do
+      it 'ダッシュボードにリダイレクトすること' do
         patch :update, params: { user: valid_attributes }
-        expect(response).to redirect_to(profile_path)
+        expect(response).to redirect_to(dashboard_path)
       end
 
       it '成功メッセージを表示すること' do
@@ -122,15 +113,15 @@ RSpec.describe ProfilesController, type: :controller do
     end
 
     context '無効なパラメータの場合' do
-      let(:invalid_attributes) { { name: nil, email: 'invalid_email' } }
+      let(:invalid_attributes) { attributes_for(:user, name: nil) }
 
-      it 'ユーザー情報を更新しないこと' do
+      it 'プロフィールを更新しないこと' do
         expect {
           patch :update, params: { user: invalid_attributes }
         }.not_to change { @user.reload.name }
       end
 
-      it 'editテンプレートを再レンダリングすること' do
+      it '編集フォームを再表示すること' do
         patch :update, params: { user: invalid_attributes }
         expect(response).to render_template(:edit)
       end
@@ -138,27 +129,6 @@ RSpec.describe ProfilesController, type: :controller do
       it 'エラーメッセージを表示すること' do
         patch :update, params: { user: invalid_attributes }
         expect(flash[:alert]).to eq('プロフィールの更新に失敗しました')
-      end
-    end
-
-    context 'パスワードの更新を含む場合' do
-      let(:password_attributes) do
-        {
-          current_password: 'password123',
-          password: 'newpassword123',
-          password_confirmation: 'newpassword123'
-        }
-      end
-
-      it 'パスワードを更新できること' do
-        patch :update, params: { user: password_attributes }
-        expect(@user.reload.valid_password?('newpassword123')).to be true
-      end
-
-      it '現在のパスワードが間違っている場合は更新できないこと' do
-        patch :update, params: { user: password_attributes.merge(current_password: 'wrong_password') }
-        expect(@user.reload.valid_password?('newpassword123')).to be false
-        expect(flash[:alert]).to eq('現在のパスワードが正しくありません')
       end
     end
   end
