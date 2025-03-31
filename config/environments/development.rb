@@ -81,4 +81,6 @@ Rails.application.configure do
   # Enable serving of static files from the `/public` folder by default.
   config.assets.debug = true
   config.assets.compile = true
+  config.assets.digest = false
+  config.assets.quiet = false
 end
