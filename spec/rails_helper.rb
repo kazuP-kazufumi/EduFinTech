@@ -121,14 +121,18 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  # 各テストの前にデータベースをクリーンアップ
-  config.before(:each) do
+  # DatabaseCleanerの設定
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
     DatabaseCleaner.strategy = :transaction
   end
 
-  # JavaScriptを使用するテストの場合は、トランザクションの代わりにtruncationを使用
-  config.before(:each, js: true) do
-    DatabaseCleaner.strategy = :truncation
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
   end
 
   # テスト用の環境変数設定

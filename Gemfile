@@ -58,7 +58,7 @@ gem "thruster", require: false
 # 開発環境とテスト環境でのみ使用するgem
 group :development, :test do
   # デバッグツール
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  gem "debug", platforms: %i[ mri mingw x64_mingw ]
 
   # セキュリティ脆弱性スキャナー
   gem "brakeman", require: false
@@ -70,6 +70,8 @@ group :development, :test do
   gem "rspec-rails"          # RSpecテストフレームワーク
   gem "factory_bot_rails"    # テストデータ作成
   gem "faker"                # ダミーデータ生成
+  gem 'rails-controller-testing'
+  gem "database_cleaner"
 end
 
 # 開発環境でのみ使用するgem

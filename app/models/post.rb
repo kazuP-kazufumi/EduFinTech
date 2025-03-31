@@ -22,8 +22,12 @@ class Post < ApplicationRecord
   validates :content, presence: true, length: { maximum: 1000 }
 
   # カテゴリーの選択肢を定義
-  CATEGORIES = ['進学', '夢', '野望', 'その他'].freeze
+  CATEGORIES = ['education', 'other'].freeze
 
   # カテゴリーのバリデーション
   validates :category, presence: true, inclusion: { in: CATEGORIES }
+
+  # スコープ
+  scope :newest, -> { order(created_at: :desc) }
+  scope :oldest, -> { order(created_at: :asc) }
 end
