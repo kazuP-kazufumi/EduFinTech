@@ -82,5 +82,10 @@ module App
     config.assets.version = '1.0'
     config.assets.paths << Rails.root.join('app', 'assets', 'stylesheets')
     config.assets.paths << Rails.root.join('app', 'assets', 'javascripts')
+
+    # JavaScriptの設定
+    config.assets.js_compressor = :terser
+    config.assets.paths << Rails.root.join('app', 'javascript')
+    config.assets.paths << Rails.root.join('app', 'javascript', 'controllers')
   end
 end
