@@ -80,12 +80,15 @@ module App
     config.assets.compile = true
     config.assets.digest = true
     config.assets.version = '1.0'
+    
+    # アセットパスの設定
     config.assets.paths << Rails.root.join('app', 'assets', 'stylesheets')
     config.assets.paths << Rails.root.join('app', 'assets', 'javascripts')
+    config.assets.paths << Rails.root.join('app', 'javascript')
+    config.assets.paths << Rails.root.join('app', 'javascript', 'controllers')
+    config.assets.paths << Rails.root.join('public', 'build')  # Next.jsのビルド出力を追加
 
     # JavaScriptの設定
     config.assets.js_compressor = :terser
-    config.assets.paths << Rails.root.join('app', 'javascript')
-    config.assets.paths << Rails.root.join('app', 'javascript', 'controllers')
   end
 end
