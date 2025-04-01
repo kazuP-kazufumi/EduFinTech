@@ -1,46 +1,71 @@
-<%# トップページ %>
-<div class="home-container">
-  <% if user_signed_in? %>
-    <%# ログイン済みユーザー向けの表示 %>
-    <div class="welcome-section">
-      <h1>ようこそ、<%= current_user.email %>さん</h1>
-      <div class="action-buttons">
-        <%= link_to '新規投稿', new_post_path, class: 'btn btn-primary' %>
-        <%= link_to 'チャットルーム一覧', chat_rooms_path, class: 'btn btn-secondary' %>
-        <%= link_to '通知一覧', notifications_path, class: 'btn btn-info' %>
-      </div>
+<%# トップページのメインコンテナ %>
+<div class="h-full flex flex-col">
+  <%# コンテンツを中央寄せにし、最大幅を80rem(1280px)に制限 %>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex flex-col">
+    <%# ページヘッダー - タイトルとサブテキストを中央寄せで表示 %>
+    <div class="text-center py-4">
+      <h1 class="text-2xl font-bold text-gray-900">
+        EduFinTechへようこそ
+      </h1>
+      <p class="mt-1 text-sm text-gray-600">
+        教育分野の資金調達をサポートするプラットフォーム
+      </p>
     </div>
 
-    <%# 投稿一覧 %>
-    <div class="posts-section">
-      <h2>最新の投稿</h2>
-      <% if @posts.any? %>
-        <div class="posts-list">
-          <% @posts.each do |post| %>
-            <div class="post-card">
-              <h3><%= link_to post.title, post_path(post) %></h3>
-              <p class="post-meta">
-                投稿者: <%= post.user.email %> | 
-                カテゴリー: <%= post.category %> |
-                投稿日時: <%= l post.created_at, format: :long %>
-              </p>
-              <p class="post-excerpt"><%= truncate(post.content, length: 150) %></p>
-            </div>
-          <% end %>
+    <%# メインコンテンツ - グリッドレイアウトで3つのセクションを配置 %>
+    <div class="mt-4 flex-1 overflow-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <%# 投稿一覧セクション %>
+        <div class="bg-white shadow rounded-lg p-4">
+          <h2 class="text-lg font-semibold text-gray-900 mb-2">
+            投稿一覧
+          </h2>
+          <p class="text-sm text-gray-500">
+            最新の資金調達投稿を閲覧できます。
+          </p>
+          <div class="mt-4">
+            <%= link_to "投稿一覧へ", posts_path, class: "text-blue-600 hover:text-blue-900" %>
+          </div>
         </div>
-      <% else %>
-        <p class="no-posts">まだ投稿がありません</p>
-      <% end %>
-    </div>
-  <% else %>
-    <%# 未ログインユーザー向けの表示 %>
-    <div class="welcome-section">
-      <h1>EduFinTechへようこそ</h1>
-      <p class="lead">教育資金調達のためのプラットフォーム</p>
-      <div class="action-buttons">
-        <%= link_to '新規登録', new_user_registration_path, class: 'btn btn-primary' %>
-        <%= link_to 'ログイン', new_user_session_path, class: 'btn btn-secondary' %>
+
+        <%# 新規投稿セクション %>
+        <div class="bg-white shadow rounded-lg p-4">
+          <h2 class="text-lg font-semibold text-gray-900 mb-2">
+            新規投稿
+          </h2>
+          <p class="text-sm text-gray-500">
+            あなたのプロジェクトを投稿して、資金調達を始めましょう。
+          </p>
+          <div class="mt-4">
+            <% if user_signed_in? %>
+              <%= link_to "新規投稿へ", new_post_path, class: "text-blue-600 hover:text-blue-900" %>
+            <% else %>
+              <%= link_to "ログインして投稿", new_user_session_path, class: "text-blue-600 hover:text-blue-900" %>
+            <% end %>
+          </div>
+        </div>
+
+        <%# マイページセクション %>
+        <div class="bg-white shadow rounded-lg p-4">
+          <h2 class="text-lg font-semibold text-gray-900 mb-2">
+            マイページ
+          </h2>
+          <p class="text-sm text-gray-500">
+            <% if user_signed_in? %>
+              あなたの投稿や応募履歴を管理できます。
+            <% else %>
+              ログインすると、あなたの投稿や応募履歴を管理できます。
+            <% end %>
+          </p>
+          <div class="mt-4">
+            <% if user_signed_in? %>
+              <%= link_to "マイページへ", user_path(current_user), class: "text-blue-600 hover:text-blue-900" %>
+            <% else %>
+              <%= link_to "ログインして管理", new_user_session_path, class: "text-blue-600 hover:text-blue-900" %>
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
-  <% end %>
+  </div>
 </div> 
