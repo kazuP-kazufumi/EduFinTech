@@ -74,5 +74,13 @@ module App
     # ストレージへのルーティングをプロキシ経由に設定
     # セキュアなファイルアクセスを実現
     config.active_storage.resolve_model_to_route = :rails_storage_proxy
+
+    # アセットパイプラインの設定
+    config.assets.enabled = true
+    config.assets.compile = true
+    config.assets.digest = true
+    config.assets.version = '1.0'
+    config.assets.paths << Rails.root.join('app', 'assets', 'stylesheets')
+    config.assets.paths << Rails.root.join('app', 'assets', 'javascripts')
   end
 end
