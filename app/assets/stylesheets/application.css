@@ -3,9 +3,9 @@
  *= require_self
  */
 
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
@@ -23,14 +23,17 @@
  */
 
 /* 基本スタイル */
-@import "base/_reset.css";
+@import "base/reset.css";
 
 /* コンポーネント */
-@import "components/_buttons.css";
+@import "components/buttons.css";
 
 /* レイアウト */
-@import "layouts/_header.css";
+@import "layouts/header.css";
 
 /* ページ固有のスタイル */
-@import "pages/_home.css";
-@import "pages/_chat_rooms.css";
+@import "pages/home.css";
+@import "pages/chat_rooms.css";
+
+/* その他のスタイルシートを読み込む */
+*= require_tree .
