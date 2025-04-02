@@ -36,3 +36,11 @@ node_modules/
 
 # Backup files
 *.backup
+
+# Next.js
+.next/
+.next
+
+# VSCode
+.vscode/
+.vscode
