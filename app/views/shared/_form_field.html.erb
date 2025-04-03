@@ -40,7 +40,7 @@
       <%= form.text_field attribute, options.merge(class: "form-control #{html_options[:class]}") %>
     <% end %>
     
-    <% if form.object.errors[attribute].present? %>
+    <% if form.object && form.object.errors[attribute].present? %>
       <div class="invalid-feedback d-block">
         <%= form.object.errors[attribute].join(', ') %>
       </div>
