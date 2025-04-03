@@ -39,74 +39,18 @@
   </head>
 
   <body>
-    <%# ヘッダー %>
-    <header>
-      <div>
-        <%# ロゴ %>
-        <%= link_to "EduFinTech", root_path %>
+    <%# ヘッダーパーシャル %>
+    <%= render "shared/header" %>
 
-        <%# ナビゲーションメニュー %>
-        <nav>
-          <%# ログイン状態に応じて表示を切り替え %>
-          <% if user_signed_in? %>
-            <%# ログイン済みの場合 %>
-            <%# ユーザーメニュー %>
-            <div>
-              <%# ユーザーアイコン %>
-              <div>
-                <%= image_tag current_user.avatar_url, alt: "ユーザーアイコン" %>
-              </div>
-
-              <%# ドロップダウンメニュー %>
-              <div>
-                <%# プロフィールリンク %>
-                <%= link_to "プロフィール", profile_path %>
-
-                <%# 設定リンク %>
-                <%= link_to "設定", settings_path %>
-
-                <%# ログアウトボタン %>
-                <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
-              </div>
-            </div>
-          <% else %>
-            <%# 未ログインの場合 %>
-            <%# ログインボタン %>
-            <%= link_to "ログイン", new_user_session_path %>
-
-            <%# 新規登録ボタン %>
-            <%= link_to "新規登録", new_user_registration_path %>
-          <% end %>
-        </nav>
-      </div>
-    </header>
-
-    <%# フラッシュメッセージ %>
-    <% if notice %>
-      <div class="notice"><%= notice %></div>
-    <% end %>
-    <% if alert %>
-      <div class="alert"><%= alert %></div>
-    <% end %>
+    <%# フラッシュメッセージパーシャル %>
+    <%= render "shared/flash_messages" %>
 
     <%# メインコンテンツ %>
     <main>
       <%= yield %>
     </main>
 
-    <%# フッター %>
-    <footer>
-      <div>
-        <%# コピーライト %>
-        <p>&copy; <%= Time.current.year %> EduFinTech. All rights reserved.</p>
-
-        <%# フッターナビゲーション %>
-        <nav>
-          <%= link_to "利用規約", terms_path %>
-          <%= link_to "プライバシーポリシー", privacy_path %>
-          <%= link_to "お問い合わせ", contact_path %>
-        </nav>
-      </div>
-    </footer>
+    <%# フッターパーシャル %>
+    <%= render "shared/footer" %>
   </body>
 </html>
