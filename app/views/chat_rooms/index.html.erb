@@ -1,36 +1,59 @@
 <%# チャットルーム一覧ページ %>
-<div class="chat-rooms-container">
-  <h1 class="chat-rooms-title">チャットルーム一覧</h1>
+<div class="chat-rooms">
+  <div class="page-header">
+    <h1>チャットルーム一覧</h1>
+  </div>
 
   <%# チャットルーム一覧 %>
-  <div class="chat-rooms-list">
+  <div class="chat-rooms__list">
     <% @chat_rooms.each do |room_data| %>
-      <% chat_room = room_data[:chat_room] %>
-      <% latest_message = room_data[:latest_message] %>
-      <% unread_count = room_data[:unread_count] %>
-
-      <%= link_to chat_room_path(chat_room), class: "chat-room-item" do %>
-        <div class="chat-room-info">
-          <h2 class="chat-room-name"><%= chat_room.name %></h2>
+      <% 
+        chat_room = room_data[:chat_room] 
+        latest_message = room_data[:latest_message]
+        unread_count = room_data[:unread_count]
+        
+        # チャットルームカードのコンテンツを生成
+        content_html = capture do
+      %>
+        <div class="chat-room-card__info">
+          <h2 class="chat-room-card__name"><%= chat_room.name %></h2>
           <% if latest_message %>
-            <p class="latest-message">
+            <p class="chat-room-card__message">
               <%= latest_message.content %>
-              <span class="message-time">
+              <span class="chat-room-card__time">
                 <%= time_ago_in_words(latest_message.created_at) %>前
               </span>
             </p>
           <% else %>
-            <p class="no-message">メッセージはまだありません</p>
+            <p class="chat-room-card__empty">メッセージはまだありません</p>
           <% end %>
         </div>
 
         <%# 未読メッセージ数 %>
         <% if unread_count > 0 %>
-          <div class="unread-badge">
+          <div class="chat-room-card__badge">
             <%= unread_count %>
           </div>
         <% end %>
       <% end %>
+
+      <%# カードコンポーネントでチャットルームを表示 %>
+      <%= render "shared/card", 
+        title: nil,
+        content_html: content_html,
+        footer_html: nil,
+        html_options: { 
+          class: "chat-room-card",
+          onclick: "location.href='#{chat_room_path(chat_room)}'"
+        }
+      %>
+    <% end %>
+    
+    <% if @chat_rooms.empty? %>
+      <div class="empty-state">
+        <h3>チャットルームはありません</h3>
+        <p>新しいチャットを開始しましょう。</p>
+      </div>
     <% end %>
   </div>
 </div> 

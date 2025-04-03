@@ -1,51 +1,62 @@
-<%# ログインページのメインコンテナ %>
-<div class="h-full flex flex-col">
-  <%# コンテンツを中央寄せにし、最大幅を80rem(1280px)に制限 %>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex flex-col">
-    <%# ページヘッダー - タイトルとサブテキストを中央寄せで表示 %>
-    <div class="text-center py-4">
-      <h1 class="text-2xl font-bold text-gray-900">
-        ログイン
-      </h1>
-      <p class="mt-1 text-sm text-gray-600">
-        アカウントにログインして、EduFinTechを利用しましょう
-      </p>
-    </div>
+<%# ログインページ %>
+<div class="auth">
+  <%# ページヘッダー %>
+  <div class="page-header">
+    <h1>ログイン</h1>
+    <p>アカウントにログインして、EduFinTechを利用しましょう</p>
+  </div>
 
-    <%# メインコンテンツ - フォームを中央に配置 %>
-    <div class="mt-4 flex-1 overflow-auto">
-      <div class="max-w-md mx-auto">
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-          <div class="space-y-4">
-            <div>
-              <%= f.label :email, "メールアドレス", class: "block text-sm font-medium text-gray-700" %>
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
-            </div>
+  <%# フォーム %>
+  <div class="auth__form-container">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "auth__form") do |f| %>
+      <div class="auth__form-fields">
+        <%# メールアドレス %>
+        <%= render "shared/form_field", 
+          form: f, 
+          attribute: :email, 
+          label_text: "メールアドレス", 
+          field_type: :email_field, 
+          options: { autofocus: true, autocomplete: "email" }, 
+          html_options: {} 
+        %>
 
-            <div>
-              <%= f.label :password, "パスワード", class: "block text-sm font-medium text-gray-700" %>
-              <%= f.password_field :password, autocomplete: "current-password", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
-              <% if devise_mapping.rememberable? %>
-                <div class="mt-2 flex items-center">
-                  <%= f.check_box :remember_me, class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" %>
-                  <%= f.label :remember_me, "ログイン状態を保持", class: "ml-2 block text-sm text-gray-900" %>
-                </div>
-              <% end %>
-            </div>
+        <%# パスワード %>
+        <%= render "shared/form_field", 
+          form: f, 
+          attribute: :password, 
+          label_text: "パスワード", 
+          field_type: :password_field, 
+          options: { autocomplete: "current-password" }, 
+          html_options: {} 
+        %>
 
-            <div class="flex justify-end">
-              <%= f.submit "ログイン", class: "inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-1.5 px-3 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" %>
-            </div>
+        <%# ログイン状態を保持 %>
+        <% if devise_mapping.rememberable? %>
+          <div class="auth__remember-me">
+            <%= f.check_box :remember_me %>
+            <%= f.label :remember_me, "ログイン状態を保持" %>
           </div>
         <% end %>
 
-        <div class="mt-6 text-center">
-          <p class="text-sm text-gray-600">
-            アカウントをお持ちでない方は
-            <%= link_to "新規登録", new_user_registration_path, class: "text-blue-600 hover:text-blue-900" %>
-          </p>
+        <%# ログインボタン %>
+        <div class="auth__form-actions">
+          <%= f.submit "ログイン", class: "button button--primary button--medium" %>
         </div>
       </div>
+    <% end %>
+
+    <%# 新規登録リンク %>
+    <div class="auth__links">
+      <p>
+        アカウントをお持ちでない方は
+        <%= render "shared/button", 
+          text: "新規登録", 
+          type: :secondary, 
+          size: :small, 
+          url: new_user_registration_path, 
+          html_options: {} 
+        %>
+      </p>
     </div>
   </div>
 </div>

@@ -1,0 +1,31 @@
+<%# ボタンを表示する共通パーシャル %>
+<%# @param text [String] ボタンのテキスト %>
+<%# @param type [Symbol] ボタンのタイプ（:primary, :secondary, :danger など） %>
+<%# @param size [Symbol] ボタンのサイズ（:small, :medium, :large） %>
+<%# @param url [String] リンク先URL（省略可） %>
+<%# @param method [Symbol] HTTPメソッド（省略可、:get, :post, :delete など） %>
+<%# @param html_options [Hash] HTML属性（class: "...", data: {...} など） %>
+
+<%# クラス名の生成 %>
+<% 
+  base_class = "button"
+  type_class = "button--#{type.to_s}"
+  size_class = "button--#{size.to_s}"
+  full_class = "#{base_class} #{type_class} #{size_class} #{html_options[:class]}"
+%>
+
+<%# ボタンの種類に応じて出力を変更 %>
+<% if url.present? %>
+  <% if method && method != :get %>
+    <%# フォームを使用するボタン（DELETE, PUT などのリクエスト用） %>
+    <%= button_to text, url, method: method, class: full_class, **html_options.except(:class) %>
+  <% else %>
+    <%# 通常のリンクボタン %>
+    <%= link_to text, url, class: full_class, **html_options.except(:class) %>
+  <% end %>
+<% else %>
+  <%# 通常のボタン（フォーム内で使用するなど） %>
+  <button type="<%= html_options[:type] || 'button' %>" class="<%= full_class %>" <%= html_options.except(:class, :type).map { |k, v| "#{k}=\"#{v}\"" }.join(' ').html_safe %>>
+    <%= text %>
+  </button>
+<% end %> 
