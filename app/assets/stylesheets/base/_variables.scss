@@ -1,0 +1,59 @@
+/* カラー変数 */
+$primary: #3490dc;      // メインカラー
+$secondary: #6574cd;    // サブカラー
+$success: #38c172;      // 成功時のカラー
+$danger: #e3342f;       // 警告・エラー時のカラー
+$warning: #ffed4a;      // 注意喚起のカラー
+$info: #3490dc;         // 情報のカラー
+$light: #f8f9fa;        // 明るい背景色
+$dark: #343a40;         // 暗い背景色・文字色
+$white: #ffffff;        // 白
+$gray-100: #f8f9fa;     // 最も明るいグレー
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;     // 最も暗いグレー
+
+/* フォントサイズ変数 */
+$font-size-xs: 1.2rem;  // 特小テキスト
+$font-size-sm: 1.4rem;  // 小テキスト
+$font-size-base: 1.6rem; // 標準テキスト
+$font-size-lg: 1.8rem;  // 大テキスト
+$font-size-xl: 2.0rem;  // 特大テキスト
+$font-size-2xl: 2.4rem; // 見出しレベル
+$font-size-3xl: 3.0rem; // 大見出しレベル
+$font-size-4xl: 3.6rem; // 特大見出しレベル
+
+/* ブレークポイント変数 */
+$breakpoint-sm: 576px;  // スマホ横向き
+$breakpoint-md: 768px;  // タブレット
+$breakpoint-lg: 992px;  // 小さいデスクトップ
+$breakpoint-xl: 1200px; // 大きいデスクトップ
+
+/* スペーシング変数 */
+$spacing-xs: 0.4rem;    // 超小スペース
+$spacing-sm: 0.8rem;    // 小スペース
+$spacing-md: 1.6rem;    // 中スペース
+$spacing-lg: 2.4rem;    // 大スペース
+$spacing-xl: 3.2rem;    // 特大スペース
+$spacing-2xl: 4.8rem;   // 超特大スペース
+
+/* ボーダー変数 */
+$border-radius-sm: 0.2rem;
+$border-radius: 0.4rem;
+$border-radius-lg: 0.8rem;
+$border-width: 1px;
+
+/* シャドウ変数 */
+$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+$shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+/* トランジション変数 */
+$transition-fast: 0.15s ease-in-out;
+$transition-normal: 0.3s ease-in-out;
+$transition-slow: 0.5s ease-in-out; 

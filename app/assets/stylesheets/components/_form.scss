@@ -1,0 +1,166 @@
+@import '../base/variables';
+@import '../base/mixins';
+
+.form-group {
+  margin-bottom: $spacing-md;
+}
+
+.form-label {
+  display: inline-block;
+  margin-bottom: $spacing-xs;
+  font-weight: 500;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + #{$spacing-sm} * 2 + 2px);
+  padding: $spacing-sm;
+  font-size: $font-size-base;
+  font-weight: 400;
+  line-height: 1.5;
+  color: $gray-700;
+  background-color: $white;
+  background-clip: padding-box;
+  border: $border-width solid $gray-400;
+  border-radius: $border-radius;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+  
+  &:focus {
+    color: $gray-700;
+    background-color: $white;
+    border-color: lighten($primary, 25%);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+  }
+  
+  &::placeholder {
+    color: $gray-500;
+    opacity: 1;
+  }
+  
+  &:disabled,
+  &[readonly] {
+    background-color: $gray-200;
+    opacity: 1;
+  }
+}
+
+select.form-control {
+  padding-right: $spacing-lg;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right $spacing-sm center;
+  background-size: 16px 12px;
+  appearance: none;
+  
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-control-sm {
+  height: calc(1.5em + #{$spacing-xs} * 2 + 2px);
+  padding: $spacing-xs $spacing-sm;
+  font-size: $font-size-sm;
+  border-radius: $border-radius-sm;
+}
+
+.form-control-lg {
+  height: calc(1.5em + #{$spacing-md} * 2 + 2px);
+  padding: $spacing-md;
+  font-size: $font-size-lg;
+  border-radius: $border-radius-lg;
+}
+
+.form-check {
+  position: relative;
+  display: block;
+  padding-left: 1.25rem;
+}
+
+.form-check-input {
+  position: absolute;
+  margin-top: 0.3rem;
+  margin-left: -1.25rem;
+}
+
+.form-check-label {
+  margin-bottom: 0;
+}
+
+.form-inline {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.invalid-feedback {
+  display: block;
+  width: 100%;
+  margin-top: $spacing-xs;
+  font-size: $font-size-sm;
+  color: $danger;
+}
+
+.form-text {
+  display: block;
+  margin-top: $spacing-xs;
+  font-size: $font-size-sm;
+  color: $gray-600;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -$spacing-sm;
+  margin-left: -$spacing-sm;
+  
+  > .col,
+  > [class*="col-"] {
+    padding-right: $spacing-sm;
+    padding-left: $spacing-sm;
+  }
+}
+
+.form-control.is-invalid {
+  border-color: $danger;
+  padding-right: calc(1.5em + #{$spacing-lg});
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + #{$spacing-xs}) center;
+  background-size: calc(0.75em + #{$spacing-xs}) calc(0.75em + #{$spacing-xs});
+  
+  &:focus {
+    border-color: $danger;
+    box-shadow: 0 0 0 0.2rem rgba($danger, 0.25);
+  }
+}
+
+.search-form {
+  position: relative;
+  
+  .search-input {
+    padding-right: $spacing-2xl;
+  }
+  
+  .search-button {
+    position: absolute;
+    right: $spacing-sm;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: $gray-600;
+    cursor: pointer;
+    
+    &:hover {
+      color: $primary;
+    }
+  }
+} 

@@ -1,0 +1,160 @@
+@import '../base/variables';
+@import '../base/mixins';
+
+.header {
+  background-color: $white;
+  box-shadow: $shadow-sm;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: $spacing-sm 0;
+}
+
+.header-container {
+  @include flex(row, space-between, center);
+}
+
+.header-logo {
+  @include flex(row, flex-start, center);
+  text-decoration: none;
+  
+  img {
+    height: 40px;
+    margin-right: $spacing-sm;
+  }
+  
+  h1 {
+    font-size: $font-size-xl;
+    color: $primary;
+    font-weight: bold;
+    margin: 0;
+  }
+}
+
+.header-nav {
+  display: none;
+  
+  @include md {
+    display: block;
+  }
+  
+  ul {
+    @include flex(row, flex-end, center);
+    gap: $spacing-md;
+    margin: 0;
+    padding: 0;
+    
+    li {
+      list-style: none;
+      
+      a {
+        @include link-style;
+        font-size: $font-size-base;
+        font-weight: 500;
+        padding: $spacing-xs 0;
+        position: relative;
+        
+        &:after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 2px;
+          bottom: 0;
+          left: 0;
+          background-color: $primary;
+          transition: width $transition-normal;
+        }
+        
+        &:hover:after,
+        &.active:after {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.header-mobile-menu {
+  display: block;
+  
+  @include md {
+    display: none;
+  }
+  
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: $spacing-xs;
+    
+    span {
+      display: block;
+      width: 24px;
+      height: 3px;
+      background-color: $dark;
+      margin: 5px 0;
+      transition: $transition-normal;
+    }
+    
+    &.open {
+      span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      
+      span:nth-child(2) {
+        opacity: 0;
+      }
+      
+      span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+      }
+    }
+  }
+}
+
+.header-mobile-nav {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 60px);
+  background-color: $white;
+  z-index: 999;
+  transform: translateX(-100%);
+  transition: transform $transition-normal;
+  padding: $spacing-lg;
+  
+  &.open {
+    transform: translateX(0);
+  }
+  
+  ul {
+    @include flex(column, flex-start, flex-start);
+    gap: $spacing-lg;
+    margin: 0;
+    padding: 0;
+    
+    li {
+      list-style: none;
+      width: 100%;
+      
+      a {
+        @include link-style;
+        font-size: $font-size-lg;
+        font-weight: 500;
+        display: block;
+        padding: $spacing-xs 0;
+      }
+    }
+  }
+  
+  @include md {
+    display: none;
+  }
+}
+
+.header-actions {
+  @include flex(row, flex-end, center);
+  gap: $spacing-sm;
+} 

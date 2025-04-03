@@ -1,6 +1,10 @@
 /*
  * This is a manifest file that'll be compiled into application.css
  *= require_self
+ *= require_tree ./base
+ *= require_tree ./layouts
+ *= require_tree ./components
+ *= require_tree ./pages
  */
 
-/* すべてのCSSを無効化中 */
+/* リセットCSSとベースのスタイルを適用 */

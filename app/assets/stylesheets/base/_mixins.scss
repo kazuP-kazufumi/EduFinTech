@@ -1,0 +1,110 @@
+@import 'variables';
+
+// レスポンシブブレークポイントミックスイン
+@mixin sm {
+  @media (min-width: #{$breakpoint-sm}) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: #{$breakpoint-md}) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: #{$breakpoint-lg}) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: #{$breakpoint-xl}) {
+    @content;
+  }
+}
+
+// フレックスボックスミックスイン
+@mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+}
+
+// グリッドミックスイン
+@mixin grid($columns: 1, $gap: $spacing-md) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+// ボタンミックスイン
+@mixin button-style($bg-color: $primary, $text-color: $white) {
+  display: inline-block;
+  padding: $spacing-sm $spacing-md;
+  background-color: $bg-color;
+  color: $text-color;
+  border-radius: $border-radius;
+  font-weight: bold;
+  text-align: center;
+  transition: all $transition-normal;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: darken($bg-color, 10%);
+  }
+}
+
+// カードミックスイン
+@mixin card($padding: $spacing-md, $bg-color: $white) {
+  background-color: $bg-color;
+  border-radius: $border-radius;
+  padding: $padding;
+  box-shadow: $shadow;
+}
+
+// トランケートミックスイン（テキストの切り詰め）
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// アニメーションミックスイン
+@mixin fade-in($duration: 0.3s) {
+  animation: fadeIn $duration ease-in;
+  
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+}
+
+// ポジショニングミックスイン
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// リンクスタイルミックスイン
+@mixin link-style($color: $primary, $hover-color: darken($primary, 15%)) {
+  color: $color;
+  text-decoration: none;
+  transition: color $transition-fast;
+  
+  &:hover {
+    color: $hover-color;
+  }
+} 
