@@ -1,111 +1,113 @@
 <%# トップページ %>
-<div class="home">
-  <%# ページヘッダー %>
-  <div class="page-header">
-    <h1 class="home__title">EduFinTechへようこそ</h1>
-    <p class="home__subtitle">教育分野の資金調達をサポートするプラットフォーム</p>
-  </div>
+<div class="container">
+  <div class="home">
+    <%# ページヘッダー %>
+    <div class="page-header">
+      <h1 class="home__title">EduFinTechへようこそ</h1>
+      <p class="home__subtitle">教育分野の資金調達をサポートするプラットフォーム</p>
+    </div>
 
-  <%# メインコンテンツ - 3つのセクション %>
-  <div class="home__content">
-    <div class="home__grid">
-      <%# 投稿一覧セクション %>
-      <% 
-        posts_content = capture do 
-      %>
-        <h2>投稿一覧</h2>
-        <p>最新の資金調達投稿を閲覧できます。</p>
-        <div class="home-card__action">
-          <%= render "shared/button", 
-            text: "投稿一覧へ", 
-            type: :primary, 
-            size: :medium, 
-            url: posts_path, 
-            html_options: {} 
-          %>
-        </div>
-      <% end %>
-      
-      <%= render "shared/card", 
-        title: nil,
-        content_html: posts_content,
-        footer_html: nil,
-        html_options: { class: "home-card" }
-      %>
+    <%# メインコンテンツ - 3つのセクション %>
+    <div class="home__content">
+      <div class="home__grid">
+        <%# 投稿一覧セクション %>
+        <% 
+          posts_content = capture do 
+        %>
+          <h2>投稿一覧</h2>
+          <p>最新の資金調達投稿を閲覧できます。</p>
+          <div class="home-card__action">
+            <%= render "shared/button", 
+              text: "投稿一覧へ", 
+              type: :primary, 
+              size: nil, 
+              url: posts_path, 
+              html_options: {} 
+            %>
+          </div>
+        <% end %>
+        
+        <%= render "shared/card", 
+          title: nil,
+          content_html: posts_content,
+          footer_html: nil,
+          html_options: { class: "home-card" }
+        %>
 
-      <%# 新規投稿セクション %>
-      <% 
-        new_post_content = capture do 
-      %>
-        <h2>新規投稿</h2>
-        <p>あなたのプロジェクトを投稿して、資金調達を始めましょう。</p>
-        <div class="home-card__action">
-          <% if user_signed_in? %>
-            <%= render "shared/button", 
-              text: "新規投稿へ", 
-              type: :primary, 
-              size: :medium, 
-              url: new_post_path, 
-              html_options: {} 
-            %>
-          <% else %>
-            <%= render "shared/button", 
-              text: "ログインして投稿", 
-              type: :primary, 
-              size: :medium, 
-              url: new_user_session_path, 
-              html_options: {} 
-            %>
-          <% end %>
-        </div>
-      <% end %>
-      
-      <%= render "shared/card", 
-        title: nil,
-        content_html: new_post_content,
-        footer_html: nil,
-        html_options: { class: "home-card" }
-      %>
+        <%# 新規投稿セクション %>
+        <% 
+          new_post_content = capture do 
+        %>
+          <h2>新規投稿</h2>
+          <p>あなたのプロジェクトを投稿して、資金調達を始めましょう。</p>
+          <div class="home-card__action">
+            <% if user_signed_in? %>
+              <%= render "shared/button", 
+                text: "新規投稿へ", 
+                type: :primary, 
+                size: nil, 
+                url: new_post_path, 
+                html_options: {} 
+              %>
+            <% else %>
+              <%= render "shared/button", 
+                text: "ログインして投稿", 
+                type: :primary, 
+                size: nil, 
+                url: new_user_session_path, 
+                html_options: {} 
+              %>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <%= render "shared/card", 
+          title: nil,
+          content_html: new_post_content,
+          footer_html: nil,
+          html_options: { class: "home-card" }
+        %>
 
-      <%# マイページセクション %>
-      <% 
-        mypage_content = capture do 
-      %>
-        <h2>マイページ</h2>
-        <p>
-          <% if user_signed_in? %>
-            あなたの投稿や応募履歴を管理できます。
-          <% else %>
-            ログインすると、あなたの投稿や応募履歴を管理できます。
-          <% end %>
-        </p>
-        <div class="home-card__action">
-          <% if user_signed_in? %>
-            <%= render "shared/button", 
-              text: "マイページへ", 
-              type: :primary, 
-              size: :medium, 
-              url: user_path(current_user), 
-              html_options: {} 
-            %>
-          <% else %>
-            <%= render "shared/button", 
-              text: "ログインして管理", 
-              type: :primary, 
-              size: :medium, 
-              url: new_user_session_path, 
-              html_options: {} 
-            %>
-          <% end %>
-        </div>
-      <% end %>
-      
-      <%= render "shared/card", 
-        title: nil,
-        content_html: mypage_content,
-        footer_html: nil,
-        html_options: { class: "home-card" }
-      %>
+        <%# マイページセクション %>
+        <% 
+          mypage_content = capture do 
+        %>
+          <h2>マイページ</h2>
+          <p>
+            <% if user_signed_in? %>
+              あなたの投稿や応募履歴を管理できます。
+            <% else %>
+              ログインすると、あなたの投稿や応募履歴を管理できます。
+            <% end %>
+          </p>
+          <div class="home-card__action">
+            <% if user_signed_in? %>
+              <%= render "shared/button", 
+                text: "マイページへ", 
+                type: :primary, 
+                size: nil, 
+                url: user_path(current_user), 
+                html_options: {} 
+              %>
+            <% else %>
+              <%= render "shared/button", 
+                text: "ログインして管理", 
+                type: :primary, 
+                size: nil, 
+                url: new_user_session_path, 
+                html_options: {} 
+              %>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <%= render "shared/card", 
+          title: nil,
+          content_html: mypage_content,
+          footer_html: nil,
+          html_options: { class: "home-card" }
+        %>
+      </div>
     </div>
   </div>
 </div> 
