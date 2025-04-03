@@ -40,20 +40,23 @@
 .card-body {
   flex: 1 1 auto;
   padding: 1rem 1rem;
-  text-align: center;
+  text-align: center !important;
 }
 
 .card-title {
   margin-bottom: 0.5rem;
+  text-align: center !important;
 }
 
 .card-subtitle {
   margin-top: -0.25rem;
   margin-bottom: 0;
+  text-align: center !important;
 }
 
 .card-text:last-child {
   margin-bottom: 0;
+  text-align: center !important;
 }
 
 .card-header {

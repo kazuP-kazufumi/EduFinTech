@@ -8,14 +8,14 @@
 <% html_options ||= {} %>
 <% additional_classes = html_options.delete(:class) || "" %>
 
-<div class="card <%= additional_classes %>" <%= html_options.map { |k, v| "#{k}=\"#{v}\"" }.join(' ').html_safe %>>
+<div class="card <%= additional_classes %> text-center" <%= html_options.map { |k, v| "#{k}=\"#{v}\"" }.join(' ').html_safe %>>
   <% if title.present? %>
     <div class="card-header">
       <h5 class="card-title mb-0"><%= title %></h5>
     </div>
   <% end %>
   
-  <div class="card-body">
+  <div class="card-body text-center">
     <%= content_html.html_safe %>
   </div>
   
