@@ -9,6 +9,9 @@ gem "rails", "~> 8.0.2"
 # アセットパイプライン - JavaScriptやCSSの管理・配信を担当
 gem "propshaft"
 
+# SCSSサポート
+gem "dartsass-rails"
+
 # PostgreSQLデータベースアダプター
 gem "pg", "~> 1.1"
 
