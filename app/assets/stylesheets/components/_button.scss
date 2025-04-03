@@ -1,0 +1,125 @@
+@import '../base/variables';
+@import '../base/mixins';
+
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  color: $dark;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  background-color: transparent;
+  border: $border-width solid transparent;
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-base;
+  line-height: 1.5;
+  border-radius: $border-radius;
+  transition: all $transition-normal;
+  cursor: pointer;
+  
+  &:hover {
+    text-decoration: none;
+  }
+  
+  &:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+  }
+  
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+}
+
+.btn-primary {
+  @include button-style($primary, $white);
+}
+
+.btn-secondary {
+  @include button-style($secondary, $white);
+}
+
+.btn-success {
+  @include button-style($success, $white);
+}
+
+.btn-danger {
+  @include button-style($danger, $white);
+}
+
+.btn-warning {
+  @include button-style($warning, $dark);
+}
+
+.btn-info {
+  @include button-style($info, $white);
+}
+
+.btn-light {
+  @include button-style($light, $dark);
+}
+
+.btn-dark {
+  @include button-style($dark, $white);
+}
+
+.btn-outline-primary {
+  color: $primary;
+  border-color: $primary;
+  background-color: transparent;
+  
+  &:hover {
+    color: $white;
+    background-color: $primary;
+    border-color: $primary;
+  }
+}
+
+.btn-outline-secondary {
+  color: $secondary;
+  border-color: $secondary;
+  background-color: transparent;
+  
+  &:hover {
+    color: $white;
+    background-color: $secondary;
+    border-color: $secondary;
+  }
+}
+
+.btn-link {
+  font-weight: 400;
+  color: $primary;
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  
+  &:hover {
+    color: darken($primary, 15%);
+    text-decoration: underline;
+  }
+}
+
+.btn-sm {
+  padding: $spacing-xs $spacing-sm;
+  font-size: $font-size-sm;
+  border-radius: $border-radius-sm;
+}
+
+.btn-lg {
+  padding: $spacing-md $spacing-lg;
+  font-size: $font-size-lg;
+  border-radius: $border-radius-lg;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+.btn-icon {
+  @include flex(row, center, center);
+  gap: $spacing-xs;
+} 

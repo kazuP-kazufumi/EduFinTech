@@ -1,0 +1,146 @@
+@import '../base/variables';
+@import '../base/mixins';
+
+.footer {
+  background-color: $gray-800;
+  color: $white;
+  padding: $spacing-xl 0;
+  margin-top: $spacing-xl;
+}
+
+.footer-container {
+  @include flex(column, flex-start, stretch);
+  
+  @include md {
+    @include flex(row, space-between, flex-start);
+  }
+}
+
+.footer-section {
+  margin-bottom: $spacing-lg;
+  
+  @include md {
+    margin-bottom: 0;
+    flex: 1;
+    padding: 0 $spacing-md;
+    
+    &:first-child {
+      padding-left: 0;
+    }
+    
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+.footer-logo {
+  @include flex(row, flex-start, center);
+  margin-bottom: $spacing-md;
+  
+  img {
+    height: 40px;
+    margin-right: $spacing-sm;
+  }
+  
+  h2 {
+    font-size: $font-size-xl;
+    color: $white;
+    font-weight: bold;
+    margin: 0;
+  }
+}
+
+.footer-description {
+  color: $gray-400;
+  margin-bottom: $spacing-md;
+  font-size: $font-size-sm;
+}
+
+.footer-heading {
+  font-size: $font-size-lg;
+  font-weight: bold;
+  color: $white;
+  margin-bottom: $spacing-md;
+  position: relative;
+  
+  &:after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background-color: $primary;
+    margin-top: $spacing-xs;
+  }
+}
+
+.footer-links {
+  @include flex(column, flex-start, flex-start);
+  gap: $spacing-sm;
+  
+  a {
+    color: $gray-400;
+    text-decoration: none;
+    transition: color $transition-fast;
+    font-size: $font-size-sm;
+    
+    &:hover {
+      color: $white;
+    }
+  }
+}
+
+.footer-social {
+  @include flex(row, flex-start, center);
+  gap: $spacing-md;
+  margin-top: $spacing-md;
+  
+  a {
+    color: $gray-400;
+    transition: color $transition-fast;
+    font-size: $font-size-xl;
+    
+    &:hover {
+      color: $white;
+    }
+  }
+}
+
+.footer-bottom {
+  margin-top: $spacing-xl;
+  padding-top: $spacing-md;
+  border-top: 1px solid $gray-700;
+  @include flex(column, center, center);
+  text-align: center;
+  
+  @include md {
+    @include flex(row, space-between, center);
+    text-align: left;
+  }
+}
+
+.footer-copyright {
+  color: $gray-500;
+  font-size: $font-size-xs;
+  margin-bottom: $spacing-sm;
+  
+  @include md {
+    margin-bottom: 0;
+  }
+}
+
+.footer-bottom-links {
+  @include flex(row, center, center);
+  gap: $spacing-md;
+  
+  a {
+    color: $gray-500;
+    text-decoration: none;
+    transition: color $transition-fast;
+    font-size: $font-size-xs;
+    
+    &:hover {
+      color: $white;
+    }
+  }
+} 
