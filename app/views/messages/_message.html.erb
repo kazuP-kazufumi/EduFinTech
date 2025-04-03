@@ -1,40 +1,59 @@
 <%# メッセージ表示用の部分テンプレート %>
 <%# @param message [Message] 表示するメッセージオブジェクト %>
 
-<%# メッセージのコンテナ要素 %>
-<%# message--own クラスは自分のメッセージの場合に付与され、スタイルを変更するために使用 %>
-<%# dom_idヘルパーでメッセージごとにユニークなIDを生成 %>
-<div class="message <%= 'message--own' if message.user == current_user %> <%= 'message--read' if message.is_read %>" 
-     id="<%= dom_id(message) %>"
-     data-message-id="<%= message.id %>">
-  <%# メッセージのヘッダー部分 - ユーザー名と投稿時刻を表示 %>
-  <div class="message__header">
-    <%# メッセージ送信者の名前を表示 %>
-    <div class="message__user">
-      <%= message.user.name %>
-    </div>
-    <%# メッセージの投稿時刻を短い形式で表示 %>
-    <%# lヘルパーを使用して時刻のフォーマットを指定 %>
-    <div class="message__time">
-      <%= l message.created_at, format: :short %>
-    </div>
-  </div>
-
-  <%# メッセージの本文を表示 %>
+<%
+  # メッセージの内容を生成
+  content_html = capture do
+%>
   <div class="message__content">
     <%= message.content %>
   </div>
+<% end %>
 
-  <%# 自分のメッセージの場合のみ、削除ボタンを表示 %>
-  <% if message.user == current_user %>
+<%
+  # メッセージのヘッダー部分を生成
+  header_html = capture do
+%>
+  <div class="message__user">
+    <%= message.user.name %>
+  </div>
+  <div class="message__time">
+    <%= l message.created_at, format: :short %>
+  </div>
+<% end %>
+
+<%
+  # 削除ボタンがある場合のフッター部分を生成
+  footer_html = nil
+  if message.user == current_user
+    footer_html = capture do
+%>
     <div class="message__actions">
-      <%# 削除ボタンの設定 %>
-      <%# button_toヘルパーでDELETEリクエストを送信するボタンを生成 %>
-      <%# Turboの確認ダイアログを表示するように設定 %>
-      <%= button_to "削除", chat_room_message_path(@chat_room, message),
-                    method: :delete,
-                    class: "message__delete",
-                    data: { turbo_confirm: "このメッセージを削除しますか？" } %>
+      <%= render "shared/button", 
+        text: "削除", 
+        type: :danger, 
+        size: :small, 
+        url: chat_room_message_path(@chat_room, message), 
+        method: :delete, 
+        html_options: { 
+          class: "message__delete", 
+          data: { turbo_confirm: "このメッセージを削除しますか？" } 
+        } 
+      %>
     </div>
-  <% end %>
-</div> 
+<% 
+    end
+  end
+%>
+
+<%# カードパーシャルを使用してメッセージを表示 %>
+<%= render "shared/card", 
+  title: nil,
+  content_html: content_html,
+  footer_html: footer_html,
+  html_options: { 
+    class: "message #{message.user == current_user ? 'message--own' : ''} #{message.is_read ? 'message--read' : ''}",
+    id: dom_id(message),
+    data: { message_id: message.id }
+  }
+%> 
