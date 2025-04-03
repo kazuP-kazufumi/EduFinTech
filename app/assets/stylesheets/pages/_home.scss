@@ -71,10 +71,15 @@
 
 // ページヘッダー
 .page-header {
-  text-align: center;
+  text-align: center !important;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #eee;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 // Hero Section
