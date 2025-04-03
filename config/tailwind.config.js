@@ -9,6 +9,8 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // カスタム設定は一旦コメントアウト
+      /*
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
@@ -26,6 +28,7 @@ module.exports = {
           900: '#0c4a6e',
         },
       },
+      */
     },
   },
   plugins: [
