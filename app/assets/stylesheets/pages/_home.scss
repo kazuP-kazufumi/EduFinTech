@@ -6,6 +6,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
+  text-align: center;
   
   &__title {
     font-size: 2.5rem;
@@ -47,15 +48,19 @@
     font-size: 1.5rem;
     margin-bottom: 1rem;
     color: #333;
+    text-align: center;
   }
   
   p {
     margin-bottom: 1.5rem;
     color: #666;
+    text-align: center;
   }
   
   &__action {
     margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
   }
 }
 
