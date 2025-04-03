@@ -1,22 +1,26 @@
-<%# カード（コンテンツボックス）を表示する共通パーシャル %>
+<%# カードコンポーネントを表示する共通パーシャル %>
 <%# @param title [String] カードのタイトル（省略可） %>
-<%# @param content_html [String] カードの内容（HTML） %>
+<%# @param content_html [String] カードの内容（必須） %>
 <%# @param footer_html [String] カードのフッター（省略可） %>
-<%# @param html_options [Hash] HTML属性（class: "...", id: "..." など） %>
+<%# @param html_options [Hash] HTML属性（class: "...", data: {...} など） %>
 
-<div class="card <%= html_options[:class] %>" <%= html_options.except(:class).map { |k, v| "#{k}=\"#{v}\"" }.join(' ').html_safe %>>
+<%# デフォルト値の設定 %>
+<% html_options ||= {} %>
+<% additional_classes = html_options.delete(:class) || "" %>
+
+<div class="card <%= additional_classes %>" <%= html_options.map { |k, v| "#{k}=\"#{v}\"" }.join(' ').html_safe %>>
   <% if title.present? %>
-    <div class="card__header">
-      <h3 class="card__title"><%= title %></h3>
+    <div class="card-header">
+      <h5 class="card-title mb-0"><%= title %></h5>
     </div>
   <% end %>
   
-  <div class="card__body">
+  <div class="card-body">
     <%= content_html.html_safe %>
   </div>
   
   <% if footer_html.present? %>
-    <div class="card__footer">
+    <div class="card-footer">
       <%= footer_html.html_safe %>
     </div>
   <% end %>
