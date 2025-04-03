@@ -1,4 +1,4 @@
-<%# チャットルーム表示用のメインビュー %>
+<%# チャットルーム詳細ページ %>
 <%# @param @chat_room [ChatRoom] 表示するチャットルームオブジェクト %>
 
 <%# チャットルーム全体のコンテナ要素 %>
@@ -21,6 +21,17 @@
           <%= user.name %>
         </div>
       <% end %>
+    </div>
+    
+    <%# 戻るボタン %>
+    <div class="chat-room__back">
+      <%= render "shared/button", 
+        text: "戻る", 
+        type: :secondary, 
+        size: :small, 
+        url: chat_rooms_path, 
+        html_options: {} 
+      %>
     </div>
   </div>
 
