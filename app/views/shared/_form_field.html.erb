@@ -1,0 +1,32 @@
+<%# フォームの入力フィールドを表示する共通パーシャル %>
+<%# @param form [FormBuilder] フォームビルダーオブジェクト %>
+<%# @param attribute [Symbol] 属性名（例: :title, :content） %>
+<%# @param label_text [String] ラベルテキスト %>
+<%# @param field_type [Symbol] フィールドの種類（:text_field, :text_area, :select など） %>
+<%# @param options [Hash] フィールドのオプション（rows: 10 など） %>
+<%# @param html_options [Hash] HTML属性（class: "..." など） %>
+<%# @param collection [Array] select フィールドの場合の選択肢 %>
+
+<div class="form-field">
+  <%= form.label attribute, label_text, class: "form-field__label" %>
+  <div class="form-field__input-container">
+    <% case field_type %>
+    <% when :text_field %>
+      <%= form.text_field attribute, options.merge(class: "form-field__input #{html_options[:class]}") %>
+    <% when :text_area %>
+      <%= form.text_area attribute, options.merge(class: "form-field__input #{html_options[:class]}") %>
+    <% when :select %>
+      <%= form.select attribute, collection, options, html_options.merge(class: "form-field__select #{html_options[:class]}") %>
+    <% when :password_field %>
+      <%= form.password_field attribute, options.merge(class: "form-field__input #{html_options[:class]}") %>
+    <% when :email_field %>
+      <%= form.email_field attribute, options.merge(class: "form-field__input #{html_options[:class]}") %>
+    <% when :number_field %>
+      <%= form.number_field attribute, options.merge(class: "form-field__input #{html_options[:class]}") %>
+    <% when :file_field %>
+      <%= form.file_field attribute, options.merge(class: "form-field__file #{html_options[:class]}") %>
+    <% else %>
+      <%= form.text_field attribute, options.merge(class: "form-field__input #{html_options[:class]}") %>
+    <% end %>
+  </div>
+</div> 
