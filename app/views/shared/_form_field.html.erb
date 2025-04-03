@@ -27,7 +27,13 @@
     <% when :text_area %>
       <%= form.text_area attribute, options.merge(class: "form-control #{html_options[:class]}", rows: html_options[:rows] || 5) %>
     <% when :select %>
-      <%= form.select attribute, collection, options, { include_blank: html_options[:include_blank] }, { class: "form-select #{html_options[:class]}" }.merge(html_options.except(:class, :include_blank)) %>
+      <% 
+        # セレクトフィールドの選択肢オプション
+        select_options = options.merge(include_blank: html_options[:include_blank])
+        # HTML属性オプション
+        select_html_options = { class: "form-select #{html_options[:class]}" }.merge(html_options.except(:class, :include_blank))
+      %>
+      <%= form.select attribute, collection, select_options, select_html_options %>
     <% when :password_field %>
       <%= form.password_field attribute, options.merge(class: "form-control #{html_options[:class]}") %>
     <% when :email_field %>
