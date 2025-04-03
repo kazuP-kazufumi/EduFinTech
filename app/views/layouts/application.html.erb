@@ -38,64 +38,74 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <%# 最小高さをビューポート高に設定し、背景色をグレーに %>
-  <body class="h-screen flex flex-col bg-gray-50">
-    <%# ヘッダー - カスタムスタイルを適用 %>
-    <header class="header">
-      <div class="header-container">
-        <%# ロゴ - 左寄せ %>
-        <%= link_to "EduFinTech", root_path, class: "header-logo" %>
+  <body>
+    <%# ヘッダー %>
+    <header>
+      <div>
+        <%# ロゴ %>
+        <%= link_to "EduFinTech", root_path %>
 
-        <%# ナビゲーションメニュー - 右寄せ %>
-        <nav class="header-nav">
-          <%# ログイン状態に応じてメニューを切り替え %>
+        <%# ナビゲーションメニュー %>
+        <nav>
+          <%# ログイン状態に応じて表示を切り替え %>
           <% if user_signed_in? %>
             <%# ログイン済みの場合 %>
-            <%= link_to "投稿一覧", posts_path, class: "nav-button nav-button-login" %>
-            <%= link_to "新規投稿", new_post_path, class: "nav-button nav-button-login" %>
-            <%= link_to "マイページ", user_path(current_user), class: "nav-button nav-button-login" %>
-            <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-button nav-button-signup" %>
+            <%# ユーザーメニュー %>
+            <div>
+              <%# ユーザーアイコン %>
+              <div>
+                <%= image_tag current_user.avatar_url, alt: "ユーザーアイコン" %>
+              </div>
+
+              <%# ドロップダウンメニュー %>
+              <div>
+                <%# プロフィールリンク %>
+                <%= link_to "プロフィール", profile_path %>
+
+                <%# 設定リンク %>
+                <%= link_to "設定", settings_path %>
+
+                <%# ログアウトボタン %>
+                <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+              </div>
+            </div>
           <% else %>
             <%# 未ログインの場合 %>
-            <%= link_to "ログイン", new_user_session_path, class: "nav-button nav-button-login" %>
-            <%= link_to "新規登録", new_user_registration_path, class: "nav-button nav-button-signup" %>
+            <%# ログインボタン %>
+            <%= link_to "ログイン", new_user_session_path %>
+
+            <%# 新規登録ボタン %>
+            <%= link_to "新規登録", new_user_registration_path %>
           <% end %>
         </nav>
       </div>
     </header>
 
-    <%# メインコンテンツ - スクロール可能な領域として設定 %>
-    <main class="flex-1 overflow-auto">
-      <%# フラッシュメッセージ - シンプルなテキストベースのデザイン %>
-      <% if notice %>
-        <div class="bg-green-50 border-l-4 border-green-400 p-4">
-          <div class="flex">
-            <div class="flex-shrink-0">
-              <p class="text-sm text-green-700"><%= notice %></p>
-            </div>
-          </div>
-        </div>
-      <% end %>
-      <% if alert %>
-        <div class="bg-red-50 border-l-4 border-red-400 p-4">
-          <div class="flex">
-            <div class="flex-shrink-0">
-              <p class="text-sm text-red-700"><%= alert %></p>
-            </div>
-          </div>
-        </div>
-      <% end %>
+    <%# フラッシュメッセージ %>
+    <% if notice %>
+      <div class="notice"><%= notice %></div>
+    <% end %>
+    <% if alert %>
+      <div class="alert"><%= alert %></div>
+    <% end %>
 
-      <%# ページコンテンツ %>
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <%= yield %>
-      </div>
+    <%# メインコンテンツ %>
+    <main>
+      <%= yield %>
     </main>
 
-    <%# フッター - 濃いグレーの背景色で区別 %>
-    <footer class="h-8 bg-gray-800 border-t border-gray-700">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-center">
-        <p class="text-sm text-gray-300">&copy; <%= Time.current.year %> EduFinTech. All rights reserved.</p>
+    <%# フッター %>
+    <footer>
+      <div>
+        <%# コピーライト %>
+        <p>&copy; <%= Time.current.year %> EduFinTech. All rights reserved.</p>
+
+        <%# フッターナビゲーション %>
+        <nav>
+          <%= link_to "利用規約", terms_path %>
+          <%= link_to "プライバシーポリシー", privacy_path %>
+          <%= link_to "お問い合わせ", contact_path %>
+        </nav>
       </div>
     </footer>
   </body>

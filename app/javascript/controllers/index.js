@@ -3,7 +3,7 @@
 
 // アプリケーションのメインStimulusインスタンスをインポート
 // これは、Stimulusアプリケーションのルートとなる
-import { application } from "controllers/application"
+import { application } from "./application"
 
 // Stimulusの自動ローディング機能をインポート
 // これにより、controllersディレクトリ内の全てのコントローラーが自動的に読み込まれる
@@ -12,4 +12,4 @@ import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 // 全てのコントローラーを自動的に読み込んで登録
 // 第1引数: コントローラーファイルの検索ディレクトリ
 // 第2引数: 登録先のStimulusアプリケーションインスタンス
-eagerLoadControllersFrom("controllers", application)
+eagerLoadControllersFrom("", application)

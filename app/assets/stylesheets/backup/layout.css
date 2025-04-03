@@ -64,4 +64,22 @@
 
 .nav-button-signup:hover {
   background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* ウェルカムメッセージのスタイル */
+.welcome-message {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1a365d;
+  text-align: center;
+  margin: 2rem 0;
+  padding: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.05em;
+}
+
+.welcome-message:hover {
+  color: #2c5282;
+  transform: scale(1.02);
+  transition: all 0.3s ease;
 } 
