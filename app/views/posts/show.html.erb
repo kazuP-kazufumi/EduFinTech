@@ -29,7 +29,7 @@
             type: :danger, 
             size: :small, 
             url: post_path(@post), 
-            method: :delete, 
+            http_method: :delete, 
             html_options: { data: { turbo_confirm: "本当に削除しますか？" } }
           %>
         </div>

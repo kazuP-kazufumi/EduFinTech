@@ -3,8 +3,11 @@
 <%# @param type [Symbol] ボタンのタイプ（:primary, :secondary, :danger など） %>
 <%# @param size [Symbol] ボタンのサイズ（:small, :medium, :large） %>
 <%# @param url [String] リンク先URL（省略可） %>
-<%# @param method [Symbol] HTTPメソッド（省略可、:get, :post, :delete など） %>
+<%# @param http_method [Symbol] HTTPメソッド（省略可、:get, :post, :delete など） %>
 <%# @param html_options [Hash] HTML属性（class: "...", data: {...} など） %>
+
+<%# デフォルト値の設定 %>
+<% http_method ||= nil %>
 
 <%# クラス名の生成 %>
 <% 
@@ -16,9 +19,9 @@
 
 <%# ボタンの種類に応じて出力を変更 %>
 <% if url.present? %>
-  <% if method && method != :get %>
+  <% if http_method && http_method != :get %>
     <%# フォームを使用するボタン（DELETE, PUT などのリクエスト用） %>
-    <%= button_to text, url, method: method, class: full_class, **html_options.except(:class) %>
+    <%= button_to text, url, method: http_method, class: full_class, **html_options.except(:class) %>
   <% else %>
     <%# 通常のリンクボタン %>
     <%= link_to text, url, class: full_class, **html_options.except(:class) %>

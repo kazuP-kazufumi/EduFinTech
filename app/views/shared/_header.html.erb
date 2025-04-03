@@ -25,7 +25,7 @@
             <%= link_to "設定", settings_path %>
 
             <%# ログアウトボタン %>
-            <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+            <%= button_to "ログアウト", destroy_user_session_path, http_method: :delete %>
           </div>
         </div>
       <% else %>
