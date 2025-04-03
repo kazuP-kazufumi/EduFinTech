@@ -1,94 +1,96 @@
 <%# 投稿詳細ページ %>
-<div class="post-detail">
-  <%
-    # 投稿コンテンツの生成
-    post_content_html = capture do
-  %>
-    <div class="post-detail__header">
-      <div class="post-detail__title-area">
-        <h1><%= @post.title %></h1>
-        <p>投稿日時: <%= l @post.created_at, format: :long %></p>
-        <p>投稿者: <%= @post.user.email %></p>
+<div class="container py-4">
+  <div class="post-detail">
+    <%
+      # 投稿コンテンツの生成
+      post_content_html = capture do
+    %>
+      <div class="post-detail__header">
+        <div class="post-detail__title-area">
+          <h1><%= @post.title %></h1>
+          <p>投稿日時: <%= l @post.created_at, format: :long %></p>
+          <p>投稿者: <%= @post.user.email %></p>
+        </div>
+
+        <span class="post-detail__category">
+          <%= @post.category %>
+        </span>
+
+        <% if user_signed_in? && @post.user == current_user %>
+          <div class="post-detail__actions">
+            <%= render "shared/button", 
+              text: "編集", 
+              type: :secondary, 
+              size: :sm, 
+              url: edit_post_path(@post), 
+              html_options: {} 
+            %>
+            <%= render "shared/button", 
+              text: "削除", 
+              type: :danger, 
+              size: :sm, 
+              url: post_path(@post), 
+              http_method: :delete, 
+              html_options: { data: { turbo_confirm: "本当に削除しますか？" } }
+            %>
+          </div>
+        <% end %>
       </div>
 
-      <span class="post-detail__category">
-        <%= @post.category %>
-      </span>
+      <div class="post-detail__content">
+        <%= simple_format h(@post.content) %>
+      </div>
+    <% end %>
 
-      <% if user_signed_in? && @post.user == current_user %>
-        <div class="post-detail__actions">
-          <%= render "shared/button", 
-            text: "編集", 
-            type: :secondary, 
-            size: :small, 
-            url: edit_post_path(@post), 
-            html_options: {} 
-          %>
-          <%= render "shared/button", 
-            text: "削除", 
-            type: :danger, 
-            size: :small, 
-            url: post_path(@post), 
-            http_method: :delete, 
-            html_options: { data: { turbo_confirm: "本当に削除しますか？" } }
-          %>
-        </div>
-      <% end %>
-    </div>
-
-    <div class="post-detail__content">
-      <%= simple_format h(@post.content) %>
-    </div>
-  <% end %>
-
-  <%
-    # 支援申し込みフッターの生成
-    footer_html = capture do
-  %>
-    <div class="post-detail__support">
-      <% if user_signed_in? %>
-        <% if @post.user == current_user %>
-          <%# 投稿者本人の場合は何も表示しない %>
-        <% else %>
-          <%= render "shared/button", 
-            text: "支援を申し込む", 
-            type: :primary, 
-            size: :medium, 
-            url: "#", 
-            html_options: { class: "post-detail__support-button" } 
-          %>
-        <% end %>
-      <% else %>
-        <div class="post-detail__login-prompt">
-          <p>支援を申し込むにはログインが必要です</p>
-          <%= render "shared/button", 
-            text: "ログインする", 
-            type: :primary, 
-            size: :medium, 
-            url: new_user_session_path, 
-            html_options: {} 
-          %>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
-
-  <%# カードコンポーネントで投稿を表示 %>
-  <%= render "shared/card", 
-    title: nil,
-    content_html: post_content_html,
-    footer_html: footer_html,
-    html_options: { class: "post-detail__card" }
-  %>
-
-  <%# 戻るリンク %>
-  <div class="post-detail__back-link">
-    <%= render "shared/button", 
-      text: "戻る", 
-      type: :secondary, 
-      size: :small, 
-      url: posts_path, 
-      html_options: {} 
+    <%
+      # 支援申し込みフッターの生成
+      footer_html = capture do
     %>
+      <div class="post-detail__support">
+        <% if user_signed_in? %>
+          <% if @post.user == current_user %>
+            <%# 投稿者本人の場合は何も表示しない %>
+          <% else %>
+            <%= render "shared/button", 
+              text: "支援を申し込む", 
+              type: :primary, 
+              size: nil, 
+              url: "#", 
+              html_options: { class: "post-detail__support-button" } 
+            %>
+          <% end %>
+        <% else %>
+          <div class="post-detail__login-prompt">
+            <p>支援を申し込むにはログインが必要です</p>
+            <%= render "shared/button", 
+              text: "ログインする", 
+              type: :primary, 
+              size: nil, 
+              url: new_user_session_path, 
+              html_options: {} 
+            %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# カードコンポーネントで投稿を表示 %>
+    <%= render "shared/card", 
+      title: nil,
+      content_html: post_content_html,
+      footer_html: footer_html,
+      html_options: { class: "post-detail__card" }
+    %>
+
+    <%# 戻るリンク %>
+    <div class="post-detail__back-link">
+      <%= render "shared/button", 
+        text: "投稿一覧に戻る", 
+        type: :secondary, 
+        size: :sm, 
+        url: posts_path, 
+        html_options: {} 
+      %>
+    </div>
   </div>
 </div>

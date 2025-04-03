@@ -1,5 +1,5 @@
 <%# 投稿一覧ページ %>
-<div>
+<div class="container py-4">
   <%# ページヘッダー %>
   <div class="page-header">
     <h1>資金調達の投稿一覧</h1>
@@ -48,7 +48,7 @@
     </div>
 
     <div class="search-form__actions">
-      <%= f.submit "検索", class: "button button--primary button--small" %>
+      <%= f.submit "検索", class: "btn btn-primary" %>
     </div>
   <% end %>
 
@@ -58,7 +58,7 @@
       <%= render "shared/button", 
         text: "新規投稿", 
         type: :primary, 
-        size: :medium, 
+        size: :sm, 
         url: new_post_path, 
         html_options: {} 
       %>
@@ -67,67 +67,6 @@
 
   <%# 投稿一覧 %>
   <div class="posts-list">
-    <% @posts.each do |post| %>
-      <% 
-        # 投稿の内容を生成
-        content_html = capture do 
-      %>
-        <div class="post-card__header">
-          <div class="post-card__title-area">
-            <h2>
-              <%= link_to post.title, post_path(post) %>
-            </h2>
-            <p>
-              投稿者: <%= post.user.email %> | 
-              投稿日時: <%= l post.created_at, format: :long %>
-            </p>
-          </div>
-          <span class="post-card__category">
-            <%= post.category %>
-          </span>
-        </div>
-
-        <div class="post-card__content">
-          <p><%= post.content %></p>
-        </div>
-      <% end %>
-
-      <% 
-        # 投稿のフッターを生成（編集、削除ボタン）
-        footer_html = nil
-        if user_signed_in? && current_user == post.user
-          footer_html = capture do 
-      %>
-        <div class="post-card__actions">
-          <%= render "shared/button", 
-            text: "編集", 
-            type: :secondary, 
-            size: :small, 
-            url: edit_post_path(post), 
-            html_options: {} 
-          %>
-          <%= render "shared/button", 
-            text: "削除", 
-            type: :danger, 
-            size: :small, 
-            url: post_path(post), 
-            http_method: :delete, 
-            html_options: { data: { turbo_confirm: "本当に削除しますか？" } } 
-          %>
-        </div>
-      <% 
-          end
-        end 
-      %>
-
-      <%= render "shared/card", 
-        title: nil,
-        content_html: content_html,
-        footer_html: footer_html,
-        html_options: { class: "post-card" }
-      %>
-    <% end %>
-
     <% if @posts.empty? %>
       <div class="empty-state">
         <h3>投稿がありません</h3>
@@ -137,18 +76,81 @@
             <%= render "shared/button", 
               text: "新規投稿", 
               type: :primary, 
-              size: :medium, 
+              size: nil, 
               url: new_post_path, 
               html_options: {} 
             %>
           </div>
         <% end %>
       </div>
+    <% else %>
+      <% @posts.each do |post| %>
+        <% 
+          # 投稿の内容を生成
+          content_html = capture do 
+        %>
+          <div class="post-card__header">
+            <div class="post-card__title-area">
+              <h2>
+                <%= link_to post.title, post_path(post) %>
+              </h2>
+              <p>
+                投稿者: <%= post.user.email %> | 
+                投稿日時: <%= l post.created_at, format: :long %>
+              </p>
+            </div>
+            <span class="post-card__category">
+              <%= post.category %>
+            </span>
+          </div>
+
+          <div class="post-card__content">
+            <p><%= truncate(post.content, length: 200) %></p>
+          </div>
+        <% end %>
+
+        <% 
+          # 投稿のフッターを生成（編集、削除ボタン）
+          footer_html = nil
+          if user_signed_in? && current_user == post.user
+            footer_html = capture do 
+        %>
+          <div class="post-card__actions">
+            <%= render "shared/button", 
+              text: "編集", 
+              type: :secondary, 
+              size: :sm, 
+              url: edit_post_path(post), 
+              html_options: {} 
+            %>
+            <%= render "shared/button", 
+              text: "削除", 
+              type: :danger, 
+              size: :sm, 
+              url: post_path(post), 
+              http_method: :delete, 
+              html_options: { data: { turbo_confirm: "本当に削除しますか？" } } 
+            %>
+          </div>
+        <% 
+            end
+          end 
+        %>
+
+        <%= render "shared/card", 
+          title: nil,
+          content_html: content_html,
+          footer_html: footer_html,
+          html_options: { class: "post-card" }
+        %>
+      <% end %>
     <% end %>
   </div>
 
   <%# ページネーション %>
-  <div class="pagination">
-    <%= paginate @posts %>
-  </div>
+  <% if @posts.any? %>
+    <div class="pagination-container">
+      <%= paginate @posts %>
+    </div>
+  <% end %>
 </div>
