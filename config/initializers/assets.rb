@@ -12,6 +12,9 @@ Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'style
 
 # Precompile additional assets.
 Rails.application.config.assets.precompile += %w( *.css )
+Rails.application.config.assets.precompile += %w( *.js )
+
+Rails.application.config.assets.precompile += %w( application.js )
 
 # Enable serving of static files from the `/public` folder by default
 Rails.application.config.serve_static_files = true
