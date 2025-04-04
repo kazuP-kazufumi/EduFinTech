@@ -1,0 +1,30 @@
+/*
+ * This is a manifest file that'll be compiled into application.css
+ *= require_self
+ *= require_tree ./base
+ *= require_tree ./layouts
+ *= require_tree ./components
+ *= require_tree ./pages
+ */
+
+// ベーススタイル
+@import "base/variables";
+@import "base/reset";
+@import "base/mixins";
+@import "base/utilities";
+
+// レイアウト
+@import "layouts/container";
+@import "layouts/header";
+@import "layouts/footer";
+
+// コンポーネント
+@import "components/button";
+@import "components/card";
+@import "components/form";
+
+// ページ固有のスタイル
+@import "pages/home";
+@import "pages/posts";
+
+/* リセットCSSとベースのスタイルを適用 */

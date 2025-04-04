@@ -7,26 +7,49 @@
 <%# @param html_options [Hash] HTML属性（class: "..." など） %>
 <%# @param collection [Array] select フィールドの場合の選択肢 %>
 
-<div class="form-field">
-  <%= form.label attribute, label_text, class: "form-field__label" %>
-  <div class="form-field__input-container">
+<%# デフォルト値の設定 %>
+<% field_type ||= :text %>
+<% options ||= {} %>
+<% html_options ||= {} %>
+<% required ||= false %>
+<% label_text ||= attribute.to_s.humanize %>
+
+<div class="form-group mb-3">
+  <%= form.label attribute, label_text, class: "form-label" %>
+  <% if required %>
+    <span class="text-danger ms-1">*</span>
+  <% end %>
+  
+  <div class="input-container">
     <% case field_type %>
     <% when :text_field %>
-      <%= form.text_field attribute, options.merge(class: "form-field__input #{html_options[:class]}") %>
+      <%= form.text_field attribute, options.merge(class: "form-control #{html_options[:class]}") %>
     <% when :text_area %>
-      <%= form.text_area attribute, options.merge(class: "form-field__input #{html_options[:class]}") %>
+      <%= form.text_area attribute, options.merge(class: "form-control #{html_options[:class]}", rows: html_options[:rows] || 5) %>
     <% when :select %>
-      <%= form.select attribute, collection, options, html_options.merge(class: "form-field__select #{html_options[:class]}") %>
+      <% 
+        # セレクトフィールドの選択肢オプション
+        select_options = options.merge(include_blank: html_options[:include_blank])
+        # HTML属性オプション
+        select_html_options = { class: "form-select #{html_options[:class]}" }.merge(html_options.except(:class, :include_blank))
+      %>
+      <%= form.select attribute, collection, select_options, select_html_options %>
     <% when :password_field %>
-      <%= form.password_field attribute, options.merge(class: "form-field__input #{html_options[:class]}") %>
+      <%= form.password_field attribute, options.merge(class: "form-control #{html_options[:class]}") %>
     <% when :email_field %>
-      <%= form.email_field attribute, options.merge(class: "form-field__input #{html_options[:class]}") %>
+      <%= form.email_field attribute, options.merge(class: "form-control #{html_options[:class]}") %>
     <% when :number_field %>
-      <%= form.number_field attribute, options.merge(class: "form-field__input #{html_options[:class]}") %>
+      <%= form.number_field attribute, options.merge(class: "form-control #{html_options[:class]}") %>
     <% when :file_field %>
-      <%= form.file_field attribute, options.merge(class: "form-field__file #{html_options[:class]}") %>
+      <%= form.file_field attribute, options.merge(class: "form-control #{html_options[:class]}") %>
     <% else %>
-      <%= form.text_field attribute, options.merge(class: "form-field__input #{html_options[:class]}") %>
+      <%= form.text_field attribute, options.merge(class: "form-control #{html_options[:class]}") %>
+    <% end %>
+    
+    <% if form.object && form.object.errors[attribute].present? %>
+      <div class="invalid-feedback d-block">
+        <%= form.object.errors[attribute].join(', ') %>
+      </div>
     <% end %>
   </div>
 </div> 

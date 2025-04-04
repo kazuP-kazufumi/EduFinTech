@@ -1,34 +1,57 @@
 <%# ボタンを表示する共通パーシャル %>
 <%# @param text [String] ボタンのテキスト %>
-<%# @param type [Symbol] ボタンのタイプ（:primary, :secondary, :danger など） %>
-<%# @param size [Symbol] ボタンのサイズ（:small, :medium, :large） %>
+<%# @param type [Symbol] ボタンのタイプ（:primary, :secondary, :success, :danger, :warning, :info, :light, :dark など） %>
+<%# @param size [Symbol] ボタンのサイズ（:sm, :lg, デフォルト） %>
 <%# @param url [String] リンク先URL（省略可） %>
 <%# @param http_method [Symbol] HTTPメソッド（省略可、:get, :post, :delete など） %>
 <%# @param html_options [Hash] HTML属性（class: "...", data: {...} など） %>
+<%# @param block [Boolean] ブロック要素として表示するか（幅100%） %>
+<%# @param outline [Boolean] アウトラインスタイルで表示するか %>
 
 <%# デフォルト値の設定 %>
 <% http_method ||= nil %>
+<% html_options ||= {} %>
+<% type ||= :primary %>
+<% size ||= nil %>
+<% block ||= false %>
+<% outline ||= false %>
 
 <%# クラス名の生成 %>
 <% 
-  base_class = "button"
-  type_class = "button--#{type.to_s}"
-  size_class = "button--#{size.to_s}"
-  full_class = "#{base_class} #{type_class} #{size_class} #{html_options[:class]}"
+  classes = ["btn"]
+  
+  # タイプに応じたクラスを追加
+  if outline
+    classes << "btn-outline-#{type.to_s}"
+  else
+    classes << "btn-#{type.to_s}"
+  end
+  
+  # サイズに応じたクラスを追加
+  classes << "btn-#{size.to_s}" if size.present?
+  
+  # ブロック要素の場合
+  classes << "btn-block" if block
+  
+  # 追加のクラス
+  classes << html_options[:class] if html_options[:class].present?
+  
+  # 最終的なクラス文字列
+  class_str = classes.compact.join(" ")
 %>
 
 <%# ボタンの種類に応じて出力を変更 %>
 <% if url.present? %>
   <% if http_method && http_method != :get %>
     <%# フォームを使用するボタン（DELETE, PUT などのリクエスト用） %>
-    <%= button_to text, url, method: http_method, class: full_class, **html_options.except(:class) %>
+    <%= button_to text, url, method: http_method, class: class_str, **html_options.except(:class) %>
   <% else %>
     <%# 通常のリンクボタン %>
-    <%= link_to text, url, class: full_class, **html_options.except(:class) %>
+    <%= link_to text, url, class: class_str, **html_options.except(:class) %>
   <% end %>
 <% else %>
   <%# 通常のボタン（フォーム内で使用するなど） %>
-  <button type="<%= html_options[:type] || 'button' %>" class="<%= full_class %>" <%= html_options.except(:class, :type).map { |k, v| "#{k}=\"#{v}\"" }.join(' ').html_safe %>>
+  <button type="<%= html_options[:type] || 'button' %>" class="<%= class_str %>" <%= html_options.except(:class, :type).map { |k, v| "#{k}=\"#{v}\"" }.join(' ').html_safe %>>
     <%= text %>
   </button>
 <% end %> 

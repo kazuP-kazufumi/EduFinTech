@@ -1,13 +1,13 @@
-<%# フォームのエラーメッセージを表示する共通パーシャル %>
-<%# @param resource [ActiveRecord::Base] エラーを表示するモデルオブジェクト %>
-<%# @param resource_name [String] モデルの表示名 (オプション) %>
+<%# フォームのエラーメッセージを表示するパーシャル %>
+<%# @param resource [ActiveRecord::Base] エラーを表示するモデルインスタンス %>
+<%# @param resource_name [String] リソース名（省略可） %>
 
 <% if resource.errors.any? %>
-  <div class="error-messages">
-    <h2>
-      <%= pluralize(resource.errors.count, "件のエラー") %>が発生しました：
-    </h2>
-    <ul>
+  <div class="alert alert-danger" role="alert">
+    <h5 class="alert-heading">
+      <%= pluralize(resource.errors.count, "error") %> prohibited this <%= resource_name || resource.class.name.underscore.humanize.downcase %> from being saved:
+    </h5>
+    <ul class="mb-0 ps-4">
       <% resource.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>

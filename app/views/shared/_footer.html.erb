@@ -1,14 +1,53 @@
 <%# フッター %>
-<footer>
-  <div>
-    <%# コピーライト %>
-    <p>&copy; <%= Time.current.year %> EduFinTech. All rights reserved.</p>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-container">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <h2>EduFinTech</h2>
+        </div>
+        <p class="footer-description">
+          教育と金融を融合させた革新的なプラットフォーム。
+          次世代の金融教育と資金調達を支援します。
+        </p>
+        <div class="footer-social">
+          <a href="#"><i class="icon-twitter"></i></a>
+          <a href="#"><i class="icon-facebook"></i></a>
+          <a href="#"><i class="icon-instagram"></i></a>
+        </div>
+      </div>
 
-    <%# フッターナビゲーション %>
-    <nav>
-      <%= link_to "利用規約", "#" %>
-      <%= link_to "プライバシーポリシー", "#" %>
-      <%= link_to "お問い合わせ", "#" %>
-    </nav>
+      <div class="footer-section">
+        <h3 class="footer-heading">サービス</h3>
+        <div class="footer-links">
+          <%= link_to "募金プロジェクト", posts_path %>
+          <%= link_to "教育コンテンツ", "#" %>
+          <%= link_to "チャットルーム", chat_rooms_path %>
+          <%= link_to "イベント情報", "#" %>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h3 class="footer-heading">サポート</h3>
+        <div class="footer-links">
+          <%= link_to "よくある質問", "#" %>
+          <%= link_to "ヘルプセンター", "#" %>
+          <%= link_to "お問い合わせ", "#" %>
+          <%= link_to "フィードバック", "#" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <%# コピーライト %>
+      <p class="footer-copyright">&copy; <%= Time.current.year %> EduFinTech. All rights reserved.</p>
+
+      <%# フッターナビゲーション %>
+      <div class="footer-bottom-links">
+        <%= link_to "利用規約", "#" %>
+        <%= link_to "プライバシーポリシー", "#" %>
+        <%= link_to "特定商取引法に基づく表記", "#" %>
+      </div>
+    </div>
   </div>
 </footer> 

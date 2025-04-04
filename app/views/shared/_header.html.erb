@@ -1,41 +1,75 @@
 <%# ヘッダー %>
-<header>
-  <div>
+<header class="header">
+  <div class="container header-container">
     <%# ロゴ %>
-    <%= link_to "EduFinTech", root_path %>
+    <%= link_to root_path, class: "header-logo" do %>
+      <h1>EduFinTech</h1>
+    <% end %>
 
     <%# ナビゲーションメニュー %>
-    <nav>
-      <%# ログイン状態に応じて表示を切り替え %>
-      <% if user_signed_in? %>
-        <%# ログイン済みの場合 %>
-        <%# ユーザーメニュー %>
-        <div>
-          <%# ユーザーアイコン %>
-          <div>
-            <%= image_tag current_user.avatar_url, alt: "ユーザーアイコン" %>
+    <nav class="header-nav">
+      <ul>
+        <%# ログイン状態に応じて表示を切り替え %>
+        <% if user_signed_in? %>
+          <%# ログイン済みの場合 %>
+          <li><%= link_to "ダッシュボード", dashboard_path %></li>
+          <li><%= link_to "投稿一覧", posts_path %></li>
+          <li><%= link_to "チャット", chat_rooms_path %></li>
+          
+          <%# ユーザーメニュー %>
+          <div class="header-actions">
+            <%# ユーザーアイコン %>
+            <div>
+              <%= image_tag current_user.avatar_url, alt: "ユーザーアイコン", class: "rounded-circle" %>
+            </div>
+
+            <%# ドロップダウンメニュー %>
+            <div>
+              <%# プロフィールリンク %>
+              <%= link_to "プロフィール", profile_path, class: "btn btn-sm btn-light" %>
+
+              <%# 設定リンク %>
+              <%= link_to "設定", settings_path, class: "btn btn-sm btn-light" %>
+
+              <%# ログアウトボタン %>
+              <%= button_to "ログアウト", destroy_user_session_path, http_method: :delete, class: "btn btn-sm btn-outline-primary" %>
+            </div>
           </div>
+        <% else %>
+          <%# 未ログインの場合 %>
+          <%# ログインボタン %>
+          <%= link_to "ログイン", new_user_session_path, class: "btn btn-sm btn-outline-primary mr-sm" %>
 
-          <%# ドロップダウンメニュー %>
-          <div>
-            <%# プロフィールリンク %>
-            <%= link_to "プロフィール", profile_path %>
-
-            <%# 設定リンク %>
-            <%= link_to "設定", settings_path %>
-
-            <%# ログアウトボタン %>
-            <%= button_to "ログアウト", destroy_user_session_path, http_method: :delete %>
-          </div>
-        </div>
-      <% else %>
-        <%# 未ログインの場合 %>
-        <%# ログインボタン %>
-        <%= link_to "ログイン", new_user_session_path %>
-
-        <%# 新規登録ボタン %>
-        <%= link_to "新規登録", new_user_registration_path %>
-      <% end %>
+          <%# 新規登録ボタン %>
+          <%= link_to "新規登録", new_user_registration_path, class: "btn btn-sm btn-primary" %>
+        <% end %>
+      </ul>
     </nav>
+    
+    <%# モバイルメニュー %>
+    <div class="header-mobile-menu">
+      <button>
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
   </div>
-</header> 
+</header>
+
+<%# モバイルナビゲーション %>
+<div class="header-mobile-nav">
+  <ul>
+    <% if user_signed_in? %>
+      <li><%= link_to "ダッシュボード", dashboard_path %></li>
+      <li><%= link_to "投稿一覧", posts_path %></li>
+      <li><%= link_to "チャット", chat_rooms_path %></li>
+      <li><%= link_to "プロフィール", profile_path %></li>
+      <li><%= link_to "設定", settings_path %></li>
+      <li><%= button_to "ログアウト", destroy_user_session_path, http_method: :delete, class: "btn btn-outline-primary" %></li>
+    <% else %>
+      <li><%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-primary w-100 mb-sm" %></li>
+      <li><%= link_to "新規登録", new_user_registration_path, class: "btn btn-primary w-100" %></li>
+    <% end %>
+  </ul>
+</div> 

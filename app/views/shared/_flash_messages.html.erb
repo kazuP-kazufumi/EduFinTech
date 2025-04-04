@@ -1,7 +1,15 @@
-<%# フラッシュメッセージ %>
-<% if notice %>
-  <div class="notice"><%= notice %></div>
+<%# フラッシュメッセージを表示するパーシャル %>
+
+<% if notice.present? %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= notice %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
 <% end %>
-<% if alert %>
-  <div class="alert"><%= alert %></div>
+
+<% if alert.present? %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= alert %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
 <% end %> 
