@@ -8,7 +8,7 @@
 
   <%# フォーム %>
   <div class="auth__form-container">
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: "auth__form") do |f| %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "auth__form" }) do |f| %>
       <div class="auth__form-fields">
         <%# メールアドレス %>
         <%= render "shared/form_field", 
