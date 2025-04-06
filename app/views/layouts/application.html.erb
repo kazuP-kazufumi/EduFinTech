@@ -16,113 +16,134 @@
     <%# オーバースクロールの動作を制御 %>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-    <!-- バウンスエフェクト防止のスクリプト - 強化版 -->
+    <!-- バウンスエフェクト防止と適切なレイアウト構造のためのスクリプト -->
     <script>
-      // 即時実行関数で変数のスコープを制限
       (function() {
-        // 画面サイズの調整と監視
-        function adjustViewport() {
-          // 実際の画面サイズに合わせてルート要素のサイズを設定
-          document.documentElement.style.height = window.innerHeight + 'px';
-          document.body.style.height = window.innerHeight + 'px';
+        // ビューポートの高さを正確に設定する関数
+        function setViewportHeight() {
+          // 実際の画面の高さをビューポートに設定
+          const vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', `${vh}px`);
         }
-        
-        // 画面回転やリサイズ時にビューポートを調整
-        window.addEventListener('resize', adjustViewport);
-        window.addEventListener('orientationchange', adjustViewport);
-        
-        // 初期ロード時に調整を適用
-        window.addEventListener('load', adjustViewport);
 
+        // 画面の高さが変わる可能性があるイベントに対応
+        window.addEventListener('resize', setViewportHeight);
+        window.addEventListener('orientationchange', setViewportHeight);
+        window.addEventListener('load', setViewportHeight);
+        
+        // 初期設定
+        setViewportHeight();
+        
         // DOMコンテンツ読み込み完了時に実行
         document.addEventListener('DOMContentLoaded', function() {
-          // 初期調整を実行
-          adjustViewport();
+          // フッターの高さを計算してメインエリアの下部マージンに設定する関数
+          function adjustMainContentPadding() {
+            const footer = document.querySelector('.footer');
+            const main = document.querySelector('main');
+            
+            if (footer && main) {
+              // フッターの高さを計算
+              const footerHeight = footer.offsetHeight;
+              // メインコンテンツの下部パディングを設定（フッターとの重なりを避けるため）
+              main.style.paddingBottom = `${footerHeight + 16}px`;
+            }
+          }
           
-          // メインコンテンツのスクロール要素を取得
-          var mainElement = document.querySelector('main');
+          // レイアウト調整を実行
+          adjustMainContentPadding();
           
-          // ウィンドウのスクロールを無効化
-          window.addEventListener('scroll', function(e) {
-            if (window.scrollY !== 0) {
-              window.scrollTo(0, 0);
+          // ウィンドウサイズが変更されたときに再調整
+          window.addEventListener('resize', adjustMainContentPadding);
+          
+          // メインのスクロール制御（メイン以外のスクロールを禁止）
+          const mainElement = document.getElementById('main-scroll-container');
+          
+          // ホイール、タッチ、キーイベントの処理
+          document.addEventListener('wheel', function(e) {
+            if (!e.target.closest('#main-scroll-container')) {
+              e.preventDefault();
+            }
+          }, { passive: false });
+          
+          document.addEventListener('touchmove', function(e) {
+            if (!e.target.closest('#main-scroll-container')) {
+              e.preventDefault();
+            }
+          }, { passive: false });
+          
+          document.addEventListener('keydown', function(e) {
+            // スクロールに関連するキー
+            const scrollKeys = [32, 33, 34, 35, 36, 37, 38, 39, 40];
+            if (scrollKeys.includes(e.keyCode) && !e.target.closest('#main-scroll-container')) {
+              e.preventDefault();
             }
           });
-          
-          // ホイールイベントの無効化
-          document.addEventListener('wheel', function(e) {
-            if (e.target.closest('main') !== mainElement) {
-              e.preventDefault();
-              return false;
-            }
-          }, { passive: false });
-          
-          // タッチイベントの制御
-          document.addEventListener('touchmove', function(e) {
-            if (e.target.closest('main') !== mainElement) {
-              e.preventDefault();
-              return false;
-            }
-          }, { passive: false });
-          
-          // キーボードスクロールの制御
-          document.addEventListener('keydown', function(e) {
-            // スペースキー、上下矢印キー、PageUp/PageDown
-            if ([32, 33, 34, 35, 36, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-              if (e.target.closest('main') !== mainElement) {
-                e.preventDefault();
-                return false;
-              }
-            }
-          }, { passive: false });
-          
-          // mainの最初の子要素を取得
-          var mainContainer = mainElement.querySelector(':first-child');
-          if (mainContainer) {
-            // パディング調整
-            mainContainer.style.paddingBottom = '1px';
-          }
         });
       })();
     </script>
     
-    <!-- 必要なスタイルのインライン定義 - 拡張版 -->
+    <!-- レイアウト用の基本スタイル -->
     <style>
-      /* 根本的なスクロール防止 */
+      /* CSS変数でビューポート高さを管理 */
+      :root {
+        --vh: 1vh;
+      }
+      
+      /* ベーシックなリセット */
       html, body {
         height: 100%;
         width: 100%;
         margin: 0;
         padding: 0;
-        overflow: hidden !important;
-        position: fixed;
-        background-color: #f8f9fa;
-        touch-action: none;
+        overflow: hidden;
       }
       
-      /* スクロール可能な要素 */
+      /* レイアウト構造 */
+      .page-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* フォールバック */
+        min-height: calc(var(--vh, 1vh) * 100); /* より正確な高さ */
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      /* メインスクロールエリア */
       main {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        flex: 1 1 auto;
+        width: 100%;
         overflow-y: auto;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
+        position: relative;
         z-index: 1;
-        height: 100%;
       }
       
-      /* Firefox特有の問題対策 */
+      /* フッター配置 */
+      .footer {
+        flex-shrink: 0;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+      }
+      
+      /* スクロールバー最適化 */
       * {
         scrollbar-width: thin;
       }
       
-      /* IEハック */
-      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-        body { overflow: hidden; }
-        main { overflow-y: auto; }
+      main::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      main::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      
+      main::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
       }
     </style>
 
@@ -151,7 +172,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="no-overscroll">
+  <body>
     <div class="page-wrapper">
       <%# ヘッダーパーシャル %>
       <%= render "shared/header" %>

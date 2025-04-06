@@ -6,15 +6,13 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-/* スクロールやオーバーフロー制御 - 絶対的な方法 */
+/* 基本スタイルの設定 - シンプル化 */
 html {
   font-size: 62.5%; /* 10px = 1rem */
   height: 100%; 
   width: 100%;
-  overflow: hidden;
+  overflow: hidden; /* ページ全体のスクロールを防止 */
   background-color: #f8f9fa;
-  position: fixed; /* 最も強力な固定 */
-  touch-action: manipulation; /* タッチ操作の最適化 */
   -webkit-text-size-adjust: 100%; /* フォントサイズの自動調整を防止 */
 }
 
@@ -26,31 +24,24 @@ body {
   background-color: #f8f9fa;
   height: 100%;
   width: 100%;
-  overflow: hidden;
-  position: fixed; /* 固定位置 */
+  overflow: hidden; /* ページ全体のスクロールを防止 */
   
   /* iOS特有の問題対策 */
-  -webkit-overflow-scrolling: none;
-  touch-action: none;
+  -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
 }
 
-/* スクロール制御を強化するクラス */
+/* スクロール制御クラス */
 .no-overscroll {
   overscroll-behavior: none !important;
   overscroll-behavior-y: none !important;
   -ms-scroll-chaining: none;
-  touch-action: pan-y;
 }
 
-/* iOS SafariとChromeのスクロールバグ対策 */
+/* iOS Safariの100vh問題対策 */
 @supports (-webkit-touch-callout: none) {
-  body, html {
-    height: -webkit-fill-available;
-  }
-  
-  body {
-    min-height: -webkit-fill-available;
+  :root {
+    --vh: 1vh;
   }
 }
 
