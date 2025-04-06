@@ -24,6 +24,14 @@ body {
   flex-direction: column; /* 縦方向に並べる */
   min-height: 100%; /* 最小高さを100%に */
   position: relative; /* 相対位置指定 */
+  overflow-y: auto; /* 縦方向のスクロールを許可 */
+  -webkit-overflow-scrolling: touch; /* モバイルでのスムーズスクロール */
+}
+
+/* オーバースクロール防止クラス */
+.no-overscroll {
+  overscroll-behavior: none; /* オーバースクロール動作を防止 */
+  overscroll-behavior-y: none;
 }
 
 a {
