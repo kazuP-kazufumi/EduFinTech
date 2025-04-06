@@ -7,14 +7,6 @@
   padding: $spacing-lg 0;
   width: 100%;
   flex-shrink: 0;
-  margin-top: auto;
-  position: relative;
-  z-index: 10;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  border-top: 1px solid $gray-700;
-  padding-bottom: calc(#{$spacing-lg} + env(safe-area-inset-bottom));
 }
 
 .footer-container {
