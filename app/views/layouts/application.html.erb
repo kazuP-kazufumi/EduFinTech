@@ -16,61 +16,113 @@
     <%# オーバースクロールの動作を制御 %>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-    <!-- バウンスエフェクト防止のスクリプト -->
+    <!-- バウンスエフェクト防止のスクリプト - 強化版 -->
     <script>
-      // DOMロード完了時に実行
-      document.addEventListener('DOMContentLoaded', function() {
-        // メインコンテンツのスクロール要素を取得
-        var mainElement = document.querySelector('main');
+      // 即時実行関数で変数のスコープを制限
+      (function() {
+        // 画面サイズの調整と監視
+        function adjustViewport() {
+          // 実際の画面サイズに合わせてルート要素のサイズを設定
+          document.documentElement.style.height = window.innerHeight + 'px';
+          document.body.style.height = window.innerHeight + 'px';
+        }
         
-        // bodyへのスクロールイベントを無効化
-        document.addEventListener('wheel', function(e) {
-          if (e.target.closest('main') !== mainElement) {
-            e.preventDefault();
-          }
-        }, { passive: false });
+        // 画面回転やリサイズ時にビューポートを調整
+        window.addEventListener('resize', adjustViewport);
+        window.addEventListener('orientationchange', adjustViewport);
         
-        // タッチ系イベントの防止
-        document.body.addEventListener('touchmove', function(e) {
-          if (e.target.closest('main') !== mainElement) {
-            e.preventDefault();
-          }
-        }, { passive: false });
-        
-        // スクロール制御
-        var preventBodyScroll = function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          return false;
-        };
-        
-        // キーボードスクロールも防止
-        document.addEventListener('keydown', function(e) {
-          // スペースキー、上下矢印キー
-          if ([32, 38, 40].indexOf(e.keyCode) > -1) {
+        // 初期ロード時に調整を適用
+        window.addEventListener('load', adjustViewport);
+
+        // DOMコンテンツ読み込み完了時に実行
+        document.addEventListener('DOMContentLoaded', function() {
+          // 初期調整を実行
+          adjustViewport();
+          
+          // メインコンテンツのスクロール要素を取得
+          var mainElement = document.querySelector('main');
+          
+          // ウィンドウのスクロールを無効化
+          window.addEventListener('scroll', function(e) {
+            if (window.scrollY !== 0) {
+              window.scrollTo(0, 0);
+            }
+          });
+          
+          // ホイールイベントの無効化
+          document.addEventListener('wheel', function(e) {
             if (e.target.closest('main') !== mainElement) {
               e.preventDefault();
+              return false;
             }
+          }, { passive: false });
+          
+          // タッチイベントの制御
+          document.addEventListener('touchmove', function(e) {
+            if (e.target.closest('main') !== mainElement) {
+              e.preventDefault();
+              return false;
+            }
+          }, { passive: false });
+          
+          // キーボードスクロールの制御
+          document.addEventListener('keydown', function(e) {
+            // スペースキー、上下矢印キー、PageUp/PageDown
+            if ([32, 33, 34, 35, 36, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+              if (e.target.closest('main') !== mainElement) {
+                e.preventDefault();
+                return false;
+              }
+            }
+          }, { passive: false });
+          
+          // mainの最初の子要素を取得
+          var mainContainer = mainElement.querySelector(':first-child');
+          if (mainContainer) {
+            // パディング調整
+            mainContainer.style.paddingBottom = '1px';
           }
-        }, false);
-      });
+        });
+      })();
     </script>
     
-    <!-- 必要なスタイルのインライン定義 -->
+    <!-- 必要なスタイルのインライン定義 - 拡張版 -->
     <style>
-      html {
-        background-color: #f8f9fa;
+      /* 根本的なスクロール防止 */
+      html, body {
         height: 100%;
-        overflow: hidden;
-      }
-      
-      body {
-        height: 100%;
-        overflow: hidden;
+        width: 100%;
         margin: 0;
         padding: 0;
+        overflow: hidden !important;
         position: fixed;
-        width: 100%;
+        background-color: #f8f9fa;
+        touch-action: none;
+      }
+      
+      /* スクロール可能な要素 */
+      main {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        z-index: 1;
+        height: 100%;
+      }
+      
+      /* Firefox特有の問題対策 */
+      * {
+        scrollbar-width: thin;
+      }
+      
+      /* IEハック */
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        body { overflow: hidden; }
+        main { overflow-y: auto; }
       }
     </style>
 
@@ -108,7 +160,7 @@
       <%= render "shared/flash_messages" %>
 
       <%# メインコンテンツ %>
-      <main>
+      <main id="main-scroll-container">
         <%= yield %>
       </main>
 
