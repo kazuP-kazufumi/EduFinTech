@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <%# アプリケーション全体のレイアウトを定義するテンプレート %>
-<html>
+<html lang="ja">
   <head>
     <%# タイトルタグ - content_forで個別ページのタイトルを設定可能、未設定時はデフォルトで"EduFinTech" %>
     <title><%= content_for(:title) || "EduFinTech" %></title>
 
     <%# モバイル対応のためのメタタグ設定 %>
     <%# レスポンシブデザイン対応のビューポート設定 %>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <%# iOSでフルスクリーン表示を可能にする設定 %>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%# Androidでフルスクリーン表示を可能にする設定 %>
@@ -39,18 +40,20 @@
   </head>
 
   <body>
-    <%# ヘッダーパーシャル %>
-    <%= render "shared/header" %>
+    <div class="page-wrapper">
+      <%# ヘッダーパーシャル %>
+      <%= render "shared/header" %>
 
-    <%# フラッシュメッセージパーシャル %>
-    <%= render "shared/flash_messages" %>
+      <%# フラッシュメッセージパーシャル %>
+      <%= render "shared/flash_messages" %>
 
-    <%# メインコンテンツ %>
-    <main>
-      <%= yield %>
-    </main>
+      <%# メインコンテンツ %>
+      <main>
+        <%= yield %>
+      </main>
 
-    <%# フッターパーシャル %>
-    <%= render "shared/footer" %>
+      <%# フッターパーシャル %>
+      <%= render "shared/footer" %>
+    </div>
   </body>
 </html>

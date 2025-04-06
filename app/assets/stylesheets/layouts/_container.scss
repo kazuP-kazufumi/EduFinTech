@@ -1,11 +1,21 @@
 @import '../base/variables';
 @import '../base/mixins';
 
-// メインコンテンツの設定
-main {
-  flex: 1; // 残りのスペースをすべて埋める
+// ページ全体のラッパー
+.page-wrapper {
   display: flex;
   flex-direction: column;
+  min-height: 100%;
+  width: 100%;
+}
+
+// メインコンテンツの設定
+main {
+  flex: 1 0 auto; // 拡大するが縮小せず、初期サイズはauto
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: $spacing-md; // フッターとの間に余白を追加
 }
 
 .container {
