@@ -8,7 +8,12 @@
   min-height: 100%;
   width: 100%;
   overflow: hidden; /* オーバーフローを隠す */
-  position: relative; /* 相対位置設定 */
+  position: absolute; /* 相対位置から絶対位置に変更 */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
 }
 
 // メインコンテンツの設定
@@ -18,8 +23,10 @@ main {
   flex-direction: column;
   width: 100%;
   padding-bottom: $spacing-md; // フッターとの間に余白を追加
-  z-index: 1; /* z-indexを設定 */
+  z-index: 5; /* z-indexを設定 */
   position: relative; /* 相対位置設定 */
+  overflow-y: auto; /* メインコンテンツ内でのスクロールを許可 */
+  -webkit-overflow-scrolling: touch; /* iOSでのスムーズスクロール */
 }
 
 .container {
