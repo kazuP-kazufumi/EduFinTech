@@ -1,9 +1,9 @@
 @import '../base/variables';
 @import '../base/mixins';
 
-// メインコンテンツの最小高さを設定
+// メインコンテンツの設定
 main {
-  min-height: calc(100vh - 140px); // ヘッダーとフッターの高さを引いた高さ
+  flex: 1; // 残りのスペースをすべて埋める
   display: flex;
   flex-direction: column;
 }
