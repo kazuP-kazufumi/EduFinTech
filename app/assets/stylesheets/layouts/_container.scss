@@ -1,6 +1,13 @@
 @import '../base/variables';
 @import '../base/mixins';
 
+// メインコンテンツの最小高さを設定
+main {
+  min-height: calc(100vh - 140px); // ヘッダーとフッターの高さを引いた高さ
+  display: flex;
+  flex-direction: column;
+}
+
 .container {
   width: 100%;
   padding-right: $spacing-md;
@@ -22,7 +29,7 @@
   }
   
   @include xl {
-    max-width: 1140px;
+    max-width: 1200px; // 最大幅を少し拡大
   }
 }
 

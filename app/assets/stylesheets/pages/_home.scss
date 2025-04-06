@@ -3,35 +3,35 @@
 
 // トップページのスタイル
 .home {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: $spacing-lg $spacing-md;
   text-align: center;
   
   &__title {
-    font-size: 2.5rem;
+    font-size: $font-size-3xl;
     font-weight: 700;
-    margin-bottom: 1rem;
+    margin-bottom: $spacing-md;
     text-align: center !important;
     color: #333;
   }
   
   &__subtitle {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-lg;
     text-align: center !important;
     color: #666;
   }
   
   &__content {
-    margin: 2rem 0;
+    margin: $spacing-lg 0;
     text-align: center;
   }
   
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: $spacing-lg;
   }
 }
 
@@ -39,6 +39,7 @@
 .home-card {
   text-align: center !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: $spacing-lg;
   
   &:hover {
     transform: translateY(-5px);
@@ -46,25 +47,28 @@
   }
   
   h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-md;
     color: #333;
     text-align: center !important;
   }
   
   p {
-    margin-bottom: 1.5rem;
+    font-size: $font-size-lg;
+    margin-bottom: $spacing-lg;
     color: #666;
     text-align: center !important;
   }
   
   &__action {
-    margin-top: 1.5rem;
+    margin-top: $spacing-lg;
     display: flex;
     justify-content: center !important;
     
     a.btn {
       margin: 0 auto;
+      padding: $spacing-sm $spacing-lg;
+      font-size: $font-size-lg;
     }
   }
 }
@@ -72,8 +76,8 @@
 // ページヘッダー
 .page-header {
   text-align: center !important;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-md;
   border-bottom: 1px solid #eee;
   width: 100%;
   display: flex;
