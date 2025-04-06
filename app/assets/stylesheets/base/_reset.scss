@@ -3,10 +3,17 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
+/* 基本スタイルの設定 - シンプル化 */
 html {
   font-size: 62.5%; /* 10px = 1rem */
+  height: 100%; 
+  width: 100%;
+  overflow: hidden; /* ページ全体のスクロールを防止 */
+  background-color: #f8f9fa;
+  -webkit-text-size-adjust: 100%; /* フォントサイズの自動調整を防止 */
 }
 
 body {
@@ -15,6 +22,39 @@ body {
   line-height: 1.6;
   color: #333;
   background-color: #f8f9fa;
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* ページ全体のスクロールを防止 */
+  
+  /* iOS特有の問題対策 */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+}
+
+/* スクロール制御クラス */
+.no-overscroll {
+  overscroll-behavior: none !important;
+  overscroll-behavior-y: none !important;
+  -ms-scroll-chaining: none;
+}
+
+/* iOS Safariの100vh問題対策 */
+@supports (-webkit-touch-callout: none) {
+  :root {
+    --vh: 1vh;
+  }
+}
+
+/* スクロール防止クラス - JSで追加可能 */
+.prevent-scroll {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+}
+
+/* モバイルでのタップハイライトを無効化 */
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 a {

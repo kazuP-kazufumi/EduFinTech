@@ -1,6 +1,44 @@
 @import '../base/variables';
 @import '../base/mixins';
 
+// ページ全体のラッパー - フレックスボックス構造
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // 標準ビューポート高さ
+  min-height: calc(var(--vh, 1vh) * 100); // CSS変数を使用したより正確な高さ
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+// メインコンテンツの設定 - スクロール領域
+main {
+  flex: 1 1 auto; // 伸縮可能、収縮可能、自動サイズ調整
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  position: relative; 
+  z-index: 1;
+  padding-bottom: 2rem; // フッターとの基本余白
+  
+  // スクロールバーの最適化
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+}
+
+// コンテナの設定 - 最適な幅とマージン
 .container {
   width: 100%;
   padding-right: $spacing-md;
@@ -22,7 +60,7 @@
   }
   
   @include xl {
-    max-width: 1140px;
+    max-width: 1200px;
   }
 }
 
@@ -51,8 +89,14 @@
   }
 }
 
+// セクションの余白設定
 .section {
   padding: $spacing-xl 0;
+  
+  // 最後のセクションはフッター用に追加余白
+  &:last-child {
+    padding-bottom: $spacing-2xl;
+  }
 }
 
 .section-sm {
