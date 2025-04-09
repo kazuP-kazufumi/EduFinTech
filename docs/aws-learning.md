@@ -34,7 +34,8 @@
   - 学習教材はUdemy「AWS：ゼロから実践するAmazon Web Services」
   - セクション3−１：システムの全体像まで
 
-  
+- [25/4/9] IPアドレスのことのついて学習
+
 ## 参考資料
 - [AWS 公式ドキュメント](https://docs.aws.amazon.com/)
 - [AWS クラウドプラクティショナー 学習ガイド](https://aws.amazon.com/jp/certification/certified-cloud-practitioner/)
