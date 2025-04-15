@@ -44,7 +44,8 @@
             VPCから分けていくのかリージョンから分けていくのか
  - [25/4/9] 要理解の用語の整理
  - [25/4/14] パブリッククラウドとPaasの違い 
-
+ - [25/4/15] AWS資格のリサーチ
+ 
 ## 参考資料
 - [AWS 公式ドキュメント](https://docs.aws.amazon.com/)
 - [AWS クラウドプラクティショナー 学習ガイド](https://aws.amazon.com/jp/certification/certified-cloud-practitioner/)
