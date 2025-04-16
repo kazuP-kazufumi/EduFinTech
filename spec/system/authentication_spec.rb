@@ -124,4 +124,4 @@ RSpec.describe 'Authentication', type: :system do
       end
     end
   end
-end 
+end

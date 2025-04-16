@@ -93,4 +93,4 @@ RSpec.describe 'Profile and Post Integration Flow', type: :system do
       expect(page).to have_content('コメントを削除しました')
     end
   end
-end 
+end

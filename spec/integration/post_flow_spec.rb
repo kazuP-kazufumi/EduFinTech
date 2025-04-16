@@ -122,4 +122,4 @@ RSpec.describe 'Post Flow', type: :system do
       expect(page).to have_content('ユーザーCからのコメント')
     end
   end
-end 
+end

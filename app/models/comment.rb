@@ -18,4 +18,4 @@ class Comment < ApplicationRecord
       read: false
     )
   end
-end 
+end

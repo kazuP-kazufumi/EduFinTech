@@ -266,4 +266,4 @@ RSpec.describe 'ChatRooms', type: :system do
       end
     end
   end
-end 
+end

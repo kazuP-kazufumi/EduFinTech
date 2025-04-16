@@ -4,4 +4,4 @@ FactoryBot.define do
     association :user
     association :chat_room
   end
-end 
+end

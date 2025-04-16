@@ -32,7 +32,7 @@ RSpec.describe CommentsController, type: :controller do
     context 'ログインユーザーの場合' do
       let(:user) { create(:user) }
       let(:post_obj) { create(:post) }
-      
+
       before do
         sign_in user
       end
@@ -206,4 +206,4 @@ RSpec.describe CommentsController, type: :controller do
       expect(flash[:notice]).to eq('コメントを削除しました')
     end
   end
-end 
+end

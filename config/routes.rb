@@ -23,14 +23,14 @@ Rails.application.routes.draw do
   # このルーティングはapp/controllers/posts_controller.rbと連携して動作し、
   # Post モデル（app/models/post.rb）のCRUD操作を実現します。
   resources :posts do
-    resources :notifications, only: [:create]
-    resources :comments, only: [:create, :update, :destroy]
+    resources :notifications, only: [ :create ]
+    resources :comments, only: [ :create, :update, :destroy ]
   end
 
   # 通知機能に関するルーティング設定
   # - indexアクションのみを有効化し、通知一覧の表示機能を提供
   # - /notifications へのGETリクエストで通知一覧を表示
-  resources :notifications, only: [:index] do
+  resources :notifications, only: [ :index ] do
     # memberブロックで個別の通知に対するカスタムルートを定義
     member do
       # 通知を既読状態にするためのルート
@@ -79,15 +79,15 @@ Rails.application.routes.draw do
 
   # チャットルームのルーティング
   # チャットルーム関連のルーティング設定
-  resources :chat_rooms, only: [:index, :create, :show] do
+  resources :chat_rooms, only: [ :index, :create, :show ] do
     # - indexアクション: チャットルーム一覧の表示 (GET /chat_rooms)
     # - createアクション: 新規チャットルームの作成 (POST /chat_rooms)
     # - showアクション: 個別のチャットルームの表示 (GET /chat_rooms/:id)
-    
+
     # チャットルーム内のメッセージ関連のルーティング
     # - ネストされたリソースとして定義
     # - /chat_rooms/:chat_room_id/messages の形式のURLを生成
-    resources :messages, only: [:create] do
+    resources :messages, only: [ :create ] do
       # - createアクションのみを有効化
       # - チャットルーム内でのメッセージ作成機能を提供
       # - POST /chat_rooms/:chat_room_id/messages へのリクエストで
@@ -100,5 +100,5 @@ Rails.application.routes.draw do
   # - root_pathというヘルパーメソッドが生成される
   root "home#index"
 
-  get 'search', to: 'search#index', as: :search
+  get "search", to: "search#index", as: :search
 end

@@ -16,9 +16,9 @@ class Message < ApplicationRecord
   # メッセージ本文は必須で、1000文字以内に制限
   validates :content, presence: true, length: { maximum: 1000 }
   # 既読フラグは真偽値のみ許可
-  validates :is_read, inclusion: { in: [true, false] }
+  validates :is_read, inclusion: { in: [ true, false ] }
   # 削除フラグは真偽値のみ許可
-  validates :is_deleted, inclusion: { in: [true, false] }
+  validates :is_deleted, inclusion: { in: [ true, false ] }
 
   #-----------------
   # スコープの定義
@@ -49,4 +49,4 @@ class Message < ApplicationRecord
   def soft_delete!
     update!(is_deleted: true)
   end
-end 
+end

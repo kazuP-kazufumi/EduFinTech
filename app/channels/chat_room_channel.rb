@@ -26,19 +26,19 @@ class ChatRoomChannel < ApplicationCable::Channel
   # @option data [Integer] 'message_id' 既読にするメッセージのID
   def mark_as_read(data)
     # 指定されたIDのメッセージを取得
-    message = Message.find(data['message_id'])
-    
+    message = Message.find(data["message_id"])
+
     # メッセージが現在のチャットルームに属していて、
     # かつメッセージの送信者が現在のユーザーでない場合のみ処理を実行
     if message.chat_room == @chat_room && message.user != current_user
       # メッセージを既読状態にマーク
       message.mark_as_read!
-      
+
       # チャットルーム内の全クライアントに既読状態の変更を通知
       # type: 'message_read' - クライアント側で既読表示を更新するために使用
       # message_id: - 既読になったメッセージを特定するためのID
       broadcast_to @chat_room, {
-        type: 'message_read',
+        type: "message_read",
         message_id: message.id
       }
     end

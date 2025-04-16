@@ -339,4 +339,4 @@ RSpec.describe ChatRoomsController, type: :controller do
       end
     end
   end
-end 
+end

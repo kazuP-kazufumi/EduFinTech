@@ -6,4 +6,4 @@ FactoryBot.define do
     name { "テストユーザー" }
     bio { "テストの自己紹介" }
   end
-end 
+end

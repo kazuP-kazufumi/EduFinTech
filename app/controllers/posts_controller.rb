@@ -5,17 +5,17 @@ class PostsController < ApplicationController
   # Deviseのメソッドを使用してユーザー認証を要求
   # index, showアクション以外はログインが必要
   # 未ログインユーザーは投稿の閲覧のみ可能で、作成や編集などの操作は制限される
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [ :index, :show ]
 
   # 各アクションの前に実行される共通処理を定義
   # set_post: 指定されたIDの投稿を@postに設定
   # show, edit, update, destroyアクションの前に実行される
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
-  
+  before_action :set_post, only: [ :show, :edit, :update, :destroy ]
+
   # ensure_correct_user: 投稿者本人かどうかを確認
   # edit, update, destroyアクションの前に実行される
   # 投稿者本人以外による編集・削除を防止
-  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
+  before_action :ensure_correct_user, only: [ :edit, :update, :destroy ]
 
   # GET /posts
   # 投稿一覧を表示するアクション
@@ -27,13 +27,13 @@ class PostsController < ApplicationController
     # 検索機能の実装
     # タイトルまたは本文に検索キーワードが含まれる投稿を抽出
     if params[:search].present?
-      @posts = @posts.where('title LIKE ? OR content LIKE ?', "%#{params[:search]}%", "%#{params[:search]}%")
+      @posts = @posts.where("title LIKE ? OR content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
     end
 
     # カテゴリーによるフィルタリング機能
     # 特定のカテゴリーの投稿のみを表示
     # 'all'が選択された場合は全カテゴリーを表示
-    if params[:category].present? && params[:category] != 'all'
+    if params[:category].present? && params[:category] != "all"
       @posts = @posts.where(category: params[:category])
     end
 
@@ -42,9 +42,9 @@ class PostsController < ApplicationController
     # oldest: 古い投稿順
     # デフォルトは最新順
     case params[:sort]
-    when 'newest'
+    when "newest"
       @posts = @posts.order(created_at: :desc)
-    when 'oldest'
+    when "oldest"
       @posts = @posts.order(created_at: :asc)
     else
       @posts = @posts.order(created_at: :desc)
@@ -80,7 +80,7 @@ class PostsController < ApplicationController
     if @post.save
       # 保存成功時は投稿詳細ページにリダイレクト
       # フラッシュメッセージで成功を通知
-      redirect_to @post, notice: '投稿が作成されました。'
+      redirect_to @post, notice: "投稿が作成されました。"
     else
       # バリデーションエラー時は新規投稿フォームを再表示
       # エラーメッセージも表示される
@@ -101,7 +101,7 @@ class PostsController < ApplicationController
     if @post.update(post_params)
       # 更新成功時は投稿詳細ページにリダイレクト
       # フラッシュメッセージで成功を通知
-      redirect_to @post, notice: '投稿が更新されました。'
+      redirect_to @post, notice: "投稿が更新されました。"
     else
       # バリデーションエラー時は編集フォームを再表示
       # エラーメッセージも表示される
@@ -116,7 +116,7 @@ class PostsController < ApplicationController
     @post.destroy
     # 削除後は投稿一覧ページにリダイレクト
     # フラッシュメッセージで成功を通知
-    redirect_to posts_url, notice: '投稿が削除されました。'
+    redirect_to posts_url, notice: "投稿が削除されました。"
   end
 
   private
@@ -142,7 +142,7 @@ class PostsController < ApplicationController
     unless @post.user == current_user
       # 投稿者本人でない場合は投稿一覧にリダイレクト
       # フラッシュメッセージでエラーを通知
-      redirect_to posts_url, alert: 'この操作は許可されていません。'
+      redirect_to posts_url, alert: "この操作は許可されていません。"
     end
   end
 end

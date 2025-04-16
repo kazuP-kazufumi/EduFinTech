@@ -82,11 +82,11 @@ Rails.application.configure do
 
   # アセットのパイプラインを有効化
   config.assets.enabled = true
-  config.assets.version = '1.0'
+  config.assets.version = "1.0"
 
   # 静的ファイルの提供を有効化
   config.public_file_server.enabled = true
   config.public_file_server.headers = {
-    'Cache-Control' => 'no-cache'
+    "Cache-Control" => "no-cache"
   }
 end

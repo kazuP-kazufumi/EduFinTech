@@ -53,7 +53,7 @@ RSpec.describe Message, type: :model do
       it 'メッセージを新しい順に返すこと' do
         old_message = create(:message, created_at: 1.day.ago)
         new_message = create(:message, created_at: 1.hour.ago)
-        expect(Message.recent).to eq([new_message, old_message])
+        expect(Message.recent).to eq([ new_message, old_message ])
       end
     end
   end
@@ -79,4 +79,4 @@ RSpec.describe Message, type: :model do
       end
     end
   end
-end 
+end

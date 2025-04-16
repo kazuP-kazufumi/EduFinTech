@@ -181,4 +181,4 @@ RSpec.describe NotificationsController, type: :controller do
       expect(flash[:notice]).to eq('すべての通知を削除しました')
     end
   end
-end 
+end

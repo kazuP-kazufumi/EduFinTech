@@ -36,4 +36,4 @@ end
 # システムスペック用のヘルパー
 RSpec.configure do |config|
   config.include FactoryHelpers, type: :system
-end 
+end

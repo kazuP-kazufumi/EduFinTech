@@ -6,10 +6,10 @@ class CreateChatRooms < ActiveRecord::Migration[8.0]
     create_table :chat_rooms do |t|
       # チャットルーム名（必須項目）
       t.string :name, null: false
-      
+
       # チャットルームの説明文（任意項目）
       t.text :description
-      
+
       # チャットルームのステータス
       # デフォルト値は0（例：0=開始前、1=進行中、2=終了など）
       # null: falseで必須項目として設定

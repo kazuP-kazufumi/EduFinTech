@@ -113,4 +113,4 @@ RSpec.describe 'Chat Flow', type: :system do
       expect(page).to have_content(user_c.name)
     end
   end
-end 
+end

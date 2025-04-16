@@ -58,7 +58,7 @@ RSpec.describe ChatRoom, type: :model do
       it 'チャットルームを新しい順に返すこと' do
         old_room = create(:chat_room, created_at: 1.day.ago)
         new_room = create(:chat_room, created_at: 1.hour.ago)
-        expect(ChatRoom.recent).to eq([new_room, old_room])
+        expect(ChatRoom.recent).to eq([ new_room, old_room ])
       end
     end
 
@@ -102,4 +102,4 @@ RSpec.describe ChatRoom, type: :model do
       end
     end
   end
-end 
+end

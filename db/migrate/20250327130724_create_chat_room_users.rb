@@ -20,6 +20,6 @@ class CreateChatRoomUsers < ActiveRecord::Migration[8.0]
 
     # chat_room_idとuser_idの組み合わせにユニーク制約を追加
     # 同じユーザーが同じチャットルームに複数回参加することを防ぐ
-    add_index :chat_room_users, [:chat_room_id, :user_id], unique: true
+    add_index :chat_room_users, [ :chat_room_id, :user_id ], unique: true
   end
 end

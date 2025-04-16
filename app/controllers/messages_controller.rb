@@ -19,7 +19,7 @@ class MessagesController < ApplicationController
     if @message.save
       # メッセージ送信後に既存のメッセージを既読にする
       mark_previous_messages_as_read
-      
+
       # Action Cableを使用してメッセージをブロードキャスト
       # Action Cableを使用してチャットルームにメッセージをブロードキャスト
       # @param @chat_room [ChatRoom] ブロードキャスト先のチャットルーム
@@ -28,21 +28,21 @@ class MessagesController < ApplicationController
       ChatRoomChannel.broadcast_to(
         @chat_room,  # ブロードキャスト先のチャットルーム
         {
-          type: 'new_message',  # クライアント側でメッセージ追加処理を識別するためのタイプ
+          type: "new_message",  # クライアント側でメッセージ追加処理を識別するためのタイプ
           message: render_message(@message)  # メッセージをHTMLとしてレンダリング
         }
       )
-      
+
       # レスポンスフォーマットに応じて処理を分岐
       respond_to do |format|
         # HTML形式のリクエストの場合、チャットルームページにリダイレクト
-        format.html { redirect_to @chat_room, notice: 'メッセージを送信しました' }
+        format.html { redirect_to @chat_room, notice: "メッセージを送信しました" }
         # Turbo Stream形式の場合、非同期更新用のレスポンスを返す
         format.turbo_stream
       end
     else
       # メッセージの保存に失敗した場合、エラーメッセージとともにリダイレクト
-      redirect_to @chat_room, alert: 'メッセージの送信に失敗しました'
+      redirect_to @chat_room, alert: "メッセージの送信に失敗しました"
     end
   end
 
@@ -57,7 +57,7 @@ class MessagesController < ApplicationController
   # チャットルームのメンバーでない場合、ルートページにリダイレクト
   def check_chat_room_access
     unless @chat_room.users.include?(current_user)
-      redirect_to root_path, alert: 'このチャットルームにアクセスする権限がありません'
+      redirect_to root_path, alert: "このチャットルームにアクセスする権限がありません"
     end
   end
 
@@ -78,7 +78,7 @@ class MessagesController < ApplicationController
 
   def render_message(message)
     ApplicationController.renderer.render(
-      partial: 'messages/message',
+      partial: "messages/message",
       locals: { message: message, chat_room: @chat_room }
     )
   end

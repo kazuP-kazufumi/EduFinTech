@@ -46,7 +46,7 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
 
   has_many :notifications, dependent: :destroy
-  has_many :sent_notifications, class_name: 'Notification', foreign_key: 'sender_id', dependent: :destroy
+  has_many :sent_notifications, class_name: "Notification", foreign_key: "sender_id", dependent: :destroy
 
   # チャットルームとの関連付け
   # チャットルームとの関連付け
@@ -74,7 +74,7 @@ class User < ApplicationRecord
   #-----------------
   # 未読通知の有無を確認するメソッド
   # @return [Boolean] 未読通知が存在する場合はtrue、存在しない場合はfalse
-  # @note 
+  # @note
   #   - notifications.unreadスコープで未読通知をフィルタリング
   #   - exists?メソッドで未読通知の存在確認を効率的に行う
   def has_unread_notifications?

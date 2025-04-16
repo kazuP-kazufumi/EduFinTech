@@ -98,12 +98,12 @@ RSpec.describe SearchController, type: :controller do
 
         # 新しい順でソート
         get :index, params: { q: 'テスト', sort: 'newest' }
-        expect(assigns(:posts).to_a).to eq([post1, post2])
+        expect(assigns(:posts).to_a).to eq([ post1, post2 ])
 
         # 古い順でソート
         get :index, params: { q: 'テスト', sort: 'oldest' }
-        expect(assigns(:posts).to_a).to eq([post2, post1])
+        expect(assigns(:posts).to_a).to eq([ post2, post1 ])
       end
     end
   end
-end 
+end

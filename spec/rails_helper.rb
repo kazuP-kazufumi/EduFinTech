@@ -41,7 +41,7 @@ end
 RSpec.configure do |config|
   # ActiveRecordのフィクスチャのパスを設定
   # テストデータをYAMLファイルで定義する場合に使用
-  config.fixture_paths = ["#{::Rails.root}/spec/fixtures"]
+  config.fixture_paths = [ "#{::Rails.root}/spec/fixtures" ]
 
   # Deviseのテストヘルパーを追加
   # 各種テストタイプに応じて必要なヘルパーメソッドを組み込む

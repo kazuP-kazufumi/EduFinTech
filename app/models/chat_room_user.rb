@@ -15,4 +15,4 @@ class ChatRoomUser < ApplicationRecord
   #   - ユーザーIDとの組み合わせでユニークであることを保証
   #   - 同じユーザーが同じチャットルームに複数回参加することを防ぐ
   validates :chat_room_id, uniqueness: { scope: :user_id }
-end 
+end

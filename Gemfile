@@ -73,7 +73,7 @@ group :development, :test do
   gem "rspec-rails"          # RSpecテストフレームワーク
   gem "factory_bot_rails"    # テストデータ作成
   gem "faker"                # ダミーデータ生成
-  gem 'rails-controller-testing'
+  gem "rails-controller-testing"
   gem "database_cleaner"
 end
 

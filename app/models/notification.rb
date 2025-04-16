@@ -2,7 +2,7 @@
 class Notification < ApplicationRecord
   # アソシエーション
   belongs_to :user  # 通知の受信者
-  belongs_to :sender, class_name: 'User'  # 通知の送信者（Userモデルとの関連付け）
+  belongs_to :sender, class_name: "User"  # 通知の送信者（Userモデルとの関連付け）
   belongs_to :post  # 関連する投稿
   belongs_to :notifiable, polymorphic: true, optional: true  # ポリモーフィック関連付け
 
@@ -14,7 +14,7 @@ class Notification < ApplicationRecord
 
   # バリデーション
   validates :notification_type, presence: true  # 通知タイプは必須
-  validates :read, inclusion: { in: [true, false] }  # 既読状態は true/false のみ許可
+  validates :read, inclusion: { in: [ true, false ] }  # 既読状態は true/false のみ許可
 
   # スコープ定義
   scope :unread, -> { where(read: false) }  # 未読の通知を取得
@@ -42,7 +42,7 @@ class Notification < ApplicationRecord
       # 第2引数: 通知データをハッシュ形式で指定
       {
         # 通知の種類を示すtype属性
-        type: 'notification',
+        type: "notification",
         # 通知の詳細情報をnotificationハッシュにまとめる
         notification: {
           # 通知レコードのID
@@ -75,7 +75,7 @@ class Notification < ApplicationRecord
     NotificationsChannel.broadcast_to(
       sender,
       {
-        type: 'notification',
+        type: "notification",
         notification: {
           id: notification.id,
           message: "あなたが申し出た支援を#{post.user.email}さんが受け入れました",

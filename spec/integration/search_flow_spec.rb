@@ -105,4 +105,4 @@ RSpec.describe 'Search Integration Flow', type: :system do
       expect(page).to have_content(user_b.name)
     end
   end
-end 
+end

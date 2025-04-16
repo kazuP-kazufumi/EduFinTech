@@ -3,4 +3,4 @@ FactoryBot.define do
     sequence(:title) { |n| "チャットルーム #{n}" }
     association :user
   end
-end 
+end

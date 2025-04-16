@@ -4,7 +4,7 @@ class SearchController < ApplicationController
   def index
     @query = params[:q]
     @category = params[:category]
-    @sort = params[:sort] || 'newest'
+    @sort = params[:sort] || "newest"
     @page = params[:page] || 1
 
     if @query.present? || @category.present?
@@ -22,7 +22,7 @@ class SearchController < ApplicationController
     posts = Post.all
 
     if @query.present?
-      posts = posts.where('title LIKE ? OR content LIKE ?', "%#{@query}%", "%#{@query}%")
+      posts = posts.where("title LIKE ? OR content LIKE ?", "%#{@query}%", "%#{@query}%")
     end
 
     if @category.present?
@@ -30,9 +30,9 @@ class SearchController < ApplicationController
     end
 
     posts = case @sort
-    when 'newest'
+    when "newest"
       posts.newest
-    when 'oldest'
+    when "oldest"
       posts.oldest
     else
       posts.newest
@@ -42,7 +42,7 @@ class SearchController < ApplicationController
   end
 
   def search_users
-    users = User.where('name LIKE ? OR bio LIKE ?', "%#{@query}%", "%#{@query}%")
+    users = User.where("name LIKE ? OR bio LIKE ?", "%#{@query}%", "%#{@query}%")
     users.page(@page).per(10)
   end
-end 
+end

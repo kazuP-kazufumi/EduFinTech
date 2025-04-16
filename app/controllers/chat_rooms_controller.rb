@@ -4,10 +4,10 @@ class ChatRoomsController < ApplicationController
   # ユーザー認証が必要なアクションを制限
   # 未ログインユーザーはアクセス不可
   before_action :authenticate_user!
-  
+
   # 特定のチャットルームを取得する共通処理
   # showアクションの前に実行される
-  before_action :set_chat_room, only: [:show]
+  before_action :set_chat_room, only: [ :show ]
 
   # GET /chat_rooms
   # ユーザーが参加しているチャットルーム一覧を表示するアクション
@@ -24,11 +24,11 @@ class ChatRoomsController < ApplicationController
                              .order(created_at: :desc)
                              .map do |chat_room|
       # 各チャットルームの追加情報を取得
-      
+
       # 最新のメッセージを取得
       # order(created_at: :desc).first - 作成日時の降順で最初のメッセージを取得
       latest_message = chat_room.messages.order(created_at: :desc).first
-      
+
       # 未読メッセージ数を計算
       # where.not(user: current_user) - 自分以外のユーザーのメッセージ
       # where(read: false) - 未読のメッセージ
@@ -37,7 +37,7 @@ class ChatRoomsController < ApplicationController
                              .where.not(user: current_user)
                              .where(read: false)
                              .count
-      
+
       # チャットルーム情報をハッシュとして返す
       # @chat_roomsの各要素となるハッシュを生成
       {
@@ -64,16 +64,16 @@ class ChatRoomsController < ApplicationController
         # チャットルーム作成者を参加者として追加
         # chat_room_usersテーブルに現在のユーザーを関連付け
         @chat_room.chat_room_users.create(user: current_user)
-        
+
         # 作成成功時は作成されたチャットルームページにリダイレクト
-        redirect_to @chat_room, notice: 'チャットルームが作成されました'
+        redirect_to @chat_room, notice: "チャットルームが作成されました"
       else
         # 保存失敗時はルートページにリダイレクト
-        redirect_to root_path, alert: 'チャットルームの作成に失敗しました'
+        redirect_to root_path, alert: "チャットルームの作成に失敗しました"
       end
     else
       # マッチングしていないユーザーとのチャットルーム作成は不可
-      redirect_to root_path, alert: 'マッチング済みユーザー間でのみチャットルームを作成できます'
+      redirect_to root_path, alert: "マッチング済みユーザー間でのみチャットルームを作成できます"
     end
   end
 
@@ -83,7 +83,7 @@ class ChatRoomsController < ApplicationController
     # チャットルームの参加者のみアクセス可能
     # 現在のユーザーがチャットルームのメンバーでない場合はアクセス拒否
     unless @chat_room.users.include?(current_user)
-      redirect_to root_path, alert: 'このチャットルームにアクセスする権限がありません'
+      redirect_to root_path, alert: "このチャットルームにアクセスする権限がありません"
     end
   end
 

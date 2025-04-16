@@ -194,4 +194,4 @@ RSpec.describe 'Notifications', type: :system do
       end
     end
   end
-end 
+end

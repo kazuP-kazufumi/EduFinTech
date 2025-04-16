@@ -68,7 +68,7 @@ RSpec.describe Notification, type: :model do
       it '通知を新しい順に返すこと' do
         old_notification = create(:notification, created_at: 1.day.ago)
         new_notification = create(:notification, created_at: 1.hour.ago)
-        expect(Notification.recent).to eq([new_notification, old_notification])
+        expect(Notification.recent).to eq([ new_notification, old_notification ])
       end
     end
   end

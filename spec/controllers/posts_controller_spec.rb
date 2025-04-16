@@ -315,4 +315,4 @@ RSpec.describe PostsController, type: :controller do
       expect(flash[:notice]).to eq('投稿を削除しました')
     end
   end
-end 
+end

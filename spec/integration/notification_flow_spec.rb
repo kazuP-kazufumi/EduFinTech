@@ -92,4 +92,4 @@ RSpec.describe 'Notification Flow', type: :system do
       expect(page).to have_content('通知を既読にしました')
     end
   end
-end 
+end

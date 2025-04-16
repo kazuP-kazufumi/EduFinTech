@@ -10,7 +10,7 @@ class Post < ApplicationRecord
 
   # バリデーション設定
   # 投稿のデータ整合性を確保するためのルールを定義します
-  
+
   # タイトルのバリデーション
   # presence: true - タイトルは必須項目
   # length: { maximum: 100 } - タイトルは最大100文字まで
@@ -22,7 +22,7 @@ class Post < ApplicationRecord
   validates :content, presence: true, length: { maximum: 1000 }
 
   # カテゴリーの選択肢を定義
-  CATEGORIES = ['education', 'other'].freeze
+  CATEGORIES = [ "education", "other" ].freeze
 
   # カテゴリーのバリデーション
   validates :category, presence: true, inclusion: { in: CATEGORIES }
