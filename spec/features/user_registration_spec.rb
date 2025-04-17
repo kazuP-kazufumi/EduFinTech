@@ -8,11 +8,11 @@ RSpec.describe 'ユーザー登録', type: :feature do
     visit new_user_registration_path
 
     # フォームに有効な値を入力
-    fill_in 'user_name', with: 'テストユーザー'
-    fill_in 'user_email', with: 'test@example.com'
-    fill_in 'user_password', with: 'password123'
-    fill_in 'user_password_confirmation', with: 'password123'
-    fill_in 'user_bio', with: 'テストユーザーの自己紹介です。'
+    fill_in 'user[name]', with: 'テストユーザー'
+    fill_in 'user[email]', with: 'test@example.com'
+    fill_in 'user[password]', with: 'password123'
+    fill_in 'user[password_confirmation]', with: 'password123'
+    fill_in 'user[bio]', with: 'テストユーザーの自己紹介です。'
 
     # 登録ボタンをクリックした後にユーザー数が1増えることを確認
     expect {
@@ -32,11 +32,11 @@ RSpec.describe 'ユーザー登録', type: :feature do
 
     # フォームに無効な値を入力
     # - 不正なメールアドレスフォーマット
-    fill_in 'user_email', with: 'invalid-email'
+    fill_in 'user[email]', with: 'invalid-email'
     # - 短すぎるパスワード
-    fill_in 'user_password', with: 'short'
+    fill_in 'user[password]', with: 'short'
     # - パスワード確認が一致しない
-    fill_in 'user_password_confirmation', with: 'different'
+    fill_in 'user[password_confirmation]', with: 'different'
 
     # フォーム送信
     click_button '登録'
