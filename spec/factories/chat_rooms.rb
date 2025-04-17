@@ -3,6 +3,6 @@ FactoryBot.define do
     sequence(:name) { |n| "チャットルーム #{n}" }
     description { "テストチャットルームの説明" }
     status { :active }
-    association :user
+    association :owner, factory: :user
   end
 end

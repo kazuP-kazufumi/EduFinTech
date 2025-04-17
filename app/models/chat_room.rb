@@ -27,6 +27,10 @@ class ChatRoom < ApplicationRecord
   validates :status, presence: true, inclusion: { in: statuses.keys }
 
   # 関連付け
+  # owner: チャットルームの作成者（オーナー）
+  #   - 必須項目
+  belongs_to :owner, class_name: 'User', foreign_key: 'user_id'
+
   # chat_room_users: 中間テーブル
   #   - チャットルームとユーザーの多対多の関係を管理
   #   - チャットルームが削除された場合、関連するレコードも削除

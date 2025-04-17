@@ -8,9 +8,11 @@ RSpec.describe 'ユーザー登録', type: :feature do
     visit new_user_registration_path
 
     # フォームに有効な値を入力
+    fill_in 'user[name]', with: 'テストユーザー'
     fill_in 'user[email]', with: 'test@example.com'
     fill_in 'user[password]', with: 'password123'
     fill_in 'user[password_confirmation]', with: 'password123'
+    fill_in 'user[bio]', with: 'テストユーザーの自己紹介です。'
 
     # 登録ボタンをクリックした後にユーザー数が1増えることを確認
     expect {
