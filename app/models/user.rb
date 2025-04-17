@@ -41,8 +41,8 @@ class User < ApplicationRecord
 
   # プロフィール画像の関連付け
   has_one_attached :avatar
-  validates :avatar, content_type: { in: %w[image/png image/jpeg], message: 'はPNGまたはJPEG形式である必要があります' },
-                    size: { less_than: 5.megabytes, message: 'は5MB以下である必要があります' }
+  validate :avatar_content_type
+  validate :avatar_size
 
   # 投稿との関連付け
   # has_many :posts - ユーザーは複数の投稿を持つことができる1対多の関係を定義
@@ -123,5 +123,21 @@ class User < ApplicationRecord
   # @return [Boolean] マッチング済みの場合はtrue、そうでない場合はfalse
   def matched_with?(user)
     matched_users.include?(user)
+  end
+
+  private
+
+  def avatar_content_type
+    return unless avatar.attached?
+    unless avatar.content_type.in?(%w[image/png image/jpeg])
+      errors.add(:avatar, 'はPNGまたはJPEG形式である必要があります')
+    end
+  end
+
+  def avatar_size
+    return unless avatar.attached?
+    if avatar.byte_size > 5.megabytes
+      errors.add(:avatar, 'は5MB以下である必要があります')
+    end
   end
 end
