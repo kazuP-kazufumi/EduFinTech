@@ -153,7 +153,7 @@ RSpec.configure do |config|
 
   # テスト環境でのホスト設定
   Rails.application.routes.default_url_options[:host] = 'test.example.com'
-  
+
   # リダイレクト時の異なるホストへのリダイレクトを許可する設定
   config.before(:each, type: :controller) do
     @request.env['HTTP_REFERER'] = 'http://test.example.com'
@@ -165,7 +165,7 @@ RSpec.configure do |config|
     ENV['RAILS_ENV'] = 'test'
     ENV['TEST_DATABASE_URL'] = 'postgresql://postgres:password@db:5432/edufintech_test'
   end
-  
+
   # すべてのシステムテストをスキップする設定
   config.filter_run_excluding type: :system
   config.filter_run_excluding type: :feature

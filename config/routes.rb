@@ -39,7 +39,7 @@ Rails.application.routes.draw do
       # - NotificationsController#mark_as_readアクションにルーティング
       patch :mark_as_read
     end
-    
+
     # collectionブロックで通知コレクション全体に対するカスタムルートを定義
     collection do
       # すべての通知を既読状態にするためのルート

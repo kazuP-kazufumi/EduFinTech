@@ -6,6 +6,9 @@ source "https://rubygems.org"
 # ~> 8.0.2は8.0.2以上8.1.0未満のバージョンを許容
 gem "rails", "~> 8.0.2"
 
+# Active Storageのバリデーション
+gem "active_storage_validations"
+
 # アセットパイプライン - JavaScriptやCSSの管理・配信を担当
 gem "propshaft"
 
