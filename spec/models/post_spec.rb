@@ -58,10 +58,9 @@ RSpec.describe Post, type: :model do
       end
 
       it 'カテゴリーが不正な値の場合は無効であること' do
-        pending "カテゴリーの検証メッセージが正確に定義されていないため保留"
         post = build(:post, category: '不正な値')
         expect(post).not_to be_valid
-        expect(post.errors[:category]).to include("Translation missing")
+        expect(post.errors[:category]).to include("は不正な値以外の値にしてください")
       end
 
       it 'カテゴリーが正しい値の場合は有効であること' do
