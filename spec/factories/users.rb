@@ -5,10 +5,10 @@ FactoryBot.define do
     password_confirmation { "password" }
     name { "テストユーザー" }
     bio { "テストの自己紹介" }
-    
+
     # ユーザーを確認済みにする
     confirmed_at { Time.current }
-    
+
     # Deviseの確認メール送信をスキップするための設定
     after(:build) do |user|
       user.skip_confirmation!

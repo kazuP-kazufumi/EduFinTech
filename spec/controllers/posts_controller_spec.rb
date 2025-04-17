@@ -150,11 +150,11 @@ RSpec.describe PostsController, type: :controller do
     before do
       # 以前のテストデータをクリーンアップ
       DatabaseCleaner.clean_with(:truncation)
-      
+
       # テスト用のユーザーを用意
       @user = create(:user)
       sign_in @user
-      
+
       # テスト用のデータを作成
       # テスト検索用投稿
       @post1 = create(:post, title: 'テスト投稿1', user: @user)
@@ -165,7 +165,7 @@ RSpec.describe PostsController, type: :controller do
     it '検索キーワードでフィルタリングできること' do
       # 検索をリクエスト
       get :index, params: { search: 'テスト' }
-      
+
       # 検索結果を確認
       result_posts = assigns(:posts).to_a
       expect(result_posts).to include(@post1)

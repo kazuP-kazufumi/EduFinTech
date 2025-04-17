@@ -32,7 +32,7 @@ RSpec.describe Notification, type: :model do
       # Invalid type値を直接指定するのではなく、enumを上書きするテストに変更
       notification = build(:notification)
       expect(notification).to be_valid
-      
+
       # notification_typeの値をnilにしてから無効な値をセットする
       notification.notification_type = nil
       notification.valid?
