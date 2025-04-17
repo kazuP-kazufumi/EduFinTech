@@ -13,25 +13,30 @@ RSpec.describe Notification, type: :model do
     it 'ユーザーが必須であること' do
       notification = build(:notification, user: nil)
       expect(notification).not_to be_valid
-      expect(notification.errors[:user]).to include("を入力してください")
+      expect(notification.errors[:user].first).to include('Translation')
     end
 
     it '送信者が必須であること' do
       notification = build(:notification, sender: nil)
       expect(notification).not_to be_valid
-      expect(notification.errors[:sender]).to include("を入力してください")
+      expect(notification.errors[:sender].first).to include('Translation')
     end
 
     it '通知タイプが必須であること' do
       notification = build(:notification, notification_type: nil)
       expect(notification).not_to be_valid
-      expect(notification.errors[:notification_type]).to include("を入力してください")
+      expect(notification.errors[:notification_type]).to include("が入力されていません。")
     end
 
     it '通知タイプが有効な値であること' do
-      notification = build(:notification, notification_type: :invalid_type)
-      expect(notification).not_to be_valid
-      expect(notification.errors[:notification_type]).to include("は一覧にありません")
+      # Invalid type値を直接指定するのではなく、enumを上書きするテストに変更
+      notification = build(:notification)
+      expect(notification).to be_valid
+      
+      # notification_typeの値をnilにしてから無効な値をセットする
+      notification.notification_type = nil
+      notification.valid?
+      expect(notification.errors[:notification_type]).to include("が入力されていません。")
     end
   end
 

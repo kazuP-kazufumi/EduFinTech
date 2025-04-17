@@ -30,4 +30,11 @@ class Post < ApplicationRecord
   # スコープ
   scope :newest, -> { order(created_at: :desc) }
   scope :oldest, -> { order(created_at: :asc) }
+  
+  # ユーザーが投稿をいいねしているかどうかを確認するメソッド
+  def liked_by?(user)
+    # 現在はいいね機能が実装されていないため、常にfalseを返す
+    # いいね機能実装時にこのメソッドを更新する
+    false
+  end
 end

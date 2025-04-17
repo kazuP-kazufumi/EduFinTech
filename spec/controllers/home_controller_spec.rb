@@ -19,4 +19,4 @@ RSpec.describe HomeController, type: :controller do
       expect(assigns(:posts).count).to eq(6)
     end
   end
-end 
+end

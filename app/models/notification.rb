@@ -20,6 +20,16 @@ class Notification < ApplicationRecord
   scope :unread, -> { where(read: false) }  # 未読の通知を取得
   scope :recent, -> { order(created_at: :desc) }  # 新しい順に通知を取得
 
+  # 通知を既読にするメソッド
+  def mark_as_read
+    update(read: true)
+  end
+
+  # 送信者の名前を返すメソッド
+  def sender_name
+    sender.name
+  end
+
   # 支援申し出時の通知を作成するクラスメソッド
   # @param sender [User] 支援を申し出たユーザー（通知の送信者）
   # @param post [Post] 支援対象の投稿

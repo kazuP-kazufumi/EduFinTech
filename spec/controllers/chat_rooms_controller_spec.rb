@@ -6,7 +6,7 @@ RSpec.describe "ChatRoomsController", type: :controller, skip: 'ChatRoomsControl
   # コントローラーのクラス名を文字列にして最小構成のテストを作成
   controller(ChatRoomsController) do
   end
-  
+
   # 後でテストを実装する必要があるため、テスト内容は残しておく
   it "正しいコントローラークラスが設定されていることを確認" do
     pending 'コントローラーテストの確認'
@@ -83,10 +83,10 @@ RSpec.describe "ChatRoomsController", type: :controller, skip: 'ChatRoomsControl
       it 'チャットルームを作成できること' do
         matched_user = create(:user)
         current_user.matched_users << matched_user
-        
+
         expect {
-          post :create, params: { 
-            chat_room: attributes_for(:chat_room, user_ids: [matched_user.id]) 
+          post :create, params: {
+            chat_room: attributes_for(:chat_room, user_ids: [ matched_user.id ])
           }
         }.to change(ChatRoom, :count).by(1)
         expect(response).to redirect_to(chat_room_path(ChatRoom.last))
@@ -175,7 +175,7 @@ RSpec.describe "ChatRoomsController", type: :controller, skip: 'ChatRoomsControl
       get :show, params: { id: @chat_room.id }
       expect(response).to render_template(:show)
     end
-    
+
     it '権限のないチャットルームにアクセスできないこと' do
       other_chat_room = create(:chat_room)
       get :show, params: { id: other_chat_room.id }
@@ -208,10 +208,10 @@ RSpec.describe "ChatRoomsController", type: :controller, skip: 'ChatRoomsControl
       it '新しいチャットルームを作成すること' do
         matched_user = create(:user)
         current_user.matched_users << matched_user
-        
+
         expect {
-          post :create, params: { 
-            chat_room: attributes_for(:chat_room, user_ids: [matched_user.id]) 
+          post :create, params: {
+            chat_room: attributes_for(:chat_room, user_ids: [ matched_user.id ])
           }
         }.to change(ChatRoom, :count).by(1)
       end
@@ -219,9 +219,9 @@ RSpec.describe "ChatRoomsController", type: :controller, skip: 'ChatRoomsControl
       it '作成したチャットルームのページにリダイレクトすること' do
         matched_user = create(:user)
         current_user.matched_users << matched_user
-        
-        post :create, params: { 
-          chat_room: attributes_for(:chat_room, user_ids: [matched_user.id]) 
+
+        post :create, params: {
+          chat_room: attributes_for(:chat_room, user_ids: [ matched_user.id ])
         }
         expect(response).to redirect_to(chat_room_path(ChatRoom.last))
       end
@@ -229,9 +229,9 @@ RSpec.describe "ChatRoomsController", type: :controller, skip: 'ChatRoomsControl
       it '成功メッセージを表示すること' do
         matched_user = create(:user)
         current_user.matched_users << matched_user
-        
-        post :create, params: { 
-          chat_room: attributes_for(:chat_room, user_ids: [matched_user.id]) 
+
+        post :create, params: {
+          chat_room: attributes_for(:chat_room, user_ids: [ matched_user.id ])
         }
         expect(flash[:notice]).to eq('チャットルームが作成されました')
       end
@@ -243,16 +243,16 @@ RSpec.describe "ChatRoomsController", type: :controller, skip: 'ChatRoomsControl
           post :create, params: { chat_room: attributes_for(:chat_room, name: nil) }
         }.not_to change(ChatRoom, :count)
       end
-      
+
       it 'マッチしていないユーザーとチャットルームを作成できないこと' do
         non_matched_user = create(:user)
-        
+
         expect {
-          post :create, params: { 
-            chat_room: attributes_for(:chat_room, user_ids: [non_matched_user.id]) 
+          post :create, params: {
+            chat_room: attributes_for(:chat_room, user_ids: [ non_matched_user.id ])
           }
         }.not_to change(ChatRoom, :count)
-        
+
         expect(flash[:alert]).to include("マッチング済みユーザー間でのみ")
       end
     end

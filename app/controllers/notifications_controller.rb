@@ -5,7 +5,7 @@ class NotificationsController < ApplicationController
   before_action :authenticate_user!
   # createアクションの前に投稿を取得
   before_action :set_post, only: [ :create ]
-  before_action :set_notification, only: [ :mark_as_read ]
+  before_action :set_notification, only: [ :mark_as_read, :destroy ]
 
   # 通知を作成するアクション
   # @param notification_type [String] 通知の種類('support_request'または'support_accepted')
@@ -48,10 +48,31 @@ class NotificationsController < ApplicationController
 
     # リクエストのフォーマットに応じてレスポンスを返す
     respond_to do |format|
-      # JSONリクエストの場合、成功を示すJSONレスポンスを返す
-      # 主にAjaxリクエストでの非同期更新に使用される
+      # JSON形式のリクエストの場合
       format.json { render json: { success: true } }
+      # HTML形式のリクエストの場合
+      format.html { redirect_to notifications_path, notice: "通知を既読にしました" }
+      # その他のフォーマットの場合
+      format.any { redirect_to notifications_path, notice: "通知を既読にしました" }
     end
+  end
+
+  # 通知を削除するアクション
+  def destroy
+    @notification.destroy
+    redirect_to notifications_path, notice: "通知を削除しました"
+  end
+
+  # すべての通知を既読にするアクション
+  def mark_all_as_read
+    current_user.notifications.update_all(read: true)
+    redirect_to notifications_path, notice: "すべての通知を既読にしました"
+  end
+
+  # すべての通知を削除するアクション
+  def destroy_all
+    current_user.notifications.destroy_all
+    redirect_to notifications_path, notice: "すべての通知を削除しました"
   end
 
   private
