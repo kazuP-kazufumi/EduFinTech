@@ -5,5 +5,9 @@ FactoryBot.define do
     association :post
     notification_type { :support_request }
     read { false }
+
+    trait :with_different_sender do
+      association :sender, factory: :user
+    end
   end
 end
