@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 # PostsControllerのテスト
 RSpec.describe PostsController, type: :controller do
   # 認証・認可のテスト
@@ -85,8 +87,9 @@ RSpec.describe PostsController, type: :controller do
         end
 
         it '投稿を削除できること' do
+          post_obj = create(:post, user: @user)
           expect {
-            delete :destroy, params: { id: post.id }
+            delete :destroy, params: { id: post_obj.id }
           }.to change(Post, :count).by(-1)
           expect(response).to redirect_to(posts_path)
         end
@@ -94,21 +97,22 @@ RSpec.describe PostsController, type: :controller do
 
       context '他のユーザーの投稿の場合' do
         let(:other_user) { create(:user) }
-        let(:post) { create(:post, user: other_user) }
+        let(:other_post) { create(:post, user: other_user) }
 
         it '編集ページにアクセスできないこと' do
-          get :edit, params: { id: post.id }
+          get :edit, params: { id: other_post.id }
           expect(response).to redirect_to(posts_path)
         end
 
         it '投稿を更新できないこと' do
-          patch :update, params: { id: post.id, post: attributes_for(:post) }
+          patch :update, params: { id: other_post.id, post: attributes_for(:post) }
           expect(response).to redirect_to(posts_path)
         end
 
         it '投稿を削除できないこと' do
+          other_post_obj = create(:post, user: other_user)
           expect {
-            delete :destroy, params: { id: post.id }
+            delete :destroy, params: { id: other_post_obj.id }
           }.not_to change(Post, :count)
           expect(response).to redirect_to(posts_path)
         end
@@ -134,19 +138,38 @@ RSpec.describe PostsController, type: :controller do
     end
 
     it 'カテゴリーでフィルタリングできること' do
-      post1 = create(:post, category: '進学')
-      post2 = create(:post, category: '夢')
-      get :index, params: { category: '進学' }
+      post1 = create(:post, category: 'education')
+      post2 = create(:post, category: 'other')
+      get :index, params: { category: 'education' }
       expect(assigns(:posts)).to include(post1)
       expect(assigns(:posts)).not_to include(post2)
     end
+  end
+
+  describe '検索機能' do
+    before do
+      # 以前のテストデータをクリーンアップ
+      DatabaseCleaner.clean_with(:truncation)
+      
+      # テスト用のユーザーを用意
+      @user = create(:user)
+      sign_in @user
+      
+      # テスト用のデータを作成
+      # テスト検索用投稿
+      @post1 = create(:post, title: 'テスト投稿1', user: @user)
+      # 別の投稿（検索にヒットしない）
+      @post2 = create(:post, title: '別の投稿', content: '検索に含まれない内容', user: @user)
+    end
 
     it '検索キーワードでフィルタリングできること' do
-      post1 = create(:post, title: 'テスト投稿1')
-      post2 = create(:post, title: '別の投稿')
+      # 検索をリクエスト
       get :index, params: { search: 'テスト' }
-      expect(assigns(:posts)).to include(post1)
-      expect(assigns(:posts)).not_to include(post2)
+      
+      # 検索結果を確認
+      result_posts = assigns(:posts).to_a
+      expect(result_posts).to include(@post1)
+      expect(result_posts).not_to include(@post2)
     end
   end
 

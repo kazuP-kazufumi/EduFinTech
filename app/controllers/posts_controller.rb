@@ -3,9 +3,8 @@
 # このコントローラーは投稿(Post)の作成・表示・編集・削除などのCRUD操作を担当
 class PostsController < ApplicationController
   # Deviseのメソッドを使用してユーザー認証を要求
-  # index, showアクション以外はログインが必要
-  # 未ログインユーザーは投稿の閲覧のみ可能で、作成や編集などの操作は制限される
-  before_action :authenticate_user!, except: [ :index, :show ]
+  # すべてのアクションで認証が必要
+  before_action :authenticate_user!
 
   # 各アクションの前に実行される共通処理を定義
   # set_post: 指定されたIDの投稿を@postに設定
@@ -27,7 +26,8 @@ class PostsController < ApplicationController
     # 検索機能の実装
     # タイトルまたは本文に検索キーワードが含まれる投稿を抽出
     if params[:search].present?
-      @posts = @posts.where("title LIKE ? OR content LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
+      search_term = "%#{params[:search]}%"
+      @posts = @posts.where("title LIKE ? OR content LIKE ?", search_term, search_term)
     end
 
     # カテゴリーによるフィルタリング機能
@@ -80,10 +80,11 @@ class PostsController < ApplicationController
     if @post.save
       # 保存成功時は投稿詳細ページにリダイレクト
       # フラッシュメッセージで成功を通知
-      redirect_to @post, notice: "投稿が作成されました。"
+      redirect_to @post, notice: "投稿を作成しました"
     else
       # バリデーションエラー時は新規投稿フォームを再表示
       # エラーメッセージも表示される
+      flash.now[:alert] = "投稿の作成に失敗しました"
       render :new, status: :unprocessable_entity
     end
   end
@@ -101,10 +102,11 @@ class PostsController < ApplicationController
     if @post.update(post_params)
       # 更新成功時は投稿詳細ページにリダイレクト
       # フラッシュメッセージで成功を通知
-      redirect_to @post, notice: "投稿が更新されました。"
+      redirect_to @post, notice: "投稿を更新しました"
     else
       # バリデーションエラー時は編集フォームを再表示
       # エラーメッセージも表示される
+      flash.now[:alert] = "投稿の更新に失敗しました"
       render :edit, status: :unprocessable_entity
     end
   end
@@ -116,7 +118,7 @@ class PostsController < ApplicationController
     @post.destroy
     # 削除後は投稿一覧ページにリダイレクト
     # フラッシュメッセージで成功を通知
-    redirect_to posts_url, notice: "投稿が削除されました。"
+    redirect_to posts_url, notice: "投稿を削除しました"
   end
 
   private

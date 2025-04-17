@@ -2,14 +2,16 @@
 module AuthHelpers
   # テストユーザーを作成してログインする
   def sign_in_test_user
-    @user = create(:user)
+    @user = FactoryBot.create(:user)
     sign_in @user
+    @user
   end
 
   # 管理者ユーザーを作成してログインする
   def sign_in_admin
-    @admin = create(:user, :admin)
+    @admin = FactoryBot.create(:user, :admin)
     sign_in @admin
+    @admin
   end
 
   # ログアウトする

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # RSpecテストのための設定ファイル
 # rails generate rspec:installコマンドで生成される
 # このファイルはRSpecテストの基本設定と、Rails固有の設定を含む
@@ -113,6 +115,7 @@ RSpec.configure do |config|
   # システムテストのデフォルトドライバーを設定
   # ヘッドレスChromeをデフォルトとして使用
   Capybara.javascript_driver = :selenium_chrome_headless
+  Capybara.server = :puma, { Silent: true }
 
   # テストデータベースのクリーンアップ設定
   # テスト実行前にデータベースをクリーンアップ
@@ -137,6 +140,26 @@ RSpec.configure do |config|
 
   # テスト用の環境変数設定
   config.before(:suite) do
+    ENV['RAILS_ENV'] = 'test'
+    ENV['TEST_DATABASE_URL'] = 'postgresql://postgres:password@db:5432/edufintech_test'
+  end
+
+  # Devise用のテストヘルパーメソッドを追加
+  config.include AuthHelpers, type: :controller
+  config.include AuthHelpers, type: :request
+  config.include AuthHelpers, type: :feature
+
+  # テスト環境でのホスト設定
+  Rails.application.routes.default_url_options[:host] = 'test.example.com'
+  
+  # リダイレクト時の異なるホストへのリダイレクトを許可する設定
+  config.before(:each, type: :controller) do
+    @request.env['HTTP_REFERER'] = 'http://test.example.com'
+    ActionController::Base.allow_forgery_protection = false
+  end
+
+  # CI環境の場合は特別な設定を行う
+  if ENV['CI'] == 'true'
     ENV['RAILS_ENV'] = 'test'
     ENV['TEST_DATABASE_URL'] = 'postgresql://postgres:password@db:5432/edufintech_test'
   end
