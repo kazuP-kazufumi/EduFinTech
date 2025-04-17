@@ -22,7 +22,7 @@ class Post < ApplicationRecord
   validates :content, presence: true, length: { maximum: 1000 }
 
   # カテゴリーの選択肢を定義
-  CATEGORIES = [ "education", "other" ].freeze
+  CATEGORIES = [ "education", "finance", "other" ].freeze
 
   # カテゴリーのバリデーション
   validates :category, presence: true, inclusion: { in: CATEGORIES }
@@ -30,11 +30,9 @@ class Post < ApplicationRecord
   # スコープ
   scope :newest, -> { order(created_at: :desc) }
   scope :oldest, -> { order(created_at: :asc) }
-  
-  # ユーザーが投稿をいいねしているかどうかを確認するメソッド
-  def liked_by?(user)
-    # 現在はいいね機能が実装されていないため、常にfalseを返す
-    # いいね機能実装時にこのメソッドを更新する
-    false
-  end
+  scope :recent, -> { newest }
+  scope :by_category, ->(category) { where(category: category) }
+  scope :search, ->(query) {
+    where('title LIKE :query OR content LIKE :query', query: "%#{query}%")
+  }
 end
