@@ -50,4 +50,15 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Raise exceptions for disallowed deprecations.
+  config.active_support.disallowed_deprecation_behavior = :raise
+
+  # Tell Active Support which deprecation messages to disallow.
+  config.active_support.disallowed_deprecation_warnings = []
+
+  # Devise requires a default URL options for mailer
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  
+  # Raise an error on page load if there are pending migrations.
 end
