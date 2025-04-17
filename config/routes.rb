@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   # 通知機能に関するルーティング設定
   # - indexアクションのみを有効化し、通知一覧の表示機能を提供
   # - /notifications へのGETリクエストで通知一覧を表示
-  resources :notifications, only: [ :index ] do
+  resources :notifications, only: [ :index, :destroy ] do
     # memberブロックで個別の通知に対するカスタムルートを定義
     member do
       # 通知を既読状態にするためのルート
@@ -38,6 +38,14 @@ Rails.application.routes.draw do
       # - 指定されたIDの通知を既読状態に更新
       # - NotificationsController#mark_as_readアクションにルーティング
       patch :mark_as_read
+    end
+    
+    # collectionブロックで通知コレクション全体に対するカスタムルートを定義
+    collection do
+      # すべての通知を既読状態にするためのルート
+      patch :mark_all_as_read
+      # すべての通知を削除するためのルート
+      delete :destroy_all
     end
   end
 

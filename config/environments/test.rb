@@ -36,8 +36,12 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
-  # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "example.com" }
+  # Set host for Devise and all URL helpers
+  config.action_mailer.default_url_options = { host: "test.example.com" }
+  config.action_controller.default_url_options = { host: "test.example.com" }
+
+  # Allow redirects to other hosts in tests
+  config.hosts.clear # Allow any host in test environment instead of using allow_other_host
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
@@ -57,8 +61,5 @@ Rails.application.configure do
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
-  # Devise requires a default URL options for mailer
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-  
   # Raise an error on page load if there are pending migrations.
 end

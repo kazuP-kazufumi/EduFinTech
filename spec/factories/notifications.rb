@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :notification do
-    user { nil }
-    sender { nil }
-    post { nil }
-    notification_type { 1 }
+    association :user
+    association :sender, factory: :user
+    association :post
+    notification_type { :support_request }
     read { false }
   end
 end
