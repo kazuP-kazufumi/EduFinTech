@@ -6,3 +6,19 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 # # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
+
+# 文字列リテラルはダブルクォートを使用
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# 配列リテラル内のスペースを強制
+Layout/SpaceInsideArrayLiteralBrackets:
+  EnforcedStyle: space
+
+# 末尾の空白を禁止
+Layout/TrailingWhitespace:
+  Enabled: true
+
+# ファイルの末尾に空行を強制
+Layout/TrailingEmptyLines:
+  Enabled: true

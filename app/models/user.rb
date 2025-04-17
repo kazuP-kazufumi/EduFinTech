@@ -41,7 +41,7 @@ class User < ApplicationRecord
 
   # プロフィール画像の関連付け
   has_one_attached :avatar
-  validates :avatar, content_type: { in: ['image/png', 'image/jpeg'] },
+  validates :avatar, content_type: { in: [ "image/png", "image/jpeg" ] },
                     size: { less_than: 5.megabytes }
 
   # 投稿との関連付け
